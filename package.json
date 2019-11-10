@@ -1,0 +1,33 @@
+{
+  "name": "bp-blocks",
+  "version": "6.0.0",
+  "description": "BuddyPress Blocks development plugin.",
+  "engines": {
+    "node": "10.13.0",
+    "npm": "6.13.0"
+  },
+  "scripts": {
+		"start": "parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+		"build": "parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+		"wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php inc/*/*.php build/*/*.php --standard=WordPress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buddypress/bp-blocks.git"
+  },
+  "keywords": [
+    "buddypress",
+    "blocks"
+  ],
+  "author": "The BuddyPress Contributors",
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/buddypress/bp-blocks/issues"
+  },
+  "homepage": "https://github.com/buddypress/bp-blocks#readme",
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@wordpress/babel-preset-default": "^4.6.2",
+    "parcel-bundler": "^1.12.4"
+  }
+}
