@@ -1,1 +1,12 @@
 /* CSS for the bp/member block */
+.bp-block-member {
+	display: flex;
+}
+
+.bp-block-member .item-header-avatar {
+	width: 180px;
+}
+
+.bp-block-member .user-nicename {
+	display: block;
+}
