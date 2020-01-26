@@ -34,7 +34,7 @@ function bp_members_register_blocks() {
 			'style_url'          => plugins_url( 'css/blocks/member.css', __FILE__ ),
 			'render_callback'    => 'bp_members_render_member_block',
 			'attributes'         => array(
-				'memberID' => array(
+				'itemID' => array(
 					'type'    => 'integer',
 					'default' => 0,
 				),
@@ -56,15 +56,15 @@ function bp_members_render_member_block( $attributes = array() ) {
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
-			'memberID' => 0,
+			'itemID' => 0,
 		)
 	);
 
-	if ( ! $block_args['memberID'] ) {
+	if ( ! $block_args['itemID'] ) {
 		return;
 	}
 
-	$member_id    = (int) $block_args['memberID'];
+	$member_id    = (int) $block_args['itemID'];
 	$username     = bp_core_get_username( $member_id );
 	$at_mention   = '';
 	$display_name = bp_core_get_user_displayname( $member_id );

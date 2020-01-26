@@ -7,9 +7,9 @@
     "npm": "6.13.0"
   },
   "scripts": {
-		"start": "parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
-		"build": "parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
-		"wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php inc/*/*.php build/*/*.php --standard=WordPress"
+    "start": "parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+    "build": "parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+    "wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php inc/*/*.php build/*/*.php --standard=WordPress"
   },
   "repository": {
     "type": "git",
