@@ -57,7 +57,7 @@ class BPAutocompleter extends Component {
 
 	render() {
 		const { search, items } = this.state;
-		let { ariaLabel, placeholder } = this.props;
+		let { ariaLabel, placeholder, useAvatar } = this.props;
 		let itemsList;
 
 		if ( ! ariaLabel ) {
@@ -78,7 +78,9 @@ class BPAutocompleter extends Component {
 						className="components-button components-autocomplete__result editor-autocompleters__user"
 						onClick={ ( event ) => this.selectItemName( event, item.id ) }
 					>
-						<img key="avatar" className="editor-autocompleters__user-avatar" alt="" src={ item.avatar_urls.thumb } />
+						{ useAvatar && (
+							<img key="avatar" className="editor-autocompleters__user-avatar" alt="" src={ item.avatar_urls.thumb } />
+						) }
 						<span key="name" className="editor-autocompleters__user-name">{ item.name }</span>
 
 						{ item.mention_name && (

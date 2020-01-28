@@ -27,6 +27,32 @@ function bp_blocks_init() {
 add_action( 'bp_init', 'bp_blocks_init' );
 
 /**
+ * Filters the Block Editor settings to gather BuddyPress ones into a `bp` key.
+ *
+ * @since 6.0.0
+ *
+ * @param array $editor_settings Default editor settings.
+ * @return array The editor settings including BP blocks specific ones.
+ */
+function bp_blocks_editor_settings( $editor_settings = array() ) {
+	/**
+	 * Filter here to include your BP Blocks specific settings.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $bp_editor_settings BP blocks specific editor settings.
+	 */
+	$bp_editor_settings = (array) apply_filters( 'bp_blocks_editor_settings', array() );
+
+	if ( $bp_editor_settings ) {
+		$editor_settings['bp'] = $bp_editor_settings;
+	}
+
+	return $editor_settings;
+}
+add_filter( 'block_editor_settings', 'bp_blocks_editor_settings' );
+
+/**
  * Only includes Active components' blocks PHP script.
  *
  * @since 6.0.0
