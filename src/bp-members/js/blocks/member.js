@@ -2,8 +2,9 @@
  * WordPress dependencies.
  */
 const { registerBlockType } = wp.blocks;
-const { createElement } = wp.element;
-const { Placeholder, Disabled } = wp.components;
+const { createElement, Fragment } = wp.element;
+const { Placeholder, Disabled, PanelBody, SelectControl, ToggleControl } = wp.components;
+const { InspectorControls } = wp.blockEditor;
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { ServerSideRender } = wp.editor;
@@ -14,8 +15,24 @@ const { __ } = wp.i18n;
  */
 import BPAutocompleter from '../../../bp-core/js/blocks/bp-autocompleter';
 
+const AVATAR_SIZES = [
+	{
+		label: __( 'None', 'buddypress' ),
+		value: 'none',
+	},
+	{
+		label: __( 'Thumb', 'buddypress' ),
+		value: 'thumb',
+	},
+	{
+		label: __( 'Full', 'buddypress' ),
+		value: 'full',
+	},
+];
+
 const editMember = ( { attributes, setAttributes, bpSettings } ) => {
-	const { isAvatarEnabled } = bpSettings;
+	const { isAvatarEnabled, isMentionEnabled } = bpSettings;
+	const { avatarSize, displayMentionSlug, displayActionButton } = attributes;
 
 	if ( ! attributes.itemID ) {
 		return (
@@ -36,9 +53,55 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 	}
 
 	return (
-		<Disabled>
-			<ServerSideRender block="bp/member" attributes={ attributes } />
-		</Disabled>
+		<Fragment>
+			<InspectorControls>
+				{ isAvatarEnabled && (
+					<PanelBody title={ __( 'Avatar settings', 'buddypress' ) }>
+						<SelectControl
+							label={ __( 'Size', 'buddypress' ) }
+							value={ avatarSize }
+							options={ AVATAR_SIZES }
+							onChange={ ( option ) => {
+								setAttributes( { avatarSize: option } );
+							} }
+						/>
+					</PanelBody>
+				) }
+				{ isMentionEnabled && (
+					<PanelBody title={ __( 'Mention settings', 'buddypress' ) }>
+						<ToggleControl
+							label={ __( 'Display Mention slug', 'buddypress' ) }
+							checked={ !! displayMentionSlug }
+							onChange={ () => {
+								setAttributes( { displayMentionSlug: ! displayMentionSlug } );
+							} }
+							help={
+								displayMentionSlug
+									? __( 'Include the user\'s mention name under their display name.', 'buddypress' )
+									: __( 'Toggle to display the user\'s mention name under their display name.', 'buddypress' )
+							}
+						/>
+					</PanelBody>
+				) }
+				<PanelBody title={ __( 'Profile button settings', 'buddypress' ) }>
+					<ToggleControl
+						label={ __( 'Display Profile button', 'buddypress' ) }
+						checked={ !! displayActionButton }
+						onChange={ () => {
+							setAttributes( { displayActionButton: ! displayActionButton } );
+						} }
+						help={
+							displayMentionSlug
+								? __( 'Include a link to the user\'s profile page under their display name.', 'buddypress' )
+								: __( 'Toggle to display a link to the user\'s profile page under their display name.', 'buddypress' )
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<Disabled>
+				<ServerSideRender block="bp/member" attributes={ attributes } />
+			</Disabled>
+		</Fragment>
 	);
 };
 
@@ -64,7 +127,19 @@ registerBlockType( 'bp/member', {
 		itemID: {
 			type: 'integer',
 			default: 0,
-		}
+		},
+		avatarSize: {
+			type: 'string',
+			default: 'full',
+		},
+		displayMentionSlug: {
+			type: 'boolean',
+			default: true,
+		},
+		displayActionButton: {
+			type: 'boolean',
+			default: true,
+		},
 	},
 
 	edit: editMemberBlock,

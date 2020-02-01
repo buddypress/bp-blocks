@@ -31,14 +31,27 @@ function bp_members_register_blocks() {
 				'wp-editor',
 				'wp-compose',
 				'wp-data',
+				'wp-block-editor',
 			),
 			'style'              => 'bp-member-block',
 			'style_url'          => plugins_url( 'css/blocks/member.css', __FILE__ ),
 			'render_callback'    => 'bp_members_render_member_block',
 			'attributes'         => array(
-				'itemID' => array(
+				'itemID'              => array(
 					'type'    => 'integer',
 					'default' => 0,
+				),
+				'avatarSize'          => array(
+					'type'    => 'string',
+					'default' => 'full',
+				),
+				'displayMentionSlug'  => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
+				'displayActionButton' => array(
+					'type'    => 'boolean',
+					'default' => true,
 				),
 			),
 		)
@@ -61,6 +74,7 @@ function bp_members_editor_settings( $bp_editor_settings = array() ) {
 		$bp_editor_settings,
 		array(
 			'members' => array(
+				'isMentionEnabled'    => bp_is_active( 'activity' ) && bp_activity_do_mentions(),
 				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars,
 				'isCoverImageEnabled' => bp_is_active( 'xprofile', 'cover_image' ),
 			),
@@ -81,7 +95,10 @@ function bp_members_render_member_block( $attributes = array() ) {
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
-			'itemID' => 0,
+			'itemID'              => 0,
+			'avatarSize'          => 'full',
+			'displayMentionSlug'  => true,
+			'displayActionButton' => true,
 		)
 	);
 
@@ -89,20 +106,38 @@ function bp_members_render_member_block( $attributes = array() ) {
 		return;
 	}
 
-	$member_id        = (int) $block_args['itemID'];
-	$username         = bp_core_get_username( $member_id );
-	$at_mention       = '';
-	$avatar_container = '';
-	$display_name     = bp_core_get_user_displayname( $member_id );
-	$member_link      = bp_core_get_user_domain( $member_id );
-	$avatar           = bp_core_fetch_avatar(
-		array(
-			'item_id' => $member_id,
-			'object'  => 'user',
-			'type'    => 'full',
-			'html'    => false,
-		)
-	);
+	// Set the member ID.
+	$member_id = (int) $block_args['itemID'];
+
+	// Mention variables.
+	$username   = bp_core_get_username( $member_id );
+	$at_mention = '';
+
+	// Avatar variables.
+	$avatar                 = '';
+	$avatar_container       = '';
+	$avatar_container_class = 'none';
+
+	// Member name variables.
+	$display_name = bp_core_get_user_displayname( $member_id );
+	$member_link  = bp_core_get_user_domain( $member_id );
+
+	// Member action button.
+	$action_button         = '';
+	$display_action_button = (bool) $block_args['displayActionButton'];
+
+	if ( in_array( $block_args['avatarSize'], array( 'thumb', 'full' ), true ) ) {
+		$avatar = bp_core_fetch_avatar(
+			array(
+				'item_id' => $member_id,
+				'object'  => 'user',
+				'type'    => $block_args['avatarSize'],
+				'html'    => false,
+			)
+		);
+
+		$avatar_container_class = $block_args['avatarSize'];
+	}
 
 	if ( $avatar ) {
 		$avatar_container = sprintf(
@@ -119,23 +154,40 @@ function bp_members_render_member_block( $attributes = array() ) {
 	}
 
 	if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
-		$at_mention = sprintf(
-			'<span class="user-nicename"><a href="%1$s">@%2$s</a></span>',
+		$display_mention_slug = (bool) $block_args['displayMentionSlug'];
+
+		if ( $display_mention_slug ) {
+			$at_mention = sprintf(
+				'<span class="user-nicename">@%s</span>',
+				esc_html( $username )
+			);
+		}
+	}
+
+	if ( $display_action_button ) {
+		$action_button = sprintf(
+			'<div class="bp-profile-button">
+				<a href="%1$s" class="button large primary button-primary" role="button">%2$s</a>
+			</div>',
 			esc_url( $member_link ),
-			esc_html( $username )
+			esc_html__( 'View Profile', 'buddypress' )
 		);
 	}
 
 	return sprintf(
-		'<div class="bp-block-member">
-			%1$s
+		'<div class="bp-block-member %1$s">
+			%2$s
 			<div class="member-description">
-				<strong>%2$s</strong>
-				%3$s
+				<strong><a href="%3$s">%4$s</a></strong>
+				%5$s
+				%6$s
 			</div>
 		</div>',
+		sanitize_html_class( $avatar_container_class ),
 		$avatar_container,
+		esc_url( $member_link ),
 		esc_html( $display_name ),
-		$at_mention
+		$at_mention,
+		$action_button,
 	);
 }
