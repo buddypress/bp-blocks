@@ -53,6 +53,10 @@ function bp_members_register_blocks() {
 					'type'    => 'boolean',
 					'default' => true,
 				),
+				'displayCoverImage'   => array(
+					'type'    => 'boolean',
+					'default' => true,
+				),
 			),
 		)
 	);
@@ -92,6 +96,8 @@ add_filter( 'bp_blocks_editor_settings', 'bp_members_editor_settings' );
  * @return string           HTML output.
  */
 function bp_members_render_member_block( $attributes = array() ) {
+	$bp = buddypress();
+
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
@@ -99,6 +105,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 			'avatarSize'          => 'full',
 			'displayMentionSlug'  => true,
 			'displayActionButton' => true,
+			'displayCoverImage'   => true,
 		)
 	);
 
@@ -106,17 +113,21 @@ function bp_members_render_member_block( $attributes = array() ) {
 		return;
 	}
 
-	// Set the member ID.
-	$member_id = (int) $block_args['itemID'];
+	// Set the member ID and container classes.
+	$member_id         = (int) $block_args['itemID'];
+	$container_classes = array( 'bp-block-member' );
 
 	// Mention variables.
 	$username   = bp_core_get_username( $member_id );
 	$at_mention = '';
 
 	// Avatar variables.
-	$avatar                 = '';
-	$avatar_container       = '';
-	$avatar_container_class = 'none';
+	$avatar           = '';
+	$avatar_container = '';
+
+	// Cover image variable.
+	$cover_image     = '';
+	$cover_container = '';
 
 	// Member name variables.
 	$display_name = bp_core_get_user_displayname( $member_id );
@@ -126,7 +137,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 	$action_button         = '';
 	$display_action_button = (bool) $block_args['displayActionButton'];
 
-	if ( in_array( $block_args['avatarSize'], array( 'thumb', 'full' ), true ) ) {
+	if ( $bp->avatar && $bp->avatar->show_avatars && in_array( $block_args['avatarSize'], array( 'thumb', 'full' ), true ) ) {
 		$avatar = bp_core_fetch_avatar(
 			array(
 				'item_id' => $member_id,
@@ -136,14 +147,16 @@ function bp_members_render_member_block( $attributes = array() ) {
 			)
 		);
 
-		$avatar_container_class = $block_args['avatarSize'];
+		$container_classes[] = 'avatar-' . $block_args['avatarSize'];
+	} else {
+		$container_classes[] = 'avatar-none';
 	}
 
 	if ( $avatar ) {
 		$avatar_container = sprintf(
 			'<div class="item-header-avatar">
 				<a href="%1$s">
-					<img src="%2$s" alt="%3$s">
+					<img src="%2$s" alt="%3$s" class="avatar">
 				</a>
 			</div>',
 			esc_url( $member_link ),
@@ -153,15 +166,36 @@ function bp_members_render_member_block( $attributes = array() ) {
 		);
 	}
 
-	if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
-		$display_mention_slug = (bool) $block_args['displayMentionSlug'];
+	$display_cover_image = (bool) $block_args['displayCoverImage'];
+	if ( bp_is_active( 'xprofile', 'cover_image' ) && $display_cover_image ) {
+		$cover_image = bp_attachments_get_attachment(
+			'url',
+			array(
+				'item_id' => $member_id,
+			)
+		);
 
-		if ( $display_mention_slug ) {
-			$at_mention = sprintf(
-				'<span class="user-nicename">@%s</span>',
-				esc_html( $username )
+		if ( $cover_image ) {
+			$cover_image = sprintf(
+				' style="background-image: url( %s );"',
+				esc_url( $cover_image )
 			);
 		}
+
+		$cover_container = sprintf(
+			'<div class="bp-member-cover-image"%s></div>',
+			$cover_image
+		);
+
+		$container_classes[] = 'has-cover';
+	}
+
+	$display_mention_slug = (bool) $block_args['displayMentionSlug'];
+	if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() && $display_mention_slug ) {
+		$at_mention = sprintf(
+			'<span class="user-nicename">@%s</span>',
+			esc_html( $username )
+		);
 	}
 
 	if ( $display_action_button ) {
@@ -175,15 +209,19 @@ function bp_members_render_member_block( $attributes = array() ) {
 	}
 
 	return sprintf(
-		'<div class="bp-block-member %1$s">
+		'<div class="%1$s">
 			%2$s
-			<div class="member-description">
-				<strong><a href="%3$s">%4$s</a></strong>
-				%5$s
-				%6$s
+			<div class="member-content">
+				%3$s
+				<div class="member-description">
+					<strong><a href="%4$s">%5$s</a></strong>
+					%6$s
+					%7$s
+				</div>
 			</div>
 		</div>',
-		sanitize_html_class( $avatar_container_class ),
+		implode( ' ', array_map( 'sanitize_html_class', $container_classes ) ),
+		$cover_container,
 		$avatar_container,
 		esc_url( $member_link ),
 		esc_html( $display_name ),
