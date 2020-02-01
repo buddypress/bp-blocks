@@ -3,8 +3,8 @@
  */
 const { registerBlockType } = wp.blocks;
 const { createElement, Fragment } = wp.element;
-const { Placeholder, Disabled, PanelBody, SelectControl, ToggleControl } = wp.components;
-const { InspectorControls } = wp.blockEditor;
+const { Placeholder, Disabled, PanelBody, SelectControl, ToggleControl, Toolbar, ToolbarButton } = wp.components;
+const { InspectorControls, BlockControls } = wp.blockEditor;
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { ServerSideRender } = wp.editor;
@@ -54,6 +54,17 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 
 	return (
 		<Fragment>
+			<BlockControls>
+				<Toolbar>
+					<ToolbarButton
+						icon="edit"
+						title={ __( 'Select another member', 'buddypress' ) }
+						onClick={ () =>{
+							setAttributes( { itemID: 0 } );
+						} }
+					/>
+				</Toolbar>
+			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Profile button settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
@@ -163,8 +174,4 @@ registerBlockType( 'bp/member', {
 	},
 
 	edit: editMemberBlock,
-
-	save: function() {
-		return null;
-	}
 } );
