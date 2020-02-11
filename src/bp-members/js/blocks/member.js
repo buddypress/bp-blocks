@@ -74,7 +74,7 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 							setAttributes( { displayActionButton: ! displayActionButton } );
 						} }
 						help={
-							displayMentionSlug
+							displayActionButton
 								? __( 'Include a link to the user\'s profile page under their display name.', 'buddypress' )
 								: __( 'Toggle to display a link to the user\'s profile page under their display name.', 'buddypress' )
 						}
