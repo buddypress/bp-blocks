@@ -22,7 +22,7 @@ class BPAutocompleter extends Component {
 
 	searchItemName( value ) {
 		const { search } = this.state;
-		const { component } = this.props;
+		const { component, objectStatus } = this.props;
 		this.setState( { search: value } );
 
 		if ( value.length < search.length ) {
@@ -33,6 +33,10 @@ class BPAutocompleter extends Component {
 
 		if ( value ) {
 			path += '?search=' + encodeURIComponent( value );
+		}
+
+		if ( objectStatus ) {
+			path += '&status=' + objectStatus;
 		}
 
 		apiFetch( { path:  path } ).then( items => {
