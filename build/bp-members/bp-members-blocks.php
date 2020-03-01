@@ -80,7 +80,7 @@ function bp_members_editor_settings( $bp_editor_settings = array() ) {
 			'members' => array(
 				'isMentionEnabled'    => bp_is_active( 'activity' ) && bp_activity_do_mentions(),
 				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars,
-				'isCoverImageEnabled' => bp_is_active( 'xprofile', 'cover_image' ),
+				'isCoverImageEnabled' => bp_is_active( 'members', 'cover_image' ),
 			),
 		)
 	);
@@ -167,7 +167,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 	}
 
 	$display_cover_image = (bool) $block_args['displayCoverImage'];
-	if ( bp_is_active( 'xprofile', 'cover_image' ) && $display_cover_image ) {
+	if ( bp_is_active( 'members', 'cover_image' ) && $display_cover_image ) {
 		$cover_image = bp_attachments_get_attachment(
 			'url',
 			array(
