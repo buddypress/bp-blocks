@@ -127,6 +127,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 
 	// Cover image variable.
 	$cover_image     = '';
+	$cover_style     = '';
 	$cover_container = '';
 
 	// Member name variables.
@@ -176,7 +177,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 		);
 
 		if ( $cover_image ) {
-			$cover_image = sprintf(
+			$cover_style = sprintf(
 				' style="background-image: url( %s );"',
 				esc_url( $cover_image )
 			);
@@ -184,7 +185,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 
 		$cover_container = sprintf(
 			'<div class="bp-member-cover-image"%s></div>',
-			$cover_image
+			$cover_style
 		);
 
 		$container_classes[] = 'has-cover';
@@ -208,7 +209,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 		);
 	}
 
-	return sprintf(
+	$output = sprintf(
 		'<div class="%1$s">
 			%2$s
 			<div class="member-content">
@@ -228,4 +229,17 @@ function bp_members_render_member_block( $attributes = array() ) {
 		$at_mention,
 		$action_button,
 	);
+
+	// Compact all interesting parameters.
+	$params = array_merge( $block_args, compact( 'username', 'display_name', 'member_link', 'avatar', 'cover_image' ) );
+
+	/**
+	 * Filter here to edit the output of the single member block.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string          $output The HTML output of the block.
+	 * @param array           $params The block extended parameters.
+	 */
+	return apply_filters( 'bp_members_render_member_block_output', $output, $params );
 }

@@ -129,12 +129,14 @@ function bp_groups_render_group_block( $attributes = array() ) {
 
 	// Cover image variable.
 	$cover_image     = '';
+	$cover_style     = '';
 	$cover_container = '';
 
 	// Group name/link/description variables.
 	$group_name        = bp_get_group_name( $group );
 	$group_link        = bp_get_group_permalink( $group );
 	$group_description = '';
+	$group_content     = '';
 
 	// Group action button.
 	$action_button         = '';
@@ -180,7 +182,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 		);
 
 		if ( $cover_image ) {
-			$cover_image = sprintf(
+			$cover_style = sprintf(
 				' style="background-image: url( %s );"',
 				esc_url( $cover_image )
 			);
@@ -188,7 +190,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 
 		$cover_container = sprintf(
 			'<div class="bp-group-cover-image"%s></div>',
-			$cover_image
+			$cover_style
 		);
 
 		$container_classes[] = 'has-cover';
@@ -196,9 +198,10 @@ function bp_groups_render_group_block( $attributes = array() ) {
 
 	$display_description = (bool) $block_args['displayDescription'];
 	if ( $display_description ) {
-		$group_description = sprintf(
+		$group_description = bp_get_group_description( $group );
+		$group_content     = sprintf(
 			'<div class="group-description-content">%s</div>',
-			bp_get_group_description( $group )
+			$group_description
 		);
 
 		$container_classes[] = 'has-description';
@@ -214,7 +217,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 		);
 	}
 
-	return sprintf(
+	$output = sprintf(
 		'<div class="%1$s">
 			%2$s
 			<div class="group-content">
@@ -231,7 +234,21 @@ function bp_groups_render_group_block( $attributes = array() ) {
 		$avatar_container,
 		esc_url( $group_link ),
 		esc_html( $group_name ),
-		$group_description,
+		$group_content,
 		$action_button,
 	);
+
+	// Compact all interesting parameters.
+	$params = array_merge( $block_args, compact( 'group_name', 'group_link', 'group_description', 'avatar', 'cover_image' ) );
+
+	/**
+	 * Filter here to edit the output of the single group block.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param string          $output The HTML output of the block.
+	 * @param BP_Groups_Group $group  The group object.
+	 * @param array           $params The block extended parameters.
+	 */
+	return apply_filters( 'bp_groups_render_group_block_output', $output, $group, $params );
 }
