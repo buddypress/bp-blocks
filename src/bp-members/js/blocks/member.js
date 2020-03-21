@@ -11,9 +11,9 @@ const { ServerSideRender } = wp.editor;
 const { __ } = wp.i18n;
 
 /**
- * Internal dependencies.
+ * BuddyPress dependencies.
  */
-import BPAutocompleter from '../../../bp-core/js/blocks/bp-autocompleter';
+const { AutoCompleter } = bp.blockComponents;
 
 const AVATAR_SIZES = [
 	{
@@ -41,7 +41,7 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 				label={ __( 'BuddyPress Member', 'buddypress' ) }
 				instructions={ __( 'Start typing the name of the member you want to feature into this post.', 'buddypress' ) }
 			>
-				<BPAutocompleter
+				<AutoCompleter
 					component="members"
 					ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
 					placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }

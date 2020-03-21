@@ -60,6 +60,8 @@ add_filter( 'block_editor_settings', 'bp_blocks_editor_settings' );
 function bp_blocks_include() {
 	$build_dir = trailingslashit( bp_blocks()->dir ) . 'build';
 
+	require $build_dir . '/bp-core/bp-core-blocks.php';
+
 	foreach ( array_keys( buddypress()->active_components ) as $component ) {
 		if ( ! is_dir( $build_dir . '/bp-' . $component ) ) {
 			continue;

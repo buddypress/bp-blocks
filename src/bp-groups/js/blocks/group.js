@@ -11,9 +11,9 @@ const { ServerSideRender } = wp.editor;
 const { __ } = wp.i18n;
 
 /**
- * Internal dependencies.
+ * BuddyPress dependencies.
  */
-import BPAutocompleter from '../../../bp-core/js/blocks/bp-autocompleter';
+const { AutoCompleter } = bp.blockComponents;
 
 const AVATAR_SIZES = [
 	{
@@ -41,7 +41,7 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 				label={ __( 'BuddyPress Group', 'buddypress' ) }
 				instructions={ __( 'Start typing the name of the group you want to feature into this post.', 'buddypress' ) }
 			>
-				<BPAutocompleter
+				<AutoCompleter
 					component="groups"
 					objectStatus="public"
 					ariaLabel={ __( 'Group\'s name', 'buddypress' ) }

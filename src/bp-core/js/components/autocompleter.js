@@ -6,7 +6,7 @@ const { Popover } = wp.components;
 const { apiFetch } = wp;
 const { __ } = wp.i18n;
 
-class BPAutocompleter extends Component {
+class AutoCompleter extends Component {
 	constructor() {
 		super( ...arguments );
 
@@ -121,4 +121,4 @@ class BPAutocompleter extends Component {
 	}
 }
 
-export default BPAutocompleter;
+export default AutoCompleter;

@@ -1,7 +1,6 @@
 # Translations management
 
 1. You need to have [WP CLI](https://wp-cli.org/#installing) installed globally.
-2. Make sure to use "unbuilt" scripts `npm start` than stop the watcher (Ctrl + C).
 3. Use `npm run pot` to generate the POT file.
 4. Translate into your language saving the file as buddypress-xx_XX.po/mo where xx_XX is your gettext locale.
 5. Use `npm run po2json` to generate the JSON files.
