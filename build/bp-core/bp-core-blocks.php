@@ -11,6 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Registers the BP Blocks components.
+ *
+ * @since 6.0.0
+ */
 function bp_register_block_components() {
 	wp_register_script(
 		'bp-block-components',
