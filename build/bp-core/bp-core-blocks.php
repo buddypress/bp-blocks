@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function bp_register_block_components() {
-	wp_register_script(
+	wp_register_script( // phpcs:ignore
 		'bp-block-components',
 		plugins_url( 'js/block-components.js', __FILE__ ),
 		array(
