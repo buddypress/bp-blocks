@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-03-21T11:49:43+00:00\n"
+"POT-Creation-Date: 2020-03-22T10:46:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: buddypress\n"
@@ -34,211 +34,20 @@ msgstr ""
 msgid "https://buddypress.org"
 msgstr ""
 
-#. Translators: %s is the group's name.
-#: build/bp-groups/bp-groups-blocks.php:170
-msgid "Group Profile photo of %s"
+#: build/bp-groups/js/blocks/groups.js:128
+msgid "Groups"
 msgstr ""
 
-#: build/bp-groups/bp-groups-blocks.php:216
-msgid "Visit Group"
+#: build/bp-groups/js/blocks/groups.js:129
+#: build/bp-groups/js/blocks/groups.js:136
+msgid "BuddyPress Groups."
 msgstr ""
 
-#. Translators: %s is the member's display name.
-#: build/bp-members/bp-members-blocks.php:166
-msgid "Profile photo of %s"
+#: build/bp-members/js/blocks/members.js:128
+msgid "Members"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:208
-msgid "View Profile"
-msgstr ""
-
-#: inc/classes/class-bp-block.php:55
-msgid "BP Blocks needs to be registered hooking `bp_blocks_init`"
-msgstr ""
-
-#: inc/classes/class-bp-block.php:72
-msgid "The `name` or `editor_script` required keys are missing."
-msgstr ""
-
-#: inc/classes/class-bp-block.php:117
-msgid "The required `editor_script` could not be registered."
-msgstr ""
-
-#: build/bp-core/js/block-components.js:351
-msgid "Item's name"
-msgstr ""
-
-#: build/bp-core/js/block-components.js:355
-msgid "Enter Item's name here…"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:149
-#: build/bp-members/js/blocks/member.js:149
-msgid "None"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:152
-#: build/bp-members/js/blocks/member.js:152
-msgid "Thumb"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:155
-#: build/bp-members/js/blocks/member.js:155
-msgid "Full"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:173
-msgid "BuddyPress Group"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:174
-msgid "Start typing the name of the group you want to feature into this post."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:178
-msgid "Group's name"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:179
-msgid "Enter Group's name here…"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:187
-msgid "Select another group"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:194
-msgid "Group's home button settings"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:197
-msgid "Display Group's home button"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:204
-msgid "Include a link to the group's home page under their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:204
-msgid "Toggle to display a link to the group's home page under their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:206
-msgid "Description settings"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:209
-msgid "Display group's description"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:216
-msgid "Include the group's description under their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:216
-msgid "Toggle to display the group's description under their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:218
-#: build/bp-members/js/blocks/member.js:206
-msgid "Avatar settings"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:221
-#: build/bp-members/js/blocks/member.js:209
-msgid "Size"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:230
-#: build/bp-members/js/blocks/member.js:218
-msgid "Cover image settings"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:233
-#: build/bp-members/js/blocks/member.js:221
-msgid "Display Cover Image"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:240
-msgid "Include the group's cover image over their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:240
-msgid "Toggle to display the group's cover image over their name."
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:254
-msgid "Group"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:255
-msgid "BuddyPress Group."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:174
-msgid "BuddyPress Member"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:175
-msgid "Start typing the name of the member you want to feature into this post."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:178
-msgid "Member's username"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:179
-msgid "Enter Member's username here…"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:187
-msgid "Select another member"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:194
-msgid "Profile button settings"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:197
-msgid "Display Profile button"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:204
-msgid "Include a link to the user's profile page under their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:204
-msgid "Toggle to display a link to the user's profile page under their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:228
-msgid "Include the user's cover image over their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:228
-msgid "Toggle to display the user's cover image over their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:230
-msgid "Mention settings"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:233
-msgid "Display Mention slug"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:240
-msgid "Include the user's mention name under their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:240
-msgid "Toggle to display the user's mention name under their display name."
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:254
-msgid "Member"
-msgstr ""
-
-#: build/bp-members/js/blocks/member.js:255
-msgid "BuddyPress Member."
+#: build/bp-members/js/blocks/members.js:129
+#: build/bp-members/js/blocks/members.js:136
+msgid "BuddyPress Members."
 msgstr ""
