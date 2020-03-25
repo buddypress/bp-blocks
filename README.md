@@ -4,4 +4,4 @@ BuddyPress 6.0.0 introduced the BP Member and BP Group Blocks, let's develop som
 
 ![Blocks Category](https://bpdevel.files.wordpress.com/2019/07/screenshot.png)
 
-You're very welcome to contribute to this repository suggesting your Block Ideas or submitting Pull Requests.
+You're very welcome to contribute to this repository suggesting your Block Ideas or submitting pull requests.
