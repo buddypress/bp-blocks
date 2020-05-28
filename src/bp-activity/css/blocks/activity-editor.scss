@@ -1,0 +1,33 @@
+/**
+ * WordPress dependencies
+ */
+@import "~@wordpress/base-styles/_colors";
+@import "~@wordpress/base-styles/_variables";
+@import "~@wordpress/base-styles/_mixins";
+@import "~@wordpress/base-styles/_breakpoints";
+@import "~@wordpress/base-styles/_animations";
+@import "~@wordpress/base-styles/_z-index";
+
+/**
+ * Internal dependencies
+ */
+@import "components/header";
+@import "components/sidebar";
+@import "components/editor";
+
+
+// In order to use mix-blend-mode, this element needs to have an explicitly set background-color.
+// We scope it to .wp-toolbar to be wp-admin only, to prevent bleed into other implementations.
+html.wp-toolbar {
+	background: $white;
+}
+
+body.activity_page_bp-activity-new {
+	@include wp-admin-reset(".bp-activity-block-editor");
+}
+
+.bp-activity-block-editor,
+// The modals are shown outside the .activity-block-editor wrapper, they need these styles.
+.components-modal__frame {
+	@include reset;
+}
