@@ -54,11 +54,13 @@ function _bp_activity_blocks_editor_load_screen() {
 			'wp-media-utils',
 			'wp-element',
 			'wp-components',
+			'wp-compose',
 			'wp-blocks',
 			'wp-block-library',
 			'wp-block-editor',
 			'wp-data',
 			'wp-i18n',
+			'wp-api-fetch',
 		),
 		filemtime( dirname( __FILE__ ) . '/js/blocks/block-editor.js' ),
 		true
