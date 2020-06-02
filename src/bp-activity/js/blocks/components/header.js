@@ -1,7 +1,13 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
 const { __ } = wp.i18n;
+
+/**
+ * Internal dependencies.
+ */
+
+import ActivityPublishButton from './publish-button';
 
 export default function Header() {
 	return (
@@ -14,6 +20,8 @@ export default function Header() {
 			<h1 className="activity-editor-header__title">
 				{ __( 'Activity Block Editor', 'buddypress' ) }
 			</h1>
+
+			<ActivityPublishButton />
 		</div>
 	);
 }

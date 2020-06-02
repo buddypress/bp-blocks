@@ -20,8 +20,11 @@ const {
 import Sidebar from './sidebar';
 
 function BlockEditor( { settings: _settings } ) {
-	const [ blocks, updateBlocks ] = useState( [] );
+	const blocks = useSelect( ( select ) => {
+		return select( 'bp/activity' ).getBlocks();
+	}, [] );
 	const { createInfoNotice } = useDispatch( 'core/notices' );
+	const { updateContent } = useDispatch( 'bp/activity' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
 		const _canUserCreateMedia = select( 'core' ).canUser( 'create', 'media' );
@@ -44,29 +47,15 @@ function BlockEditor( { settings: _settings } ) {
 		};
 	}, [ canUserCreateMedia, _settings ] );
 
-	useEffect( () => {
-		const storedBlocks = window.localStorage.getItem( 'bpActivityBlocks' );
-
-		if ( storedBlocks && storedBlocks.length ) {
-			updateBlocks( () => parse( storedBlocks ) );
-			createInfoNotice( 'Blocks loaded', {
-				type: 'snackbar',
-				isDismissible: true,
-			} );
-		}
-	}, [] );
-
-	function persistBlocks( newBlocks ) {
-		updateBlocks( newBlocks );
-		window.localStorage.setItem( 'bpActivityBlocks', serialize( newBlocks ) );
+	function updateBlocks( newBlocks ) {
+		updateContent( serialize( newBlocks ), newBlocks );
 	}
 
 	return (
 		<div className="activity-block-editor">
 			<BlockEditorProvider
 				value={ blocks }
-				onInput={ updateBlocks }
-				onChange={ persistBlocks }
+				onChange={ updateBlocks }
 				settings={ settings }
 			>
 				<Sidebar.InspectorFill>

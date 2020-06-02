@@ -10,6 +10,7 @@ const { __experimentalEditorSkeleton } = wp.blockEditor;
 /**
  * Internal dependencies
  */
+import './store';
 import Notices from './components/notices'
 import Header from './components/header';
 import Sidebar from './components/sidebar';
