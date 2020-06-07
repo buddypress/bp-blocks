@@ -3,7 +3,6 @@
  */
 const domReady = wp.domReady;
 const { render, createElement } = wp.element;
-const { registerCoreBlocks } = wp.blockLibrary;
 const { Popover, SlotFillProvider, DropZoneProvider } = wp.components;
 const { __experimentalEditorSkeleton } = wp.blockEditor;
 
@@ -15,6 +14,7 @@ import Notices from './components/notices'
 import Header from './components/header';
 import Sidebar from './components/sidebar';
 import BlockEditor from './components/editor';
+import registerActivityBlocks from './block-types';
 
 /**
  * Styles
@@ -45,6 +45,6 @@ function Editor( { settings } ) {
 
 domReady( function() {
 	const settings = window.activityEditorSettings || {};
-	registerCoreBlocks();
+	registerActivityBlocks();
 	render( <Editor settings={ settings } />, document.getElementById( 'bp-activity-block-editor' ) );
 } );
