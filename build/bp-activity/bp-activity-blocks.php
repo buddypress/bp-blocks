@@ -24,7 +24,6 @@ function _bp_activity_blocks_get_editor_settings() {
 		'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
 		'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
 		'isRTL'                  => is_rtl(),
-		'allowedBlockTypes'      => array( 'core/paragraph', 'core/image' ),
 		'codeEditingEnabled'     => false,
 	);
 
@@ -64,18 +63,9 @@ function _bp_activity_blocks_editor_load_screen() {
 			'wp-data',
 			'wp-i18n',
 			'wp-api-fetch',
+			'lodash',
 		),
 		filemtime( dirname( __FILE__ ) . '/js/blocks/block-editor.js' ),
-		true
-	);
-
-	wp_register_script(
-		'bp-activity-block-formats',
-		plugins_url( 'js/blocks/block-formats.js', __FILE__ ),
-		array(
-			'wp-rich-text',
-		),
-		filemtime( dirname( __FILE__ ) . '/js/blocks/block-formats.js' ),
 		true
 	);
 
@@ -114,9 +104,6 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 		'wp-blocks',
 		'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 	);
-
-	// Enqueue formats.
-	wp_enqueue_script( 'bp-activity-block-formats' );
 
 	// Editor default styles
 	wp_enqueue_style( 'bp-activity-block-editor' );
