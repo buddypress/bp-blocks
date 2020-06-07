@@ -13,6 +13,7 @@ const {
 	WritingFlow,
 	ObserveTyping,
 } = wp.blockEditor;
+const { Popover } = wp.components;
 
 /**
  * Internal dependencies
@@ -63,11 +64,13 @@ function BlockEditor( { settings: _settings } ) {
 				</Sidebar.InspectorFill>
 				<div className="editor-styles-wrapper">
 					<BlockEditorKeyboardShortcuts />
-					<WritingFlow>
-						<ObserveTyping>
-							<BlockList className="activity-block-editor__block-list" />
-						</ObserveTyping>
-					</WritingFlow>
+					<Popover.Slot name="block-toolbar" />
+						<WritingFlow>
+							<ObserveTyping>
+								<BlockList className="activity-block-editor__block-list" />
+							</ObserveTyping>
+						</WritingFlow>
+					<Popover.Slot />
 				</div>
 			</BlockEditorProvider>
 
