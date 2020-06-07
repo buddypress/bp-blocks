@@ -24,6 +24,8 @@ function _bp_activity_blocks_get_editor_settings() {
 		'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
 		'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
 		'isRTL'                  => is_rtl(),
+		'allowedBlockTypes'      => array( 'core/paragraph', 'core/image' ),
+		'codeEditingEnabled'     => false,
 	);
 
 	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
@@ -53,6 +55,7 @@ function _bp_activity_blocks_editor_load_screen() {
 			'wp-editor',
 			'wp-media-utils',
 			'wp-element',
+			'wp-format-library',
 			'wp-components',
 			'wp-compose',
 			'wp-blocks',
@@ -66,6 +69,16 @@ function _bp_activity_blocks_editor_load_screen() {
 		true
 	);
 
+	wp_register_script(
+		'bp-activity-block-formats',
+		plugins_url( 'js/blocks/block-formats.js', __FILE__ ),
+		array(
+			'wp-rich-text',
+		),
+		filemtime( dirname( __FILE__ ) . '/js/blocks/block-formats.js' ),
+		true
+	);
+
 	wp_register_style(
 		'bp-activity-block-editor',
 		plugins_url( 'css/blocks/activity-editor.css', __FILE__ ),
@@ -73,6 +86,7 @@ function _bp_activity_blocks_editor_load_screen() {
 			'wp-format-library',
 			'wp-components',
 			'wp-editor',
+			'wp-edit-post',
 		),
 		filemtime( dirname( __FILE__ ) . '/css/blocks/activity-editor.css' )
 	);
@@ -100,6 +114,9 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 		'wp-blocks',
 		'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 	);
+
+	// Enqueue formats.
+	wp_enqueue_script( 'bp-activity-block-formats' );
 
 	// Editor default styles
 	wp_enqueue_style( 'bp-activity-block-editor' );
