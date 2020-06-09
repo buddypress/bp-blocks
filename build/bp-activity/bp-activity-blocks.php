@@ -93,6 +93,34 @@ function _bp_activity_blocks_editor_load_screen() {
  * @since 6.1.0
  */
 function _bp_activity_blocks_editor_enqueue_assets() {
+	/**
+	 * Filter here to add your preloaded paths.
+	 *
+	 * @since 6.1.0
+	 *
+	 * @param array $value the list of preloaded paths.
+	 */
+	$preload_paths = apply_filters(
+		'bp_activity_blocks_editor_preload_paths',
+		array(
+			'/buddypress/v1/members/me?context=edit',
+		)
+	);
+
+	// Preloads BP Activity's data.
+	$preload_data = array_reduce(
+		$preload_paths,
+		'rest_preload_api_request',
+		array()
+	);
+
+	// Create the Fetch API Preloading middleware.
+	wp_add_inline_script(
+		'wp-api-fetch',
+		sprintf( 'wp.apiFetch.use( wp.apiFetch.createPreloadingMiddleware( %s ) );', wp_json_encode( $preload_data ) ),
+		'after'
+	);
+
 	wp_enqueue_script( 'bp-activity-block-editor' );
 	wp_add_inline_script(
 		'bp-activity-block-editor',
