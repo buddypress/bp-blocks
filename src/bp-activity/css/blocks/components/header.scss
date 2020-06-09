@@ -20,13 +20,45 @@
 	}
 
 	@include break-medium() {
+		padding: 0;
 		top: $admin-bar-height;
+	}
+
+	.activity-editor-header__user_header {
+		display: inline-flex;
+		align-items: center;
+
+		.activity-editor-header__user-avatar {
+			display: flex;
+			align-items: center;
+			align-self: stretch;
+			border: none;
+			background: #fff;
+			color: #fff;
+			border-radius: 0;
+			height: auto;
+			width: 56px;
+			padding: 3px;
+
+			&:hover,
+			&.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):not(.is-primary):not(.is-tertiary):not(.is-link):hover {
+				box-shadow: none;
+			}
+		}
+
+		.activity-editor-header__title {
+			margin: 20px 0 20px 10px;
+		}
+	}
+
+	.activity-editor-header__settings {
+		display: inline-flex;
+		align-items: center;
+
+		.activity-editor-header__publish-button {
+			margin-right: 1em;
+		}
 	}
 }
 
 @include editor-left(".activity-editor-header");
-
-.activty-editor-header__title {
-	font-size: 16px;
-	padding: 0 20px;
-}

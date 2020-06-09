@@ -27,8 +27,8 @@ class ActivityPublishButton extends Component {
 	render() {
 
 		return (
-			<div className="edit-post-header__settings">
-				<Button className="editor-post-publish-button__button" isPrimary onClick={ () => this.postActivity() }>
+			<div className="activity-editor-header__settings">
+				<Button className="activity-editor-header__publish-button" isPrimary onClick={ () => this.postActivity() }>
 					{ __( 'Publish', 'buddypress' ) }
 				</Button>
 			</div>
