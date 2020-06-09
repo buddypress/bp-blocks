@@ -2,8 +2,8 @@
  * WordPress dependencies
  */
 const { useSelect, useDispatch } = wp.data;
-const { useEffect, useState, useMemo } = wp.element;
-const { serialize, parse } = wp.blocks;
+const { useMemo } = wp.element;
+const { serialize } = wp.blocks;
 const { uploadMedia } = wp.mediaUtils;
 const {
 	BlockEditorKeyboardShortcuts,
@@ -24,7 +24,6 @@ function BlockEditor( { settings: _settings } ) {
 	const blocks = useSelect( ( select ) => {
 		return select( 'bp/activity' ).getBlocks();
 	}, [] );
-	const { createInfoNotice } = useDispatch( 'core/notices' );
 	const { updateContent } = useDispatch( 'bp/activity' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
@@ -48,7 +47,7 @@ function BlockEditor( { settings: _settings } ) {
 		};
 	}, [ canUserCreateMedia, _settings ] );
 
-	function updateBlocks( newBlocks ) {
+	const updateBlocks = ( newBlocks ) => {
 		updateContent( serialize( newBlocks ), newBlocks );
 	}
 
@@ -73,7 +72,6 @@ function BlockEditor( { settings: _settings } ) {
 					<Popover.Slot />
 				</div>
 			</BlockEditorProvider>
-
 		</div>
 	);
 }
