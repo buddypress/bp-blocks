@@ -6,7 +6,6 @@ const { __ } = wp.i18n;
 /**
  * Internal dependencies.
  */
-
 import ActivityPublishButton from './publish-button';
 
 export default function Header() {
