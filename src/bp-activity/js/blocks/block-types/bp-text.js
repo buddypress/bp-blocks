@@ -4,7 +4,7 @@
 const { registerBlockType, createBlock } = wp.blocks;
 const { useDispatch } = wp.data;
 const { RichText, BlockControls } = wp.blockEditor;
-const { __, sprintf } = wp.i18n;
+const { __ } = wp.i18n;
 
 const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes } ) => {
 	const { content } = attributes;
