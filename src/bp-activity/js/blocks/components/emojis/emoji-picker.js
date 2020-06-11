@@ -72,6 +72,13 @@ const EmojiPickerTabs = ( { onPick } ) => {
 					items: categories['smileys-emotion'],
 				},
 				{
+					name: 'people',
+					title: '👍',
+					/* translators: Emoji Category tab title in the Emoji Picker. */
+					label: __( 'People & Body', 'buddypress' ),
+					items: categories['people-body'],
+				},
+				{
 					name: 'animals',
 					title: '🐻',
 					/* translators: Emoji Category tab title in the Emoji Picker. */
