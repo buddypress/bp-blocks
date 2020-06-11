@@ -10,11 +10,11 @@ const { __experimentalEditorSkeleton } = wp.blockEditor;
  * Internal dependencies
  */
 import './store';
-import Notices from './components/notices'
-import Header from './components/header';
-import Sidebar from './components/sidebar';
-import BlockEditor from './components/editor';
-import registerActivityBlocks from './block-types';
+import Notices from './components/activity-editor/notices'
+import Header from './components/activity-editor/header';
+import Sidebar from './components/activity-editor/sidebar';
+import BlockEditor from './components/activity-editor/editor';
+import registerActivityBlocks from './components/block-types';
 
 /**
  * Styles
