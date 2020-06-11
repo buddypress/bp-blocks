@@ -32,7 +32,8 @@
 		"@babel/core": "^7.8.7",
 		"@wordpress/babel-preset-default": "^4.6.2",
 		"parcel-bundler": "^1.12.4",
-		"sass": "^1.26.5"
+		"sass": "^1.26.5",
+		"@types/classnames": "2.2.10"
 	},
 	"dependencies": {
 		"@wordpress/base-styles": "^1.4.0",
