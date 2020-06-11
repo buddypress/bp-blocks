@@ -9,6 +9,11 @@ const { Button, ToolbarGroup, Popover, Dashicon } = wp.components;
 const { renderToString, useState, useRef } = wp.element;
 const { __ } = wp.i18n;
 
+/**
+ * Internal dependencies.
+ */
+import EmojiPickerTabs from '../emojis/emoji-picker';
+
 const getRange = () => {
 	const selection = window.getSelection();
 	return selection.rangeCount ? selection.getRangeAt( 0 ) : null;
@@ -28,7 +33,7 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 		setAttributes( { content: content } )
 	}
 
-	const showEmojiPicker = ( emoji ) => {
+	const insertEmoji = ( emoji ) => {
 		const anchor = getRange();
 		const valueToInsert = emoji;
 		const value = create( { html: renderToString( content ) } );
@@ -39,7 +44,7 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 		const newContent = insert( value, valueToInsert );
 
 		/**
-		 * This needs to be improved as our anchor is not taking in account the
+		 * @todo: This needs to be improved as our anchor is not taking in account the
 		 * format applied to the text.
 		 */
 		setAttributes( { content: getTextContent( newContent ) } );
@@ -58,9 +63,8 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 					>
 						<Dashicon icon="smiley"/>
 						{ isVisible && (
-							<Popover position="bottom center" onClose={ () => setVisible( false ) }>
-								<Button key="poop" onClick={ () => showEmojiPicker( '💩' ) }>💩</Button>
-								<Button key="houray" onClick={ () => showEmojiPicker( '🙌' ) }>🙌</Button>
+							<Popover className="activity-editor-emoji-picker__popover" position="bottom center" onClose={ () => setVisible( false ) }>
+								<EmojiPickerTabs onPick={ insertEmoji } />
 							</Popover>
 						) }
 					</Button>
