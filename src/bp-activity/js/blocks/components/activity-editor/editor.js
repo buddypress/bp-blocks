@@ -14,6 +14,7 @@ const {
 	ObserveTyping,
 } = wp.blockEditor;
 const { Popover } = wp.components;
+const { __ } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -24,7 +25,11 @@ function BlockEditor( { settings: _settings } ) {
 	const blocks = useSelect( ( select ) => {
 		return select( 'bp/activity' ).getBlocks();
 	}, [] );
-	const { updateContent } = useDispatch( 'bp/activity' );
+	const { updateContent, resetJustPostedActivity } = useDispatch( 'bp/activity' );
+	const actictivityCreated = useSelect( ( select ) => {
+		return select( 'bp/activity' ).getJustPostedActivity();
+	}, [] );
+	const { createInfoNotice } = useDispatch( 'core/notices' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
 		const _canUserCreateMedia = select( 'core' ).canUser( 'create', 'media' );
@@ -49,6 +54,19 @@ function BlockEditor( { settings: _settings } ) {
 
 	const updateBlocks = ( newBlocks ) => {
 		updateContent( serialize( newBlocks ), newBlocks );
+	}
+
+	if ( actictivityCreated && actictivityCreated.link ) {
+		createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
+			type: 'snackbar',
+			isDismissible: true,
+			actions: [ {
+				label: __( 'View activity', 'buddypress' ),
+				url: actictivityCreated.link,
+			} ],
+		} );
+
+		resetJustPostedActivity();
 	}
 
 	return (

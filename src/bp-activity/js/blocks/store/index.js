@@ -64,6 +64,12 @@ const actions = {
 			blocks,
 		};
 	},
+
+	resetJustPostedActivity() {
+		return {
+			type: 'RESET_CREATED',
+		};
+	}
 };
 
 const store = registerStore( 'bp/activity', {
@@ -86,7 +92,7 @@ const store = registerStore( 'bp/activity', {
 				return {
 					...state,
 					inserting: action.inserting,
-					created: action.created,
+					created: action.created[0],
 					content: '',
 					blocks: [],
 				};
@@ -96,6 +102,12 @@ const store = registerStore( 'bp/activity', {
 					...state,
 					content: action.content,
 					blocks: action.blocks, ...state.blocks,
+				};
+
+			case 'RESET_CREATED':
+				return {
+					...state,
+					created: {},
 				};
 		}
 
@@ -123,7 +135,12 @@ const store = registerStore( 'bp/activity', {
 		isInsertingActivity( state ) {
 			const { inserting } = state;
 			return inserting;
-		}
+		},
+
+		getJustPostedActivity( state ) {
+			const { created } = state;
+			return created;
+		},
 	},
 
 	controls: {
