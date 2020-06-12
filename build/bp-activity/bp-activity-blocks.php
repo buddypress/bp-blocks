@@ -133,7 +133,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 		'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 	);
 
-	// Editor default styles
+	// Editor default styles.
 	wp_enqueue_style( 'bp-activity-block-editor' );
 }
 
