@@ -12,7 +12,7 @@ const DEFAULT_STATE = {
 	created: {},
 };
 
-function * insertActivity( activity, dossier = 0 ) {
+function * insertActivity( activity ) {
 	let inserting = true, created;
 
 	yield { type: 'CREATE_START', inserting, activity };
@@ -119,6 +119,11 @@ const store = registerStore( 'bp/activity', {
 			const { blocks } = state;
 			return blocks;
 		},
+
+		isInsertingActivity( state ) {
+			const { inserting } = state;
+			return inserting;
+		}
 	},
 
 	controls: {
