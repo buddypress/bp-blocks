@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Filter the activity content to adapt it if it contains Blocks.
+add_filter( 'bp_get_activity_content_body', 'bp_activity_do_blocks', 9 );
+
 // Disable too restrictive filters.
 remove_filter( 'bp_get_activity_content_body', 'bp_activity_filter_kses', 1 );
 remove_filter( 'bp_get_activity_parent_content', 'bp_activity_filter_kses', 1 );
