@@ -22,7 +22,7 @@ The Activity REST controller's response should probably be filtered for this spe
 ## BuddyPress Core issues/improvements
 
 ### Issues
-- [ ] When WordPress is replacing Emoji by a static image, this image attributes (Eg. : `wp-smiley` class) are removed from the rendered content.
+- [x] When WordPress is replacing Emoji by a static image, this image attributes (Eg. : `wp-smiley` class) are removed from the rendered content.
 
 ### Improvements
-- [ ] Review Activity filters to make sure Blocks are best rendered (eg: `wpautop` is not needed). + Check Dynamic block rendering.
+- [x] Review Activity filters to make sure Blocks are best rendered (eg: `wpautop` is not needed). + Check Dynamic block rendering.

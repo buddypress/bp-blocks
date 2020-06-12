@@ -170,3 +170,78 @@ function _bp_activity_blocks_add_editor_submenu() {
 	add_action( 'load-' . $screen, '_bp_activity_blocks_editor_load_screen' );
 }
 add_action( 'admin_menu', '_bp_activity_blocks_add_editor_submenu' );
+
+/**
+ * Determine whether an activity or its content string has blocks.
+ *
+ * @since 6.1.0
+ * @see parse_blocks()
+ *
+ * @param string|int|BP_Activity_Activity|null $activity Activity content, Activity ID, or Activity object.
+ * @return bool Whether the post has blocks.
+ */
+function bp_activity_has_blocks( $activity = null ) {
+	if ( is_null( $activity ) ) {
+		return false;
+	}
+
+	if ( ! is_string( $activity ) ) {
+		if ( is_int( $activity ) ) {
+			$bp_activity = new BP_Activity_Activity( $activity );
+		} else {
+			$bp_activity = $activity;
+		}
+
+		if ( $bp_activity instanceof BP_Activity_Activity ) {
+			$activity = $bp_activity->content;
+		}
+	}
+
+	return has_blocks( $activity );
+}
+
+/**
+ * If bp_activity_do_blocks() needs to remove wpautop() from the `bp_get_activity_content_body` filter, this re-adds it afterwards,
+ * for subsequent `bp_get_activity_content_body` usage.
+ *
+ * @access private
+ *
+ * @since 6.1.0
+ *
+ * @param string $content The activity content running through this filter.
+ * @return string The unmodified activity content.
+ */
+function _bp_activity_restore_wpautop_hook( $content ) {
+	$current_priority = has_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook' );
+
+	add_filter( 'bp_get_activity_content_body', 'wpautop', $current_priority - 1 );
+	remove_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook', $current_priority );
+
+	return $content;
+}
+
+/**
+ * Parses dynamic blocks out of activity content and re-renders them.
+ *
+ * @since 6.1.0
+ *
+ * @param string $content Activity content.
+ * @return string Updated activity content.
+ */
+function bp_activity_do_blocks( $content ) {
+	$blocks = parse_blocks( $content );
+	$output = '';
+
+	foreach ( $blocks as $block ) {
+		$output .= render_block( $block );
+	}
+
+	// If there are blocks in this content, we shouldn't run wpautop() on it later.
+	$priority = has_filter( 'bp_get_activity_content_body', 'wpautop' );
+	if ( false !== $priority && doing_filter( 'bp_get_activity_content_body' ) && bp_activity_has_blocks( $content ) ) {
+		remove_filter( 'bp_get_activity_content_body', 'wpautop', $priority );
+		add_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook', $priority + 1 );
+	}
+
+	return $output;
+}
