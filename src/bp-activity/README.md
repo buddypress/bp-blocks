@@ -8,7 +8,7 @@ There's a WP-Admin Activity submenu named "Add Activity" where I've added a play
 
 - [ ] Activity Sidebar settings panel to eventually set a parent object for the activity, eg.: a group.
 - [ ] Snackbar to inform the activity was successfully posted.
-- [ ] The publish button should only be available if the activity has some content.
+- [x] The publish button should only be available if the activity has some content.
 - [ ] Notice errors in case of troubles.
 - [x] Emoji picker for the `bp/text` block. 🙌
 - [ ] BP Blocks API improvements to allow a plugin to register a block for the Activity Editor (as well as for the Post Editor).

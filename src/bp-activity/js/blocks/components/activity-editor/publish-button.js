@@ -25,10 +25,19 @@ class ActivityPublishButton extends Component {
 	}
 
 	render() {
+		const { content, inserting } = this.props;
+		const isDisabled = ! content || inserting;
+		const isBusy = !! inserting;
 
 		return (
 			<div className="activity-editor-header__settings">
-				<Button className="activity-editor-header__publish-button" isPrimary onClick={ () => this.postActivity() }>
+				<Button
+					className="activity-editor-header__publish-button"
+					isPrimary
+					disabled={ isDisabled }
+					isBusy={ isBusy }
+					onClick={ () => this.postActivity() }
+				>
 					{ __( 'Publish', 'buddypress' ) }
 				</Button>
 			</div>
@@ -42,6 +51,7 @@ export default compose( [
 		return {
 			user: store.getCurrentUser(),
 			content: store.getContent(),
+			inserting: store.isInsertingActivity(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {
