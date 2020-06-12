@@ -37,9 +37,32 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 		const anchor = getRange();
 		const valueToInsert = emoji;
 		const value = create( { html: renderToString( content ) } );
+		const textValue = getTextContent( value );
 
 		value.start = anchor.startOffset;
 		value.end   = anchor.endOffset;
+
+		// The text value contains HTML tags.
+		if ( textValue.length !== anchor.startContainer.length ) {
+			let index = anchor.startContainer.textContent;
+			if ( null !== anchor.startContainer.nextSibling ) {
+				index += anchor.startContainer.nextSibling.outerHTML;
+			}
+
+			// Try to find the best approaching inde.
+			if ( 1 < index.length ) {
+				const findIndex = textValue.indexOf( index );
+
+				if ( -1 !== findIndex ) {
+					value.start += findIndex;
+					value.end   += findIndex;
+				}
+			} else {
+				// Otherwise put it at the end of the text value.
+				value.start += textValue.length;
+				value.end   += textValue.length;
+			}
+		}
 
 		const newContent = insert( value, valueToInsert );
 
