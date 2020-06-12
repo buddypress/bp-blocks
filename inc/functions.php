@@ -25,6 +25,10 @@ function bp_blocks_include() {
 		}
 
 		require $build_dir . '/bp-' . $component . '/bp-' . $component . '-blocks.php';
+
+		if ( 'activity' === $component ) {
+			require $build_dir . '/bp-' . $component . '/bp-' . $component . '-filters.php';
+		}
 	}
 }
 add_action( 'bp_include', 'bp_blocks_include', 20 );
