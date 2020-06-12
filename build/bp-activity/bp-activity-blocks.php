@@ -3,7 +3,7 @@
  * BP Activity Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \inc\bp-members\bp-activity-blocks
+ * @subpackage \build\bp-activity\bp-activity-blocks
  */
 
 // Exit if accessed directly.
