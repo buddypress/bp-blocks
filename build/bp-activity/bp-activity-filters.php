@@ -47,9 +47,30 @@ function bp_blocks_activity_kses( $activity_content ) {
 
 				if ( isset( $attributes['class']['value'] ) && in_array( $attributes['class']['value'], array( 'wp-smiley', 'emoji' ), true ) ) {
 					if ( 'wp-smiley' === $attributes['class']['value'] ) {
-						$bp_should_allow = wp_kses( $tag, array( 'img' => array( 'src' => true, 'alt' => true, 'class' => true, 'style' => true ) ) );
+						$bp_should_allow = wp_kses(
+							$tag,
+							array(
+								'img' => array(
+									'src'   => true,
+									'alt'   => true,
+									'class' => true,
+									'style' => true,
+								),
+							)
+						);
 					} else {
-						$bp_should_allow = wp_kses( $tag, array( 'img' => array( 'draggable' => true, 'role' => true, 'class' => true, 'alt' => true, 'src' => true ) ) );
+						$bp_should_allow = wp_kses(
+							$tag,
+							array(
+								'img' => array(
+									'draggable' => true,
+									'role'      => true,
+									'class'     => true,
+									'alt'       => true,
+									'src'       => true,
+								),
+							)
+						);
 					}
 
 					$emojis[] = array(
