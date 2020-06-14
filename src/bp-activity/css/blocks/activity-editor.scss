@@ -24,6 +24,7 @@ html.wp-toolbar {
 }
 
 body.activity_page_bp-activity-new {
+
 	@include wp-admin-reset(".bp-activity-block-editor");
 }
 

@@ -15,6 +15,9 @@
 	position: absolute;
 	top: $header-height;
 	width: 100%;
+}
+
+.block-editor-editor-skeleton.sidebar-visible .editor-styles-wrapper {
 
 	@include break-small {
 		width: calc(100% - #{$sidebar-width});
