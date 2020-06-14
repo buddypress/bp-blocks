@@ -82,6 +82,7 @@ function _bp_activity_blocks_editor_load_screen() {
 	);
 
 	add_action( 'bp_admin_enqueue_scripts', '_bp_activity_blocks_editor_enqueue_assets' );
+	add_filter( 'admin_body_class', '_bp_activity_blocks_editor_admin_body_class' );
 }
 
 /**
@@ -135,6 +136,22 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 
 	// Editor default styles.
 	wp_enqueue_style( 'bp-activity-block-editor' );
+}
+
+/**
+ * Makes sure if BuddyPress is translated that the needed admin body class is added.
+ *
+ * @since 6.1.0
+ *
+ * @param string $admin_body_class The Admin screen body classes.
+ * @return string The Admin screen body classes.
+ */
+function _bp_activity_blocks_editor_admin_body_class( $admin_body_class = '' ) {
+	if ( false === strpos( $admin_body_class, 'activity_page_bp-activity-new' ) ) {
+		$admin_body_class .= ' activity_page_bp-activity-new';
+	}
+
+	return $admin_body_class;
 }
 
 /**
