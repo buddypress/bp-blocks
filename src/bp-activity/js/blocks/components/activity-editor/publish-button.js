@@ -3,7 +3,7 @@
  */
 const { __ } = wp.i18n;
 const { Component } = wp.element;
-const { Button } = wp.components;
+const { Button, Dashicon, VisuallyHidden } = wp.components;
 const { compose } = wp.compose;
 const { withSelect, withDispatch } = wp.data;
 
@@ -24,6 +24,12 @@ class ActivityPublishButton extends Component {
 		return onInsertActivity( activity );
 	}
 
+	toggleSidebarVisibility() {
+		const { onToggleSidebarVisibility, isSidebarVisible } = this.props;
+
+		return onToggleSidebarVisibility( ! isSidebarVisible );
+	}
+
 	render() {
 		const { content, inserting } = this.props;
 		const isDisabled = ! content || inserting;
@@ -40,6 +46,14 @@ class ActivityPublishButton extends Component {
 				>
 					{ __( 'Publish', 'buddypress' ) }
 				</Button>
+
+				<Button
+					className="activity-editor-header__sidebar-toggle"
+					onClick={ () => this.toggleSidebarVisibility() }
+				>
+					<Dashicon icon="admin-generic"/>
+					<VisuallyHidden>{ __( 'Toggle Settings Sidebar', 'buddypress' ) }</VisuallyHidden>
+				</Button>
 			</div>
 		);
 	}
@@ -52,11 +66,15 @@ export default compose( [
 			user: store.getCurrentUser(),
 			content: store.getContent(),
 			inserting: store.isInsertingActivity(),
+			isSidebarVisible: store.isSidebarVisible(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {
 		onInsertActivity( activity ) {
 			dispatch( 'bp/activity' ).insertActivity( activity );
+		},
+		onToggleSidebarVisibility( visibility ) {
+			dispatch( 'bp/activity' ).toggleSidebarVisibility( visibility );
 		},
 	} ) ),
 ] )( ActivityPublishButton );

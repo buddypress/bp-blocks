@@ -10,6 +10,7 @@ const DEFAULT_STATE = {
 	blocks: [],
 	inserting: false,
 	created: {},
+	isSidebarVisible: false,
 };
 
 function * insertActivity( activity ) {
@@ -69,7 +70,14 @@ const actions = {
 		return {
 			type: 'RESET_CREATED',
 		};
-	}
+	},
+
+	toggleSidebarVisibility( visibility ) {
+		return {
+			type: 'UPDATE_SIDEBAR_VISIBILITY',
+			visibility,
+		};
+	},
 };
 
 const store = registerStore( 'bp/activity', {
@@ -109,6 +117,12 @@ const store = registerStore( 'bp/activity', {
 					...state,
 					created: {},
 				};
+
+			case 'UPDATE_SIDEBAR_VISIBILITY':
+				return {
+					...state,
+					isSidebarVisible: action.visibility,
+				};
 		}
 
 		return state;
@@ -141,6 +155,11 @@ const store = registerStore( 'bp/activity', {
 			const { created } = state;
 			return created;
 		},
+
+		isSidebarVisible( state ) {
+			const { isSidebarVisible } = state;
+			return  isSidebarVisible;
+		}
 	},
 
 	controls: {

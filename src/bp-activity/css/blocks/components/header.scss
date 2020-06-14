@@ -55,8 +55,22 @@
 		display: inline-flex;
 		align-items: center;
 
-		.activity-editor-header__publish-button {
+		.activity-editor-header__publish-button,
+		.activity-editor-header__sidebar-toggle {
 			margin-right: 1em;
+		}
+
+		.activity-editor-header__sidebar-toggle {
+
+			&.components-button:not(:disabled):not([aria-disabled="true"]):not(.is-secondary):not(.is-primary):not(.is-tertiary):not(.is-link):hover,
+			&.components-button:focus:not(:disabled) {
+				box-shadow: none;
+			}
+
+			.block-editor-editor-skeleton.sidebar-visible & {
+				background-color: $dark-gray-500;
+				color: $white;
+			}
 		}
 	}
 }

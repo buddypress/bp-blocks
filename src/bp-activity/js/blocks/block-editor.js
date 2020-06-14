@@ -5,6 +5,7 @@ const domReady = wp.domReady;
 const { render, createElement } = wp.element;
 const { Popover, SlotFillProvider, DropZoneProvider } = wp.components;
 const { __experimentalEditorSkeleton } = wp.blockEditor;
+const { useSelect } = wp.data;
 
 /**
  * Internal dependencies
@@ -23,11 +24,15 @@ import '../../css/blocks/activity-editor.scss';
 
 function Editor( { settings } ) {
 	const EditorSkeleton = __experimentalEditorSkeleton;
+	const isSidebarVisible = useSelect( ( select ) => {
+		return select( 'bp/activity' ).isSidebarVisible();
+	}, [] );
 
 	return (
 		<SlotFillProvider>
 			<DropZoneProvider>
 				<EditorSkeleton
+					className={ isSidebarVisible ? 'sidebar-visible' : 'sidebar-invisible' }
 					header={ <Header /> }
 					sidebar={<Sidebar />}
 					content={
