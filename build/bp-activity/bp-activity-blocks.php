@@ -141,6 +141,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 /**
  * Makes sure if BuddyPress is translated that the needed admin body class is added.
  *
+ * @access private
  * @since 6.1.0
  *
  * @param string $admin_body_class The Admin screen body classes.
