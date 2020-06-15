@@ -9,17 +9,11 @@ const {
 	BlockEditorKeyboardShortcuts,
 	BlockEditorProvider,
 	BlockList,
-	BlockInspector,
 	WritingFlow,
 	ObserveTyping,
 } = wp.blockEditor;
 const { Popover } = wp.components;
 const { __ } = wp.i18n;
-
-/**
- * Internal dependencies
- */
-import Sidebar from './sidebar';
 
 function BlockEditor( { settings: _settings } ) {
 	const blocks = useSelect( ( select ) => {
@@ -76,9 +70,6 @@ function BlockEditor( { settings: _settings } ) {
 				onChange={ updateBlocks }
 				settings={ settings }
 			>
-				<Sidebar.InspectorFill>
-					<BlockInspector />
-				</Sidebar.InspectorFill>
 				<div className="editor-styles-wrapper">
 					<BlockEditorKeyboardShortcuts />
 					<Popover.Slot name="block-toolbar" />

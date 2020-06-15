@@ -13,12 +13,13 @@ class ActivityPublishButton extends Component {
 	}
 
 	postActivity() {
-		const { user, content, onInsertActivity } = this.props;
+		const { user, content, date, onInsertActivity } = this.props;
 		const activity = {
 			type: 'activity_update',
 			user_id: user.id,
 			component: 'activity',
 			content: content,
+			date: date,
 		};
 
 		return onInsertActivity( activity );
@@ -67,6 +68,7 @@ export default compose( [
 			content: store.getContent(),
 			inserting: store.isInsertingActivity(),
 			isSidebarVisible: store.isSidebarVisible(),
+			date: store.getActivityDate(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {

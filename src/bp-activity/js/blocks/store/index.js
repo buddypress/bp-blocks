@@ -7,6 +7,7 @@ const { registerStore } = wp.data;
 const DEFAULT_STATE = {
 	user: {},
 	content: '',
+	date: '',
 	blocks: [],
 	inserting: false,
 	created: {},
@@ -78,6 +79,13 @@ const actions = {
 			visibility,
 		};
 	},
+
+	setActivityDate( date ) {
+		return {
+			type: 'SET_ACTIVITY_DATE',
+			date,
+		};
+	},
 };
 
 const store = registerStore( 'bp/activity', {
@@ -102,6 +110,7 @@ const store = registerStore( 'bp/activity', {
 					inserting: action.inserting,
 					created: action.created[0],
 					content: '',
+					date: '',
 					blocks: [],
 				};
 
@@ -110,6 +119,12 @@ const store = registerStore( 'bp/activity', {
 					...state,
 					content: action.content,
 					blocks: action.blocks, ...state.blocks,
+				};
+
+			case 'SET_ACTIVITY_DATE':
+				return {
+					...state,
+					date: action.date,
 				};
 
 			case 'RESET_CREATED':
@@ -159,7 +174,12 @@ const store = registerStore( 'bp/activity', {
 		isSidebarVisible( state ) {
 			const { isSidebarVisible } = state;
 			return  isSidebarVisible;
-		}
+		},
+
+		getActivityDate( state ) {
+			const { date } = state;
+			return date;
+		},
 	},
 
 	controls: {
