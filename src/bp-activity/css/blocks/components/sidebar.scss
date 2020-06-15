@@ -50,3 +50,12 @@
 		margin: 0;
 	}
 }
+
+.activity-editor-sidebar-main-panel-schedule__cancel.components-button.is-link {
+	vertical-align: middle;
+	margin-left: 5px;
+
+	.dashicons-dismiss {
+		color: $alert-red;
+	}
+}

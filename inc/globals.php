@@ -26,5 +26,8 @@ function bp_blocks_globals() {
 
 	// URL.
 	$bpb->url = plugins_url( dirname( __FILE__ ) );
+
+	// Activity update recorded time.
+	$bpb->activity_recorded_time = '';
 }
 add_action( 'bp_include', 'bp_blocks_globals' );
