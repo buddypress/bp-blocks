@@ -9,18 +9,32 @@ const {
 	Button,
 	DateTimePicker,
 	Dashicon,
+	SelectControl,
+	ExternalLink,
 } = wp.components;
 const { __ } = wp.i18n;
 const { dateI18n, __experimentalGetSettings } = wp.date;
 const { useSelect, useDispatch } = wp.data;
 const { useState } = wp.element;
 
+/**
+ * BuddyPress dependencies.
+ */
+const { AutoCompleter } = bp.blockComponents;
+
 function Sidebar() {
 	const [ isOpen, onToggle ] = useState( false );
+	const [ component, onSelect ] = useState( 'activity' );
 	const activityDate = useSelect( ( select ) => {
 		return select( 'bp/activity' ).getActivityDate();
 	}, [] );
-	const { setActivityDate } = useDispatch( 'bp/activity' );
+	const userGroups = useSelect( ( select ) => {
+		return select( 'bp/activity' ).getUserGroups();
+	}, [] );
+	const group = useSelect( ( select ) => {
+		return select( 'bp/activity' ).getActivityGroup();
+	}, [] );
+	const { setActivityDate, setActivityGroup, resetActivityGroup } = useDispatch( 'bp/activity' );
 
 	const currentDate = ! activityDate ? new Date() : activityDate;
 	const dateTimeFormat = __experimentalGetSettings();
@@ -75,6 +89,52 @@ function Sidebar() {
 							renderContent={ () => <DateTimePicker currentDate={ currentDate } onChange={ ( date ) => setActivityDate( date ) } /> }
 						/>
 					</PanelRow>
+
+					{ userGroups && 0 !== userGroups.length && ! group && (
+						<PanelRow className="activity-editor-sidebar-main-panel__postin">
+							<span>{ __( 'Post in', 'buddypress' ) }</span>
+							<SelectControl
+								value={ component }
+								options={ [
+									{ label: __( 'my profile', 'buddypress' ), value: 'activity' },
+									{ label: __( 'a Group', 'buddypress' ), value: 'groups' },
+								] }
+								onChange={ ( component ) => onSelect( component ) }
+							/>
+						</PanelRow>
+					) }
+					{ 'groups' === component && ! group && (
+						<>
+							<PanelRow className="activity-editor-sidebar-main-panel-postingroups-help">
+								<p className="description">
+									{ __( 'Start typing the name of the group you want to post your activity into.', 'buddypress' ) }
+								</p>
+							</PanelRow>
+							<PanelRow className="activity-editor-sidebar-main-panel-postingroups-autocomplete">
+								<AutoCompleter
+									component="groups"
+									ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
+									placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
+									onSelectItem={ ( { itemID } ) => setActivityGroup( itemID ) }
+									useAvatar={ true }
+								/>
+							</PanelRow>
+						</>
+					) }
+					{ !! group && !! group.id && (
+						<PanelRow className="activity-editor-sidebar-main-panel-postingroups-selection">
+							<span>{ __( 'Post in', 'buddypress' ) }</span>
+							<ExternalLink href={ group.link }>{ group.name }</ExternalLink>
+							<Button
+								className="activity-editor-sidebar-main-panel-postingroups-selection__cancel"
+								onClick={ () => resetActivityGroup() }
+								isLink
+							>
+								<Dashicon icon="dismiss" />
+								<span className="screen-reader-text">{ __( 'Remove Group', 'buddypress' ) }</span>
+							</Button>
+						</PanelRow>
+					) }
 				</PanelBody>
 			</Panel>
 		</div>

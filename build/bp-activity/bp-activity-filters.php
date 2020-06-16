@@ -179,3 +179,30 @@ function bp_blocks_activity_rest_pre_insert_value( $prepared_activity, $request 
 	return $prepared_activity;
 }
 add_filter( 'bp_rest_activity_pre_insert_value', 'bp_blocks_activity_rest_pre_insert_value', 10, 2 );
+
+/**
+ * Restrict the Groups Autocompleter results to the loggedin user.
+ *
+ * NB: the BP Autocompleter component should be improved to accept more props.
+ * This is a temporary work around.
+ *
+ * @since 6.1.0
+ *
+ * @param array           $args The Groups query arguments.
+ * @param WP_REST_Request $request
+ */
+function bp_blocks_activity_rest_restrict_groups( $args = array(), $request ) {
+	$headers = $request->get_headers();
+	if ( isset( $headers['referer'] ) ) {
+		$referer = reset( $headers['referer'] );
+	}
+
+	$is_admin_activity_add = add_query_arg( 'page', 'bp-activity-new', admin_url( 'admin.php' ) ) === $referer;
+
+	if ( $is_admin_activity_add ) {
+		$args['user_id'] = bp_loggedin_user_id();
+	}
+
+	return $args;
+}
+add_filter( 'bp_rest_groups_get_items_query_args', 'bp_blocks_activity_rest_restrict_groups', 10, 2 );

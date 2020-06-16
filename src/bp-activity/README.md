@@ -6,7 +6,7 @@ There's a WP-Admin Activity submenu named "Add Activity" where I've added a play
 
 ### Tasks
 
-- [ ] Activity Sidebar settings panel to eventually set a parent object for the activity, eg.: a group.
+- [x] Activity Sidebar settings panel to eventually set a parent object for the activity, eg.: a group.
 - [x] Snackbar to inform the activity was successfully posted.
 - [x] The publish button should only be available if the activity has some content.
 - [x] Notice errors in case of troubles.

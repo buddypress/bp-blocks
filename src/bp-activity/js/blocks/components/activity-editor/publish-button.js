@@ -13,16 +13,21 @@ class ActivityPublishButton extends Component {
 	}
 
 	postActivity() {
-		const { user, content, date, onInsertActivity } = this.props;
+		const { user, content, date, group, onInsertActivity } = this.props;
 		const activity = {
-			type: 'activity_update',
 			user_id: user.id,
+			type: 'activity_update',
 			component: 'activity',
 			content: content,
 		};
 
 		if ( !! date ) {
 			activity.date = date;
+		}
+
+		if ( !! group && group.id ) {
+			activity.primary_item_id = group.id;
+			activity.component = 'groups';
 		}
 
 		return onInsertActivity( activity );
@@ -72,6 +77,7 @@ export default compose( [
 			inserting: store.isInsertingActivity(),
 			isSidebarVisible: store.isSidebarVisible(),
 			date: store.getActivityDate(),
+			group: store.getActivityGroup(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {
