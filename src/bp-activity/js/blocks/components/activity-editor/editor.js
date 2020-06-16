@@ -23,7 +23,7 @@ function BlockEditor( { settings: _settings } ) {
 	const actictivityCreated = useSelect( ( select ) => {
 		return select( 'bp/activity' ).getJustPostedActivity();
 	}, [] );
-	const { createInfoNotice } = useDispatch( 'core/notices' );
+	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
 		const _canUserCreateMedia = select( 'core' ).canUser( 'create', 'media' );
@@ -50,17 +50,37 @@ function BlockEditor( { settings: _settings } ) {
 		updateContent( serialize( newBlocks ), newBlocks );
 	}
 
-	if ( actictivityCreated && actictivityCreated.link ) {
-		createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
-			type: 'snackbar',
-			isDismissible: true,
-			actions: [ {
-				label: __( 'View activity', 'buddypress' ),
-				url: actictivityCreated.link,
-			} ],
-		} );
+	const resetActivity = ( activity ) => {
+		updateBlocks( activity.blocks );
+		removeNotice( 'activity-posted-error' );
+	}
 
-		resetJustPostedActivity();
+	if ( actictivityCreated ) {
+		if ( actictivityCreated.link ) {
+			createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
+				type: 'snackbar',
+				isDismissible: true,
+				actions: [ {
+					label: __( 'View activity', 'buddypress' ),
+					url: actictivityCreated.link,
+				} ],
+			} );
+		}
+
+		if ( actictivityCreated.error ) {
+			createErrorNotice( actictivityCreated.error, {
+				id: 'activity-posted-error',
+				isDismissible: true,
+				actions: [ {
+					label: __( 'Restore Activity content', 'buddypress' ),
+					onClick: () => { resetActivity( actictivityCreated ) },
+				} ],
+			} );
+		}
+
+		if ( actictivityCreated.id ) {
+			resetJustPostedActivity();
+		}
 	}
 
 	return (
