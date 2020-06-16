@@ -7,7 +7,7 @@ const { registerStore } = wp.data;
 /**
  * External dependencies
  */
-const { assignIn, uniqueId } = lodash;
+const { assignIn, uniqueId, find } = lodash;
 
 const DEFAULT_STATE = {
 	user: {},
@@ -17,6 +17,8 @@ const DEFAULT_STATE = {
 	inserting: false,
 	created: {},
 	isSidebarVisible: false,
+	groups: [],
+	groupId: 0,
 };
 
 function * insertActivity( activity ) {
@@ -46,6 +48,13 @@ const actions = {
 		return {
 			type: 'GET_CURRENT_USER',
 			user,
+		};
+	},
+
+	getUserGroups( groups ) {
+		return {
+			type: 'GET_USER_GROUPS',
+			groups,
 		};
 	},
 
@@ -93,6 +102,19 @@ const actions = {
 			date,
 		};
 	},
+
+	setActivityGroup( groupId ) {
+		return {
+			type: 'SET_ACTIVITY_GROUP',
+			groupId,
+		};
+	},
+
+	resetActivityGroup() {
+		return {
+			type: 'RESET_ACTIVITY_GROUP',
+		};
+	},
 };
 
 const store = registerStore( 'bp/activity', {
@@ -102,6 +124,12 @@ const store = registerStore( 'bp/activity', {
 				return {
 					...state,
 					user: action.user,
+				};
+
+			case 'GET_USER_GROUPS':
+				return {
+					...state,
+					groups: action.groups,
 				};
 
 			case 'CREATE_START':
@@ -118,6 +146,7 @@ const store = registerStore( 'bp/activity', {
 					created: action.created[0],
 					content: '',
 					date: '',
+					groupId: 0,
 					blocks: [],
 				};
 
@@ -138,6 +167,18 @@ const store = registerStore( 'bp/activity', {
 				return {
 					...state,
 					date: action.date,
+				};
+
+			case 'SET_ACTIVITY_GROUP':
+				return {
+					...state,
+					groupId: action.groupId,
+				};
+
+			case 'RESET_ACTIVITY_GROUP':
+				return {
+					...state,
+					groupId: 0,
 				};
 
 			case 'RESET_CREATED':
@@ -162,6 +203,11 @@ const store = registerStore( 'bp/activity', {
 		getCurrentUser( state ) {
 			const { user } = state;
 			return user;
+		},
+
+		getUserGroups( state ) {
+			const { groups } = state;
+			return groups;
 		},
 
 		getContent( state ) {
@@ -193,6 +239,11 @@ const store = registerStore( 'bp/activity', {
 			const { date } = state;
 			return date;
 		},
+
+		getActivityGroup( state ) {
+			const { groups, groupId } = state;
+			return find( groups, { id: groupId } );
+		}
 	},
 
 	controls: {
@@ -210,6 +261,12 @@ const store = registerStore( 'bp/activity', {
 			const path = '/buddypress/v1/members/me?context=edit';
 			const user = yield actions.fetchFromAPI( path, true );
 			yield actions.getCurrentUser( user );
+		},
+
+		* getUserGroups() {
+			const path = '/buddypress/v1/groups/me?context=edit';
+			const groups = yield actions.fetchFromAPI( path, true );
+			yield actions.getUserGroups( groups );
 		},
 	},
 } );

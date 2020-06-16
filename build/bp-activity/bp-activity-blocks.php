@@ -56,6 +56,7 @@ function _bp_activity_blocks_editor_load_screen() {
 			'wp-element',
 			'wp-format-library',
 			'wp-components',
+			'bp-block-components',
 			'wp-compose',
 			'wp-blocks',
 			'wp-block-library',
@@ -105,6 +106,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 		'bp_activity_blocks_editor_preload_paths',
 		array(
 			'/buddypress/v1/members/me?context=edit',
+			'/buddypress/v1/groups/me?context=edit',
 		)
 	);
 
