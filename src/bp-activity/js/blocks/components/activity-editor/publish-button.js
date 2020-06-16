@@ -19,8 +19,11 @@ class ActivityPublishButton extends Component {
 			user_id: user.id,
 			component: 'activity',
 			content: content,
-			date: date,
 		};
+
+		if ( !! date ) {
+			activity.date = date;
+		}
 
 		return onInsertActivity( activity );
 	}

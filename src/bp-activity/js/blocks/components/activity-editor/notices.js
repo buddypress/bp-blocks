@@ -2,22 +2,39 @@
  * WordPress dependencies
  */
 const { useSelect, useDispatch } = wp.data;
-const { SnackbarList } = wp.components;
+const { SnackbarList, NoticeList } = wp.components;
+
+/**
+ * External dependencies
+ */
+const { filter } = lodash;
 
 export default function Notices() {
-	const notices = useSelect(
-		( select ) =>
-			select( 'core/notices' )
-				.getNotices()
-				.filter( ( notice ) => notice.type === 'snackbar' ),
-		[]
-	);
+	const notices = useSelect( ( select ) => {
+		return select( 'core/notices' ).getNotices();
+	}, [] );
 	const { removeNotice } = useDispatch( 'core/notices' );
+	const dismissibleNotices = filter( notices, {
+		isDismissible: true,
+		type: 'default',
+	} );
+	const snackbarNotices = filter( notices, {
+		type: 'snackbar',
+	} );
+
 	return (
-		<SnackbarList
-			className="edit-site-notices"
-			notices={ notices }
-			onRemove={ removeNotice }
-		/>
+		<>
+			<NoticeList
+				notices={ dismissibleNotices }
+				className="activity-editor-dismissible-notices"
+				onRemove={ removeNotice }
+			/>
+
+			<SnackbarList
+				notices={ snackbarNotices }
+				className="activity-editor-snackbar-notices"
+				onRemove={ removeNotice }
+			/>
+		</>
 	);
 }

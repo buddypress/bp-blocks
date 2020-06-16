@@ -4,6 +4,11 @@
 const { apiFetch } = wp;
 const { registerStore } = wp.data;
 
+/**
+ * External dependencies
+ */
+const { assignIn, uniqueId } = lodash;
+
 const DEFAULT_STATE = {
 	user: {},
 	content: '',
@@ -23,10 +28,12 @@ function * insertActivity( activity ) {
 		created = yield actions.createFromAPI( '/buddypress/v1/activity', activity );
 
 	} catch ( error ) {
-		created = {
+		created = assignIn( {
 			id: uniqueId(),
 			error: error.message,
-		};
+		}, activity );
+
+		yield { type: 'ADD_ERROR', created };
 	}
 
 	inserting = false;
@@ -112,6 +119,12 @@ const store = registerStore( 'bp/activity', {
 					content: '',
 					date: '',
 					blocks: [],
+				};
+
+			case 'ADD_ERROR':
+				return {
+					...state,
+					created: { ...action.created, blocks: state.blocks },
 				};
 
 			case 'UPDATE_CONTENT':
