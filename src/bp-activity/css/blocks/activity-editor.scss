@@ -33,3 +33,7 @@ body.activity_page_bp-activity-new {
 .components-modal__frame {
 	@include reset;
 }
+
+body.activity_page_bp-activity-new .bp-activity-block-editor {
+	min-height: calc(100vh - 32px);
+}

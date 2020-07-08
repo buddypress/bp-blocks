@@ -2,16 +2,16 @@
  * WordPress dependencies
  */
 const domReady = wp.domReady;
-const { render, createElement } = wp.element;
+const { render } = wp.element;
 const { Popover, SlotFillProvider, DropZoneProvider } = wp.components;
-const { __experimentalEditorSkeleton } = wp.blockEditor;
 const { useSelect } = wp.data;
 
 /**
  * Internal dependencies
  */
 import './store';
-import Notices from './components/activity-editor/notices'
+import EditorSkeleton from './components/activity-editor/skeleton';
+import Notices from './components/activity-editor/notices';
 import Header from './components/activity-editor/header';
 import Sidebar from './components/activity-editor/sidebar';
 import BlockEditor from './components/activity-editor/editor';
@@ -23,7 +23,6 @@ import registerActivityBlocks from './components/block-types';
 import '../../css/blocks/activity-editor.scss';
 
 function Editor( { settings } ) {
-	const EditorSkeleton = __experimentalEditorSkeleton;
 	const isSidebarVisible = useSelect( ( select ) => {
 		return select( 'bp/activity' ).isSidebarVisible();
 	}, [] );

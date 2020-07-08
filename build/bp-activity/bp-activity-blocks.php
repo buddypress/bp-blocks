@@ -25,6 +25,8 @@ function _bp_activity_blocks_get_editor_settings() {
 		'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
 		'isRTL'                  => is_rtl(),
 		'codeEditingEnabled'     => false,
+		'__experimentalBlockPatterns'          => array(),
+		'__experimentalBlockPatternCategories' => array(),
 	);
 
 	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
