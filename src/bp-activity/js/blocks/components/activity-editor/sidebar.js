@@ -22,18 +22,34 @@ const { useState } = wp.element;
  */
 const { AutoCompleter } = bp.blockComponents;
 
+const GROUP_STATI = {
+	public: __( 'Public', 'buddypress' ),
+	private: __( 'Private', 'buddypress' ),
+	hidden: __( 'Hidden', 'buddypress' ),
+};
+
+const getSlugValue = ( item ) => {
+	if ( item && item.status && GROUP_STATI[ item.status ] ) {
+		return GROUP_STATI[ item.status ];
+	}
+
+	return null;
+}
+
 function Sidebar() {
 	const [ isOpen, onToggle ] = useState( false );
 	const [ component, onSelect ] = useState( 'activity' );
-	const activityDate = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getActivityDate();
+	const { activityDate, userGroups, group, user } = useSelect( ( select ) => {
+		const store = select( 'bp/activity' );
+
+		return {
+			activityDate: store.getActivityDate(),
+			userGroups: store.getUserGroups(),
+			group: store.getActivityGroup(),
+			user: store.getCurrentUser(),
+		}
 	}, [] );
-	const userGroups = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getUserGroups();
-	}, [] );
-	const group = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getActivityGroup();
-	}, [] );
+
 	const { setActivityDate, setActivityGroup, resetActivityGroup } = useDispatch( 'bp/activity' );
 
 	const currentDate = ! activityDate ? new Date() : activityDate;
@@ -113,6 +129,8 @@ function Sidebar() {
 							<PanelRow className="activity-editor-sidebar-main-panel-postingroups-autocomplete">
 								<AutoCompleter
 									component="groups"
+									objectQueryArgs={ { 'show_hidden': true, 'user_id': user.id } }
+									slugValue={ getSlugValue }
 									ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
 									placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
 									onSelectItem={ ( { itemID } ) => setActivityGroup( itemID ) }

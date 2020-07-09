@@ -21,10 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function _bp_activity_blocks_get_editor_settings() {
 	$settings = array(
-		'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
-		'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
-		'isRTL'                  => is_rtl(),
-		'codeEditingEnabled'     => false,
+		'disableCustomColors'                  => get_theme_support( 'disable-custom-colors' ),
+		'disableCustomFontSizes'               => get_theme_support( 'disable-custom-font-sizes' ),
+		'isRTL'                                => is_rtl(),
+		'codeEditingEnabled'                   => false,
 		'__experimentalBlockPatterns'          => array(),
 		'__experimentalBlockPatternCategories' => array(),
 	);
@@ -191,7 +191,7 @@ function _bp_activity_blocks_add_editor_submenu() {
 
 	add_action( 'load-' . $screen, '_bp_activity_blocks_editor_load_screen' );
 }
-add_action( 'admin_menu', '_bp_activity_blocks_add_editor_submenu' );
+add_action( bp_core_admin_hook(), '_bp_activity_blocks_add_editor_submenu' );
 
 /**
  * Determine whether an activity or its content string has blocks.
