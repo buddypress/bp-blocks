@@ -184,7 +184,7 @@ function _bp_activity_blocks_add_editor_submenu() {
 		'bp-activity',
 		__( 'Activity Block Editor', 'bp-blocks' ),
 		__( 'Add new', 'bp-blocks' ),
-		'bp_moderate',
+		'exist',
 		'bp-activity-new',
 		'_bp_activity_blocks_editor_screen'
 	);
@@ -267,3 +267,104 @@ function bp_activity_do_blocks( $content ) {
 
 	return $output;
 }
+
+/**
+ * Returns the link to the Activity Block Editor.
+ *
+ * @since 6.1.0
+ *
+ * @param array $args A list of query arguments.
+ * @return string The link to the Activity Block Editor.
+ */
+function bp_activity_get_block_editor_link( $args = array() ) {
+	$query_args = wp_parse_args(
+		$args,
+		array(
+			'page'      => 'bp-activity-new',
+			'TB_iframe' => false,
+			'width'     => 600,
+			'height'    => 550,
+			'url'       => '',
+		)
+	);
+
+	if ( true !== $query_args['TB_iframe'] ) {
+		$query_args = array(
+			'page' => 'bp-activity-new',
+		);
+	}
+
+	return esc_url( add_query_arg( $query_args, bp_get_admin_url( 'admin.php' ) ) );
+}
+
+/**
+ * Callback function to render the block to share post/page via Activity stream.
+ *
+ * @since 6.1.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_activity_render_share_activity_block( $attributes = array() ) {
+	$block_args = wp_parse_args(
+		$attributes,
+		array(
+			'text'            => '',
+			'borderRadius'    => 0,
+			'style'           => '',
+			'backgroundColor' => '',
+			'textColor'       => '',
+			'gradient'        => '',
+		)
+	);
+
+	if ( ! $block_args['text'] ) {
+		return;
+	}
+
+	return $block_args['text'];
+}
+
+/**
+ * Register Activity Blocks.
+ *
+ * @since 6.1.0
+ */
+function bp_blocks_register_activity_blocks() {
+	bp_register_block(
+		array(
+			'name'               => 'bp/share-activity',
+			'editor_script'      => 'bp-share-activity-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/share-activity.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-i18n',
+				'wp-block-editor',
+			),
+			'attributes'         => array(
+				'text'            => array(
+					'type'    => 'string',
+					'default' => __( 'Share into my Activities', 'buddypress' ),
+				),
+				'borderRadius'    => array(
+					'type' => 'number',
+				),
+				'style'           => array(
+					'type' => 'object',
+				),
+				'backgroundColor' => array(
+					'type' => 'string',
+				),
+				'textColor'       => array(
+					'type' => 'string',
+				),
+				'gradient'        => array(
+					'type' => 'string',
+				),
+			),
+			'render_callback'    => 'bp_activity_render_share_activity_block',
+		)
+	);
+}
+add_action( 'bp_activity_blocks_init', 'bp_blocks_register_activity_blocks' );
