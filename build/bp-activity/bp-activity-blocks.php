@@ -342,10 +342,10 @@ function bp_activity_get_block_editor_link( $args = array() ) {
 		$args,
 		array(
 			'page'      => 'bp-activity-new',
-			'url'       => '',
 			'TB_iframe' => false,
-			'width'     => 760,
+			'width'     => 600,
 			'height'    => 550,
+			'url'       => '',
 		)
 	);
 
@@ -370,12 +370,12 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
-			'text'                => '',
-			'borderRadius'        => '',
-			'style'               => '',
-			'backgroundColor'     => '',
-			'textColor'           => '',
-			'wpLoginLinkFallback' => true,
+			'text'            => '',
+			'borderRadius'    => 0,
+			'style'           => '',
+			'backgroundColor' => '',
+			'textColor'       => '',
+			'gradient'        => '',
 		)
 	);
 
@@ -383,110 +383,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 		return;
 	}
 
-	$classes       = array( 'wp-block-button__link' );
-	$styles        = $block_args['style'];
-	$button_styles = array();
-	$button_style  = '';
-	$link          = get_permalink();
-
-	if ( ! is_user_logged_in() ) {
-		if ( ! $block_args['wpLoginLinkFallback'] ) {
-			return;
-		} else {
-			$link = wp_login_url( $link );
-		}
-	} else {
-		// Use the BP Activity modal.
-		wp_enqueue_script( 'bp-activity-modal' );
-		wp_enqueue_style( 'bp-activity-modal' );
-
-		$classes[] = 'thickbox';
-
-		$link = bp_activity_get_block_editor_link(
-			array(
-				'url'       => rawurlencode( $link ),
-				'TB_iframe' => true,
-			)
-		);
-	}
-
-	if ( isset( $block_args['className'] ) && $block_args['className'] ) {
-		$classes[] = $block_args['className'];
-	}
-
-	if ( $block_args['textColor'] ) {
-		$classes = array_merge(
-			$classes,
-			array(
-				sprintf( 'has-%s-color', $block_args['textColor'] ),
-				'has-text-color',
-			)
-		);
-
-		unset( $styles['color']['text'] );
-	}
-
-	if ( $block_args['backgroundColor'] ) {
-		$classes = array_merge(
-			$classes,
-			array(
-				sprintf( 'has-%s-background-color', $block_args['backgroundColor'] ),
-				'has-background',
-			)
-		);
-
-		unset( $styles['color']['background'] );
-	}
-
-	if ( $block_args['borderRadius'] || 0 === $block_args['borderRadius'] ) {
-		$styles['border']['border-radius'] = (int) $block_args['borderRadius'] . 'px';
-	}
-
-	if ( array_filter( $styles ) ) {
-		foreach ( $styles as $style ) {
-			$key = key( $style );
-
-			if ( ! $key ) {
-				continue;
-			}
-
-			$button_styles[] = sprintf( '%1$s: %2$s;', $key, $style[ $key ] );
-		}
-
-		$button_style = sprintf( 'style="%s"', implode( ' ', $button_styles ) );
-	}
-
-	// Merge link and button styles with block attributes.
-	$args = array_merge(
-		array(
-			'link'         => $link,
-			'buttonStyles' => $button_styles,
-		),
-		$attributes
-	);
-
-	$output = sprintf(
-		'<div class="bp-block-activity-share wp-block-buttons">%1$s
-			<div class="wp-block-button">%1$s
-				<a href="%2$s" class="%3$s" rel="nofollow ugc"%4$s>%5$s</a>
-			</div>
-		</div>',
-		"\n",
-		esc_url( $link ),
-		implode( ' ', array_map( 'sanitize_html_class', $classes ) ),
-		$button_style,
-		esc_html( $block_args['text'] )
-	);
-
-	/**
-	 * Filter here to edit the block output.
-	 *
-	 * @since 6.1.0
-	 *
-	 * @param string $output The HTML output of the block.
-	 * @param array  $args The block extended arguments.
-	 */
-	return apply_filters( 'bp_activity_render_share_activity_block', $output, $args );
+	return $block_args['text'];
 }
 
 /**
@@ -505,30 +402,26 @@ function bp_blocks_register_activity_blocks() {
 				'wp-element',
 				'wp-i18n',
 				'wp-block-editor',
-				'wp-components',
-				'wp-data',
-				'lodash',
 			),
 			'attributes'         => array(
-				'text'                => array(
+				'text'            => array(
 					'type'    => 'string',
 					'default' => __( 'Share into my Activities', 'buddypress' ),
 				),
-				'borderRadius'        => array(
+				'borderRadius'    => array(
 					'type' => 'number',
 				),
-				'style'               => array(
+				'style'           => array(
 					'type' => 'object',
 				),
-				'backgroundColor'     => array(
+				'backgroundColor' => array(
 					'type' => 'string',
 				),
-				'textColor'           => array(
+				'textColor'       => array(
 					'type' => 'string',
 				),
-				'wpLoginLinkFallback' => array(
-					'type'    => 'boolean',
-					'default' => true,
+				'gradient'        => array(
+					'type' => 'string',
 				),
 			),
 			'render_callback'    => 'bp_activity_render_share_activity_block',
