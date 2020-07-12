@@ -402,6 +402,9 @@ function bp_blocks_register_activity_blocks() {
 				'wp-element',
 				'wp-i18n',
 				'wp-block-editor',
+				'wp-components',
+				'wp-data',
+				'lodash',
 			),
 			'attributes'         => array(
 				'text'            => array(
