@@ -96,9 +96,11 @@ registerBlockType( 'bp/share-activity', {
 		let styleColors = {
 			text: '',
 			background: '',
+			gradient: '',
 		};
+		let gradientValue;
 
-		if ( style && style.color  ) {
+		if ( style ) {
 			if ( style.color.text ) {
 				styleColors.text = style.color.text;
 				styleProps.color = style.color.text;
@@ -108,14 +110,37 @@ registerBlockType( 'bp/share-activity', {
 				styleColors.background = style.color.background;
 				styleProps.backgroundColor = style.color.background;
 			}
+
+			if ( style.color.gradient ) {
+				styleColors.gradient = style.color.gradient;
+				styleProps.background = style.color.gradient;
+			}
 		}
 
-		if ( !! backgroundClass ) {
-			className += ' has-background ' + backgroundClass;
+		if ( !! backgroundClass || !! gradientClass || styleColors.background || styleColors.gradient ) {
+			className += ' has-background';
+
+			if ( !! backgroundClass ) {
+				className += ' ' + backgroundClass;
+			}
+
+			if ( !! gradientClass ) {
+				className += ' ' + gradientClass;
+			}
 		}
 
-		if ( !! textClass ) {
-			className += ' has-text-color ' + textClass;
+		if ( !! textClass || styleColors.text ) {
+			className += ' has-text-color';
+
+			if ( !! textClass ) {
+				className += ' ' + textClass;
+			}
+		}
+
+		if ( gradient && !! getGradientValueBySlug ) {
+			gradientValue = getGradientValueBySlug( gradients, gradient );
+		} else {
+			gradientValue = styleColors.gradient;
 		}
 
 		const onChangeColor = ( name ) => ( value ) => {
@@ -135,6 +160,38 @@ registerBlockType( 'bp/share-activity', {
 				style: cleanEmptyObject( newStyle ),
 				[ attributeName ]: newNamedColor,
 			};
+
+			setAttributes( newAttributes );
+		};
+
+		const onChangeGradient = ( value ) => {
+			const slug = getGradientSlugByValue( gradients, value );
+			let newAttributes;
+			if ( slug ) {
+				const newStyle = {
+					...style,
+					color: {
+						...styleColors,
+						gradient: undefined,
+					},
+				};
+				newAttributes = {
+					style: cleanEmptyObject( newStyle ),
+					gradient: slug,
+				};
+			} else {
+				const newStyle = {
+					...style,
+					color: {
+						...styleColors,
+						gradient: value,
+					},
+				};
+				newAttributes = {
+					style: cleanEmptyObject( newStyle ),
+					gradient: undefined,
+				};
+			}
 
 			setAttributes( newAttributes );
 		};
@@ -174,7 +231,7 @@ registerBlockType( 'bp/share-activity', {
 						settings={
 							[
 								{
-									label: __( 'Text Color' ),
+									label: __( 'Text Color', 'buddypress' ),
 									onColorChange: onChangeColor( 'text' ),
 									colorValue: getColorObjectByAttributeValues(
 										colors,
@@ -185,6 +242,46 @@ registerBlockType( 'bp/share-activity', {
 							]
 						}
 					/>
+					{ !! getGradientValueBySlug && (
+						<PanelColorGradientSettings
+							title={ __( 'Background Color', 'buddypress' ) }
+							initialOpen={ false }
+							settings={
+								[
+									{
+										label: __( 'Background Color', 'buddypress' ),
+										onColorChange: onChangeColor( 'background' ),
+										colorValue: getColorObjectByAttributeValues(
+											colors,
+											backgroundColor,
+											styleColors.background,
+										).color,
+										gradientValue,
+										onGradientChange: onChangeGradient,
+									},
+								]
+							}
+						/>
+					) }
+					{ ! getGradientValueBySlug && (
+						<PanelColorGradientSettings
+							title={ __( 'Background Color', 'buddypress' ) }
+							initialOpen={ false }
+							settings={
+								[
+									{
+										label: __( 'Background Color', 'buddypress' ),
+										onColorChange: onChangeColor( 'background' ),
+										colorValue: getColorObjectByAttributeValues(
+											colors,
+											backgroundColor,
+											styleColors.background,
+										).color,
+									},
+								]
+							}
+						/>
+					) }
 				</InspectorControls>
 			</Fragment>
 		);
