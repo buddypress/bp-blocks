@@ -8,13 +8,10 @@ const { PanelBody, RangeControl } = wp.components;
 const {
 	RichText,
 	getColorClassName,
-	__experimentalGetGradientClass,
 	InspectorControls,
 	getColorObjectByColorValue,
 	getColorObjectByAttributeValues,
-	getGradientValueBySlug,
-	getGradientSlugByValue,
-	__experimentalPanelColorGradientSettings,
+	PanelColorSettings,
 } = wp.blockEditor;
 const { useSelect } = wp.data;
 
@@ -67,27 +64,21 @@ registerBlockType( 'bp/share-activity', {
 		textColor: {
 			type: 'string',
 		},
-		gradient: {
-			type: 'string',
-		},
 	},
 
 	supports: {
 		multiple: false,
 		align: true,
-		lightBlockWrapper: true,
 	},
 
 	edit: function( { attributes, setAttributes } ) {
-		const { text, backgroundColor, textColor, gradient, borderRadius, style } = attributes;
-		const PanelColorGradientSettings = __experimentalPanelColorGradientSettings;
+		const { text, backgroundColor, textColor, borderRadius, style } = attributes;
 		const backgroundClass = getColorClassName(
 			'background-color',
 			backgroundColor
 		);
-		const gradientClass = __experimentalGetGradientClass( gradient );
 		const textClass = getColorClassName( 'color', textColor );
-		const { colors, gradients } = useSelect( ( select ) => {
+		const { colors } = useSelect( ( select ) => {
 			return select( 'core/block-editor' ).getSettings();
 		}, [] );
 
@@ -96,9 +87,7 @@ registerBlockType( 'bp/share-activity', {
 		let styleColors = {
 			text: '',
 			background: '',
-			gradient: '',
 		};
-		let gradientValue;
 
 		if ( style ) {
 			if ( style.color.text ) {
@@ -110,22 +99,13 @@ registerBlockType( 'bp/share-activity', {
 				styleColors.background = style.color.background;
 				styleProps.backgroundColor = style.color.background;
 			}
-
-			if ( style.color.gradient ) {
-				styleColors.gradient = style.color.gradient;
-				styleProps.background = style.color.gradient;
-			}
 		}
 
-		if ( !! backgroundClass || !! gradientClass || styleColors.background || styleColors.gradient ) {
+		if ( !! backgroundClass || styleColors.background ) {
 			className += ' has-background';
 
 			if ( !! backgroundClass ) {
 				className += ' ' + backgroundClass;
-			}
-
-			if ( !! gradientClass ) {
-				className += ' ' + gradientClass;
 			}
 		}
 
@@ -135,12 +115,6 @@ registerBlockType( 'bp/share-activity', {
 			if ( !! textClass ) {
 				className += ' ' + textClass;
 			}
-		}
-
-		if ( gradient && !! getGradientValueBySlug ) {
-			gradientValue = getGradientValueBySlug( gradients, gradient );
-		} else {
-			gradientValue = styleColors.gradient;
 		}
 
 		const onChangeColor = ( name ) => ( value ) => {
@@ -160,38 +134,6 @@ registerBlockType( 'bp/share-activity', {
 				style: cleanEmptyObject( newStyle ),
 				[ attributeName ]: newNamedColor,
 			};
-
-			setAttributes( newAttributes );
-		};
-
-		const onChangeGradient = ( value ) => {
-			const slug = getGradientSlugByValue( gradients, value );
-			let newAttributes;
-			if ( slug ) {
-				const newStyle = {
-					...style,
-					color: {
-						...styleColors,
-						gradient: undefined,
-					},
-				};
-				newAttributes = {
-					style: cleanEmptyObject( newStyle ),
-					gradient: slug,
-				};
-			} else {
-				const newStyle = {
-					...style,
-					color: {
-						...styleColors,
-						gradient: value,
-					},
-				};
-				newAttributes = {
-					style: cleanEmptyObject( newStyle ),
-					gradient: undefined,
-				};
-			}
 
 			setAttributes( newAttributes );
 		};
@@ -225,63 +167,32 @@ registerBlockType( 'bp/share-activity', {
 							onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
 						/>
 					</PanelBody>
-					<PanelColorGradientSettings
-						title={ __( 'Text Color', 'buddypress' ) }
+					<PanelColorSettings
+						title={ __( 'Color Settings', 'buddypress' ) }
 						initialOpen={ false }
-						settings={
+						colorSettings={
 							[
 								{
 									label: __( 'Text Color', 'buddypress' ),
-									onColorChange: onChangeColor( 'text' ),
-									colorValue: getColorObjectByAttributeValues(
+									onChange: onChangeColor( 'text' ),
+									value: getColorObjectByAttributeValues(
 										colors,
 										textColor,
 										styleColors.text,
 									).color,
 								},
+								{
+									label: __( 'Background Color', 'buddypress' ),
+									onChange: onChangeColor( 'background' ),
+									value: getColorObjectByAttributeValues(
+										colors,
+										backgroundColor,
+										styleColors.background,
+									).color,
+								},
 							]
 						}
 					/>
-					{ !! getGradientValueBySlug && (
-						<PanelColorGradientSettings
-							title={ __( 'Background Color', 'buddypress' ) }
-							initialOpen={ false }
-							settings={
-								[
-									{
-										label: __( 'Background Color', 'buddypress' ),
-										onColorChange: onChangeColor( 'background' ),
-										colorValue: getColorObjectByAttributeValues(
-											colors,
-											backgroundColor,
-											styleColors.background,
-										).color,
-										gradientValue,
-										onGradientChange: onChangeGradient,
-									},
-								]
-							}
-						/>
-					) }
-					{ ! getGradientValueBySlug && (
-						<PanelColorGradientSettings
-							title={ __( 'Background Color', 'buddypress' ) }
-							initialOpen={ false }
-							settings={
-								[
-									{
-										label: __( 'Background Color', 'buddypress' ),
-										onColorChange: onChangeColor( 'background' ),
-										colorValue: getColorObjectByAttributeValues(
-											colors,
-											backgroundColor,
-											styleColors.background,
-										).color,
-									},
-								]
-							}
-						/>
-					) }
 				</InspectorControls>
 			</Fragment>
 		);
