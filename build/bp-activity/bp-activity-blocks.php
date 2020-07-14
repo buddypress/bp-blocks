@@ -362,9 +362,6 @@ function bp_blocks_register_activity_blocks() {
 				'textColor'       => array(
 					'type' => 'string',
 				),
-				'gradient'        => array(
-					'type' => 'string',
-				),
 			),
 			'render_callback'    => 'bp_activity_render_share_activity_block',
 		)
