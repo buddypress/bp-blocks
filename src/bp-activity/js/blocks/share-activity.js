@@ -4,7 +4,7 @@
 const { registerBlockType } = wp.blocks;
 const { createElement, Fragment } = wp.element;
 const { __ } = wp.i18n;
-const { PanelBody, RangeControl } = wp.components;
+const { PanelBody, RangeControl, ToggleControl } = wp.components;
 const {
 	RichText,
 	getColorClassName,
@@ -16,7 +16,7 @@ const {
 const { useSelect } = wp.data;
 
 /**
- * External dependencies
+ * External dependencies.
  */
 const { identity, isEqual, isObject, pickBy, mapValues } = lodash;
 
@@ -64,6 +64,10 @@ registerBlockType( 'bp/share-activity', {
 		textColor: {
 			type: 'string',
 		},
+		wpLoginLinkFallback: {
+			type: 'boolean',
+			default: true,
+		},
 	},
 
 	supports: {
@@ -72,7 +76,7 @@ registerBlockType( 'bp/share-activity', {
 	},
 
 	edit: function( { attributes, setAttributes } ) {
-		const { text, backgroundColor, textColor, borderRadius, style } = attributes;
+		const { text, backgroundColor, textColor, borderRadius, style, wpLoginLinkFallback } = attributes;
 		const backgroundClass = getColorClassName(
 			'background-color',
 			backgroundColor
@@ -156,7 +160,21 @@ registerBlockType( 'bp/share-activity', {
 					/>
 				</div>
 				<InspectorControls>
-					<PanelBody title={ __( 'Border settings', 'buddypress' ) }>
+					<PanelBody title={ __( 'Unconnected users Settings', 'buddypress' ) } initialOpen={ true }>
+						<ToggleControl
+							label={ __( 'Fallback to the WordPress login link', 'buddypress' ) }
+							checked={ !! wpLoginLinkFallback }
+							onChange={ () => {
+								setAttributes( { wpLoginLinkFallback: ! wpLoginLinkFallback } );
+							} }
+							help={
+								wpLoginLinkFallback
+									? __( 'Toggle to hide the button to unconnected users.', 'buddypress' )
+									: __( 'Toggle to use the WordPress login link for unconnected users.', 'buddypress' )
+							}
+						/>
+					</PanelBody>
+					<PanelBody title={ __( 'Border settings', 'buddypress' ) } initialOpen={ false }>
 						<RangeControl
 							value={ borderRadius }
 							label={ __( 'Border radius', 'buddypress' ) }
