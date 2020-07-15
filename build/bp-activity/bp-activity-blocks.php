@@ -346,21 +346,25 @@ function bp_blocks_register_activity_blocks() {
 				'lodash',
 			),
 			'attributes'         => array(
-				'text'            => array(
+				'text'                => array(
 					'type'    => 'string',
 					'default' => __( 'Share into my Activities', 'buddypress' ),
 				),
-				'borderRadius'    => array(
+				'borderRadius'        => array(
 					'type' => 'number',
 				),
-				'style'           => array(
+				'style'               => array(
 					'type' => 'object',
 				),
-				'backgroundColor' => array(
+				'backgroundColor'     => array(
 					'type' => 'string',
 				),
-				'textColor'       => array(
+				'textColor'           => array(
 					'type' => 'string',
+				),
+				'wpLoginLinkFallback' => array(
+					'type'    => 'boolean',
+					'default' => true,
 				),
 			),
 			'render_callback'    => 'bp_activity_render_share_activity_block',
