@@ -48,7 +48,7 @@ function _bp_activity_blocks_get_editor_settings() {
  * @since 6.1.0
  */
 function _bp_activity_blocks_editor_load_screen() {
-	if ( isset( $_GET['url'] ) ) {
+	if ( isset( $_GET['url'] ) ) { // phpcs:ignore
 		define( 'IFRAME_REQUEST', true );
 	}
 
@@ -133,7 +133,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 	wp_enqueue_script( 'bp-activity-block-editor' );
 
 	$settings = _bp_activity_blocks_get_editor_settings();
-	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) {
+	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) { // phpcs:ignore
 		$settings['templateLock'] = 'all';
 		$settings['template']     = array(
 			array(
@@ -145,11 +145,17 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 			array(
 				'core-embed/wordpress',
 				array(
-					'url' => $_GET['url']
+					'url' => $_GET['url'], // phpcs:ignore
 				),
 			),
 		);
 	}
+
+	/**
+	 * Add a setting to inform whether the Activity Block Editor
+	 * is used form the Activity Admin screen or not.
+	 */
+	$settings['isActivityAdminScreen'] = ! defined( 'IFRAME_REQUEST' ) && is_admin();
 
 	wp_add_inline_script(
 		'bp-activity-block-editor',
@@ -369,6 +375,38 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 		// Use the Thickbox modal.
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_style( 'thickbox' );
+
+		/*
+		 * @todo
+		 *
+		 * This should be in a specific JS file so that Modern JavaScript
+		 * is made compatible with older browsers using Parcel Bundler.
+		 */
+		wp_add_inline_script(
+			'thickbox',
+			'(function() {
+				let buttonClicked;
+
+				const getActivityBlockEditorMessage = ( event ) => {
+					const message = JSON.parse( event.data );
+					buttonClicked.innerHTML = message.feedback;
+					buttonClicked.setAttribute( \'href\', message.link );
+					buttonClicked.classList.remove( \'thickbox\' );
+
+					if ( \'function\' === typeof window.tb_remove ) {
+						window.tb_remove();
+					}
+				}
+				window.addEventListener( \'message\', getActivityBlockEditorMessage, false );
+
+				document.querySelectorAll( \'.bp-block-activity-share a.thickbox\' ).forEach( ( a ) => {
+					a.addEventListener( \'click\', () => {
+						buttonClicked = a;
+					} );
+				} );
+			}() );'
+		);
+
 		$classes[] = 'thickbox';
 
 		$link = bp_activity_get_block_editor_link(

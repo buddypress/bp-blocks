@@ -60,14 +60,19 @@ function BlockEditor( { settings: _settings } ) {
 
 	if ( actictivityCreated ) {
 		if ( actictivityCreated.link ) {
-			createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
-				type: 'snackbar',
-				isDismissible: true,
-				actions: [ {
-					label: __( 'View activity', 'buddypress' ),
-					url: actictivityCreated.link,
-				} ],
-			} );
+			if ( settings.isActivityAdminScreen && true === settings.isActivityAdminScreen ) {
+				createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
+					type: 'snackbar',
+					isDismissible: true,
+					actions: [ {
+						label: __( 'View activity', 'buddypress' ),
+						url: actictivityCreated.link,
+					} ],
+				} );
+			} else {
+				actictivityCreated.feedback = __( 'View shared activity', 'buddypress' );
+				window.parent.postMessage( JSON.stringify( actictivityCreated ), window.parent.location.href );
+			}
 		}
 
 		if ( actictivityCreated.error ) {
