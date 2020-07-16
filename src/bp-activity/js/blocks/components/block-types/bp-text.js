@@ -20,7 +20,7 @@ const getRange = () => {
 }
 
 const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes } ) => {
-	const { content } = attributes;
+	const { content, placeholder } = attributes;
 	const name = 'bp/text';
 	const { removeBlock } = useDispatch( 'core/block-editor' );
 	const onRemove = () => removeBlock( clientId );
@@ -118,7 +118,7 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 						? __( 'Text block', 'buddypress' )
 						: __( 'Empty block; start writing or type forward slash to choose a block', 'buddypress' )
 				}
-				placeholder={ __( 'Start writing or type / to choose a block', 'buddypress' ) }
+				placeholder={ placeholder }
 			/>
 		</>
 	);
@@ -140,6 +140,10 @@ registerBlockType( 'bp/text', {
 			selector: 'p',
 			default: '',
 		},
+		placeholder: {
+			type: 'string',
+			default: __( 'Start writing or type / to choose a block', 'buddypress' ),
+		}
 	},
 
 	edit: editText,

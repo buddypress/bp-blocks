@@ -48,6 +48,10 @@ function _bp_activity_blocks_get_editor_settings() {
  * @since 6.1.0
  */
 function _bp_activity_blocks_editor_load_screen() {
+	if ( isset( $_GET['url'] ) ) {
+		define( 'IFRAME_REQUEST', true );
+	}
+
 	wp_register_script(
 		'bp-activity-block-editor',
 		plugins_url( 'js/blocks/block-editor.js', __FILE__ ),
@@ -127,9 +131,29 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 	);
 
 	wp_enqueue_script( 'bp-activity-block-editor' );
+
+	$settings = _bp_activity_blocks_get_editor_settings();
+	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) {
+		$settings['templateLock'] = 'all';
+		$settings['template']     = array(
+			array(
+				'bp/text',
+				array(
+					'placeholder' => __( 'Add an optional complementary text...', 'buddypress' ),
+				),
+			),
+			array(
+				'core-embed/wordpress',
+				array(
+					'url' => $_GET['url']
+				),
+			),
+		);
+	}
+
 	wp_add_inline_script(
 		'bp-activity-block-editor',
-		'window.activityEditorSettings = ' . wp_json_encode( _bp_activity_blocks_get_editor_settings() ) . ';'
+		'window.activityEditorSettings = ' . wp_json_encode( $settings ) . ';'
 	);
 
 	// Preload server-registered block schemas.
@@ -143,7 +167,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 }
 
 /**
- * Makes sure if BuddyPress is translated that the needed admin body class is added.
+ * Adds specific needed admin body classes.
  *
  * @access private
  * @since 6.1.0
@@ -152,8 +176,15 @@ function _bp_activity_blocks_editor_enqueue_assets() {
  * @return string The Admin screen body classes.
  */
 function _bp_activity_blocks_editor_admin_body_class( $admin_body_class = '' ) {
-	if ( false === strpos( $admin_body_class, 'activity_page_bp-activity-new' ) ) {
+	global $hook_suffix;
+	$screen_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
+
+	if ( 'activity_page_bp-activity-new' !== $screen_class ) {
 		$admin_body_class .= ' activity_page_bp-activity-new';
+	}
+
+	if ( defined( 'IFRAME_REQUEST' ) ) {
+		$admin_body_class .= ' iframe';
 	}
 
 	return $admin_body_class;
@@ -281,10 +312,10 @@ function bp_activity_get_block_editor_link( $args = array() ) {
 		$args,
 		array(
 			'page'      => 'bp-activity-new',
+			'url'       => '',
 			'TB_iframe' => false,
 			'width'     => 600,
 			'height'    => 550,
-			'url'       => '',
 		)
 	);
 

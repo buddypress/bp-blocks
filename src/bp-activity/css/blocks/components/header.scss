@@ -24,6 +24,10 @@
 		top: $admin-bar-height;
 	}
 
+	.iframe & {
+		top: 0;
+	}
+
 	.activity-editor-header__user_header {
 		display: inline-flex;
 		align-items: center;

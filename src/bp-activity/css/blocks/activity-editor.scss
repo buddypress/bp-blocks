@@ -34,6 +34,10 @@ body.activity_page_bp-activity-new {
 	@include reset;
 }
 
-body.activity_page_bp-activity-new .bp-activity-block-editor {
+body.activity_page_bp-activity-new.iframe .bp-activity-block-editor {
+	min-height: 100vh;
+}
+
+body.activity_page_bp-activity-new:not(.iframe) .bp-activity-block-editor {
 	min-height: calc(100vh - 32px);
 }
