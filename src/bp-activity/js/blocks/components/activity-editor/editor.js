@@ -3,7 +3,7 @@
  */
 const { useSelect, useDispatch } = wp.data;
 const { useMemo } = wp.element;
-const { serialize } = wp.blocks;
+const { serialize, synchronizeBlocksWithTemplate } = wp.blocks;
 const { uploadMedia } = wp.mediaUtils;
 const {
 	BlockEditorKeyboardShortcuts,
@@ -46,6 +46,9 @@ function BlockEditor( { settings: _settings } ) {
 		};
 	}, [ canUserCreateMedia, _settings ] );
 
+	// Apply template if available.
+	const activityBlocks = settings.template ? synchronizeBlocksWithTemplate( blocks, settings.template ) : blocks;
+
 	const updateBlocks = ( newBlocks ) => {
 		updateContent( serialize( newBlocks ), newBlocks );
 	}
@@ -86,7 +89,7 @@ function BlockEditor( { settings: _settings } ) {
 	return (
 		<div className="activity-block-editor">
 			<BlockEditorProvider
-				value={ blocks }
+				value={ activityBlocks }
 				onChange={ updateBlocks }
 				settings={ settings }
 			>
