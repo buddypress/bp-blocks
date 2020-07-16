@@ -104,6 +104,19 @@ add_filter( 'bp_activity_action_before_save', 'bp_blocks_activity_kses', 1 );
 add_filter( 'bp_activity_latest_update_content', 'bp_blocks_activity_kses', 1 );
 
 /**
+ * Allow usage of the paragraph tag into Activities content.
+ *
+ * @since 6.1.0
+ *
+ * @param array $tags The activity allowed tags.
+ * @return array The activity allowed tags.
+ */
+function bp_blocks_activity_allowed_tags( $tags = array() ) {
+	return array_merge( $tags, array( 'p' => true ) );
+}
+add_filter( 'bp_activity_allowed_tags', 'bp_blocks_activity_allowed_tags' );
+
+/**
  * Filters the Acticity loop to only fetch past activities.
  *
  * NB: this still needs some work (eg: Acticity Scheduled User screen, activity action string
