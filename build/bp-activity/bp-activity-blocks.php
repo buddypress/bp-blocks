@@ -71,7 +71,7 @@ function _bp_activity_blocks_get_editor_settings() {
  * @since 6.1.0
  */
 function _bp_activity_blocks_editor_load_screen() {
-	if ( isset( $_GET['url'] ) ) { // phpcs:ignore
+	if ( isset( $_GET['url'] ) ) {
 		define( 'IFRAME_REQUEST', true );
 	}
 
@@ -156,8 +156,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 	wp_enqueue_script( 'bp-activity-block-editor' );
 
 	$settings = _bp_activity_blocks_get_editor_settings();
-	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) { // phpcs:ignore
-		wp_add_inline_style( 'common', '#adminmenumain { display: none; } #wpcontent { margin: 0; }' );
+	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) {
 		$settings['templateLock'] = 'all';
 		$settings['template']     = array(
 			array(
@@ -169,17 +168,11 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 			array(
 				'core-embed/wordpress',
 				array(
-					'url' => $_GET['url'], // phpcs:ignore
+					'url' => $_GET['url']
 				),
 			),
 		);
 	}
-
-	/**
-	 * Add a setting to inform whether the Activity Block Editor
-	 * is used form the Activity Admin screen or not.
-	 */
-	$settings['isActivityAdminScreen'] = ! defined( 'IFRAME_REQUEST' ) && is_admin();
 
 	wp_add_inline_script(
 		'bp-activity-block-editor',
@@ -342,10 +335,10 @@ function bp_activity_get_block_editor_link( $args = array() ) {
 		$args,
 		array(
 			'page'      => 'bp-activity-new',
+			'url'       => '',
 			'TB_iframe' => false,
 			'width'     => 600,
 			'height'    => 550,
-			'url'       => '',
 		)
 	);
 
