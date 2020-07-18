@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 6.1.0
  */
-function bp_activity_register_scripts_and_styles() {
+function bp_activity_register_scripts() {
 	wp_register_script(
 		'bp-activity-modal',
 		plugins_url( 'js/activity-modal.js', __FILE__ ),
@@ -24,15 +24,8 @@ function bp_activity_register_scripts_and_styles() {
 		filemtime( dirname( __FILE__ ) . '/js/activity-modal.js' ),
 		true
 	);
-
-	wp_register_style(
-		'bp-activity-modal',
-		plugins_url( 'css/activity-modal.css', __FILE__ ),
-		array( 'thickbox' ),
-		filemtime( dirname( __FILE__ ) . '/css/activity-modal.css' )
-	);
 }
-add_action( 'bp_init', 'bp_activity_register_scripts_and_styles' );
+add_action( 'bp_init', 'bp_activity_register_scripts' );
 
 /**
  * Sets the Activity block editor settings.
@@ -395,40 +388,9 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 			$link = wp_login_url( $link );
 		}
 	} else {
-		// Use the Thickbox modal.
-		wp_enqueue_script( 'thickbox' );
+		// Use the BP Activity modal.
+		wp_enqueue_script( 'bp-activity-modal' );
 		wp_enqueue_style( 'thickbox' );
-
-		/*
-		 * @todo
-		 *
-		 * This should be in a specific JS file so that Modern JavaScript
-		 * is made compatible with older browsers using Parcel Bundler.
-		 */
-		wp_add_inline_script(
-			'thickbox',
-			'(function() {
-				let buttonClicked;
-
-				const getActivityBlockEditorMessage = ( event ) => {
-					const message = JSON.parse( event.data );
-					buttonClicked.innerHTML = message.feedback;
-					buttonClicked.setAttribute( \'href\', message.link );
-					buttonClicked.classList.remove( \'thickbox\' );
-
-					if ( \'function\' === typeof window.tb_remove ) {
-						window.tb_remove();
-					}
-				}
-				window.addEventListener( \'message\', getActivityBlockEditorMessage, false );
-
-				document.querySelectorAll( \'.bp-block-activity-share a.thickbox\' ).forEach( ( a ) => {
-					a.addEventListener( \'click\', () => {
-						buttonClicked = a;
-					} );
-				} );
-			}() );'
-		);
 
 		$classes[] = 'thickbox';
 
