@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 6.1.0
  */
-function bp_activity_register_scripts() {
+function bp_activity_register_scripts_and_styles() {
 	wp_register_script(
 		'bp-activity-modal',
 		plugins_url( 'js/activity-modal.js', __FILE__ ),
@@ -24,8 +24,15 @@ function bp_activity_register_scripts() {
 		filemtime( dirname( __FILE__ ) . '/js/activity-modal.js' ),
 		true
 	);
+
+	wp_register_style(
+		'bp-activity-modal',
+		plugins_url( 'css/activity-modal.css', __FILE__ ),
+		array( 'thickbox' ),
+		filemtime( dirname( __FILE__ ) . '/css/activity-modal.css' )
+	);
 }
-add_action( 'bp_init', 'bp_activity_register_scripts' );
+add_action( 'bp_init', 'bp_activity_register_scripts_and_styles' );
 
 /**
  * Sets the Activity block editor settings.
@@ -150,6 +157,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 
 	$settings = _bp_activity_blocks_get_editor_settings();
 	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) { // phpcs:ignore
+		wp_add_inline_style( 'common', '#adminmenumain { display: none; } #wpcontent { margin: 0; }' );
 		$settings['templateLock'] = 'all';
 		$settings['template']     = array(
 			array(
@@ -336,7 +344,7 @@ function bp_activity_get_block_editor_link( $args = array() ) {
 			'page'      => 'bp-activity-new',
 			'url'       => '',
 			'TB_iframe' => false,
-			'width'     => 600,
+			'width'     => 760,
 			'height'    => 550,
 		)
 	);
@@ -390,7 +398,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 	} else {
 		// Use the BP Activity modal.
 		wp_enqueue_script( 'bp-activity-modal' );
-		wp_enqueue_style( 'thickbox' );
+		wp_enqueue_style( 'bp-activity-modal' );
 
 		$classes[] = 'thickbox';
 
