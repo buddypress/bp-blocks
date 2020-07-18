@@ -24,8 +24,10 @@
 		top: $admin-bar-height;
 	}
 
-	.iframe & {
+	.iframe &,
+	.iframe.auto-fold & {
 		top: 0;
+		left: 0;
 	}
 
 	.activity-editor-header__user_header {
