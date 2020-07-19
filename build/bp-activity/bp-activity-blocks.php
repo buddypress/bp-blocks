@@ -157,7 +157,15 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 
 	$settings = _bp_activity_blocks_get_editor_settings();
 	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) { // phpcs:ignore
-		wp_add_inline_style( 'common', '#adminmenumain { display: none; } #wpcontent { margin: 0; }' );
+		wp_add_inline_style(
+			'common',
+			'html { overflow: hidden }
+			#adminmenumain { display: none; }
+			#wpcontent  { margin: 0; }
+			@media only screen and (max-width: 960px) {
+				.auto-fold #wpcontent { margin-left: 0 !important; }
+			}'
+		);
 		$settings['templateLock'] = 'all';
 		$settings['template']     = array(
 			array(

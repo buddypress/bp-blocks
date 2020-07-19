@@ -15,12 +15,23 @@
 	position: absolute;
 	top: $header-height;
 	width: 100%;
+
+	.iframe & {
+		height: calc(100% - 10px);
+		top: 28px;
+	}
 }
 
-.block-editor-editor-skeleton.sidebar-visible .editor-styles-wrapper {
+.block-editor-editor-skeleton {
+	&.sidebar-visible .editor-styles-wrapper {
 
-	@include break-small {
-		width: calc(100% - #{$sidebar-width});
+		@include break-small {
+			width: calc(100% - #{$sidebar-width});
+		}
+	}
+
+	.auto-fold.iframe & {
+		left: 0;
 	}
 }
 
