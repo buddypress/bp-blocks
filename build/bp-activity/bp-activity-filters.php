@@ -104,7 +104,7 @@ add_filter( 'bp_activity_action_before_save', 'bp_blocks_activity_kses', 1 );
 add_filter( 'bp_activity_latest_update_content', 'bp_blocks_activity_kses', 1 );
 
 /**
- * Allow usage of the paragraph tag into Activities content.
+ * Allow usage of the paragraph tag and the link’s target attribute into Activities content.
  *
  * @since 6.1.0
  *
@@ -112,6 +112,10 @@ add_filter( 'bp_activity_latest_update_content', 'bp_blocks_activity_kses', 1 );
  * @return array The activity allowed tags.
  */
 function bp_blocks_activity_allowed_tags( $tags = array() ) {
+	if ( isset( $tags['a'] ) && ! isset( $tags['a']['target'] ) ) {
+		$tags['a']['target'] = true;
+	}
+
 	return array_merge( $tags, array( 'p' => true ) );
 }
 add_filter( 'bp_activity_allowed_tags', 'bp_blocks_activity_allowed_tags' );
@@ -192,3 +196,36 @@ function bp_blocks_activity_rest_pre_insert_value( $prepared_activity, $request 
 	return $prepared_activity;
 }
 add_filter( 'bp_rest_activity_pre_insert_value', 'bp_blocks_activity_rest_pre_insert_value', 10, 2 );
+
+// Activity links moderation shouldn't take WP Emoji links in account.
+remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
+
+/**
+ * Moderate the posted activity item, if it contains moderate keywords.
+ *
+ * @since 1.6.0
+ * @since 7.0.0 Make sure to WP Emoji links are not taken in account into the max links count.
+ *
+ * @param BP_Activity_Activity $activity The activity object to check.
+ */
+function _bp_activity_check_moderation_keys( $activity ) {
+
+	// Only check specific types of activity updates.
+	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types(), true ) ) {
+		return;
+	}
+
+	// Remove WP Emojis from the content to moderate.
+	$content_to_moderate = preg_replace( '/src=\"(https|http):\/\/s.w.org\/images\/core\/emoji.*?\"/', '', $activity->content );
+
+	// Send back the error so activity update fails.
+	// @todo This is temporary until some kind of moderation is built.
+	$moderate = bp_core_check_for_moderation( $activity->user_id, '', $content_to_moderate, 'wp_error' );
+	if ( is_wp_error( $moderate ) ) {
+		$activity->errors = $moderate;
+
+		// Backpat.
+		$activity->component = false;
+	}
+}
+add_action( 'bp_activity_before_save', '_bp_activity_check_moderation_keys', 2, 1 );
