@@ -204,7 +204,7 @@ remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2
  * Moderate the posted activity item, if it contains moderate keywords.
  *
  * @since 1.6.0
- * @since 7.0.0 Make sure to WP Emoji links are not taken in account into the max links count.
+ * @since 7.0.0 Make sure WP Emoji links are not taken in account into the max links count.
  *
  * @param BP_Activity_Activity $activity The activity object to check.
  */
