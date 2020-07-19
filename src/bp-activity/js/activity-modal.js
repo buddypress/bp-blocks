@@ -1,10 +1,13 @@
 let buttonClicked;
 
 const getActivityBlockEditorMessage = ( event ) => {
-	const message = JSON.parse( event.data );
-	buttonClicked.innerHTML = message.feedback;
-	buttonClicked.setAttribute( 'href', message.link );
-	buttonClicked.classList.remove( 'thickbox' );
+	const feedback = event.data && event.data.message ? event.data : null;
+
+	if ( feedback ) {
+		buttonClicked.innerHTML = feedback.message;
+		buttonClicked.setAttribute( 'href', feedback.link );
+		buttonClicked.classList.remove( 'thickbox' );
+	}
 
 	if ( 'function' === typeof window.tb_remove ) {
 		window.tb_remove();
