@@ -70,8 +70,8 @@ function BlockEditor( { settings: _settings } ) {
 					} ],
 				} );
 			} else {
-				actictivityCreated.feedback = __( 'View shared activity', 'buddypress' );
-				window.parent.postMessage( JSON.stringify( actictivityCreated ), window.parent.location.href );
+				actictivityCreated.message = __( 'View shared activity', 'buddypress' );
+				window.parent.postMessage( actictivityCreated, window.parent.location.href );
 			}
 		}
 
