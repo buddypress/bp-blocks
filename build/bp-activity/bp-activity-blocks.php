@@ -475,7 +475,15 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 		esc_url( $link ),
 		implode( ' ', array_map( 'sanitize_html_class', $classes ) ),
 		$button_style,
-		esc_html( $block_args['text'] )
+		wp_kses(
+			$block_args['text'],
+			array(
+				'strong' => true,
+				'b'      => true,
+				'em'     => true,
+				'i'      => true,
+			)
+		)
 	);
 
 	/**
