@@ -80,30 +80,28 @@ function Sidebar() {
 							position="bottom left"
 							contentClassName="activity-editor-sidebar-main-panel-schedule__dialog"
 							renderToggle={ ( { onToggle, isOpen } ) => (
-								<>
-									<Button
-										className="activity-editor-sidebar-main-panel-schedule__toggle"
-										onClick={ onToggle }
-										aria-expanded={ isOpen }
-										isLink
-									>
-										{ scheduleLabel }
-									</Button>
-
-									{ !! activityDate && (
-										<Button
-											className="activity-editor-sidebar-main-panel-schedule__cancel"
-											onClick={ () => setActivityDate( '' ) }
-											isLink
-										>
-											<Dashicon icon="dismiss" />
-											<span className="screen-reader-text">{ __( 'Cancel Schedule', 'buddypress' ) }</span>
-										</Button>
-									) }
-								</>
+								<Button
+									className="activity-editor-sidebar-main-panel-schedule__toggle"
+									onClick={ onToggle }
+									aria-expanded={ isOpen }
+									isLink
+								>
+									{ scheduleLabel }
+								</Button>
 							) }
 							renderContent={ () => <DateTimePicker currentDate={ currentDate } onChange={ ( date ) => setActivityDate( date ) } /> }
 						/>
+
+						{ !! activityDate && (
+							<Button
+								className="activity-editor-sidebar-main-panel-schedule__cancel"
+								onClick={ () => setActivityDate( '' ) }
+								isLink
+							>
+								<Dashicon icon="dismiss" />
+								<span className="screen-reader-text">{ __( 'Cancel Schedule', 'buddypress' ) }</span>
+							</Button>
+						) }
 					</PanelRow>
 
 					{ userGroups && 0 !== userGroups.length && ! group && (
