@@ -20,7 +20,7 @@ function BlockEditor( { settings: _settings } ) {
 		return select( 'bp/activity' ).getBlocks();
 	}, [] );
 	const { updateContent, resetJustPostedActivity } = useDispatch( 'bp/activity' );
-	const actictivityCreated = useSelect( ( select ) => {
+	const activityCreated = useSelect( ( select ) => {
 		return select( 'bp/activity' ).getJustPostedActivity();
 	}, [] );
 	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
@@ -58,35 +58,35 @@ function BlockEditor( { settings: _settings } ) {
 		removeNotice( 'activity-posted-error' );
 	}
 
-	if ( actictivityCreated ) {
-		if ( actictivityCreated.link ) {
+	if ( activityCreated ) {
+		if ( activityCreated.link ) {
 			if ( settings.isActivityAdminScreen && true === settings.isActivityAdminScreen ) {
 				createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
 					type: 'snackbar',
 					isDismissible: true,
 					actions: [ {
 						label: __( 'View activity', 'buddypress' ),
-						url: actictivityCreated.link,
+						url: activityCreated.link,
 					} ],
 				} );
 			} else {
-				actictivityCreated.message = __( 'View shared activity', 'buddypress' );
-				window.parent.postMessage( actictivityCreated, window.parent.location.href );
+				activityCreated.message = __( 'View shared activity', 'buddypress' );
+				window.parent.postMessage( activityCreated, window.parent.location.href );
 			}
 		}
 
-		if ( actictivityCreated.error ) {
-			createErrorNotice( actictivityCreated.error, {
+		if ( activityCreated.error ) {
+			createErrorNotice( activityCreated.error, {
 				id: 'activity-posted-error',
 				isDismissible: true,
 				actions: [ {
 					label: __( 'Restore Activity content', 'buddypress' ),
-					onClick: () => { resetActivity( actictivityCreated ) },
+					onClick: () => { resetActivity( activityCreated ) },
 				} ],
 			} );
 		}
 
-		if ( actictivityCreated.id ) {
+		if ( activityCreated.id ) {
 			resetJustPostedActivity();
 		}
 	}
