@@ -550,5 +550,42 @@ function bp_blocks_register_activity_blocks() {
 			'render_callback'    => 'bp_activity_render_share_activity_block',
 		)
 	);
+
+	bp_register_block(
+		array(
+			'name'               => 'bp/embed-activity',
+			'editor_script'      => 'bp-embed-activity-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-i18n',
+				'wp-components',
+				'wp-block-editor',
+				'wp-data',
+				'wp-compose',
+			),
+		)
+	);
 }
 add_action( 'bp_activity_blocks_init', 'bp_blocks_register_activity_blocks' );
+
+/**
+ * Add BP Activity blocks specific settings to the BP Blocks Editor ones.
+ *
+ * @since 6.1.0
+ *
+ * @param array $bp_editor_settings BP blocks editor settings.
+ * @return array BP Activity blocks editor settings.
+ */
+function bp_activity_editor_settings( $bp_editor_settings = array() ) {
+	return array_merge(
+		$bp_editor_settings,
+		array(
+			'activity' => array(
+				'embedScriptURL' => includes_url( 'js/wp-embed.min.js' ),
+			),
+		)
+	);
+}
+add_filter( 'bp_blocks_editor_settings', 'bp_activity_editor_settings' );
