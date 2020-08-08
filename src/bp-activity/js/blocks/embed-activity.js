@@ -17,7 +17,14 @@ const { compose } = wp.compose;
 const { withSelect } = wp.data;
 const { RichText, BlockControls } = wp.blockEditor;
 
-const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fetching } ) => {
+const EditEmbedActivity = ( {
+	attributes,
+	setAttributes,
+	isSelected,
+	bpSettings,
+	preview,
+	fetching
+} ) => {
 	const { url, caption } = attributes;
 	const { embedScriptURL } = bpSettings;
 	const label = __( 'BuddyPress Activity URL', 'buddypress' );
@@ -41,7 +48,7 @@ const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fe
 		setIsEditingURL( true );
 		setURL( '' );
 		setAttributes( { url: '' } );
-	}
+	};
 
 	if ( isEditingURL ) {
 		return (
@@ -99,12 +106,23 @@ const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fe
 					</Toolbar>
 				</BlockControls>
 			) }
-			<div className="wp-block-embed__wrapper">
-				<SandBox
-					html={ preview && preview.html ? preview.html : '' }
-					scripts={ [ embedScriptURL ] }
-				/>
-			</div>
+			<figure className="wp-block-embed is-type-bp-activity">
+				<div className="wp-block-embed__wrapper">
+					<SandBox
+						html={ preview && preview.html ? preview.html : '' }
+						scripts={ [ embedScriptURL ] }
+					/>
+				</div>
+				{ ( ! RichText.isEmpty( caption ) || isSelected ) && (
+					<RichText
+						tagName="figcaption"
+						placeholder={ __( 'Write caption…', 'buddypress' ) }
+						value={ caption }
+						onChange={ ( value ) => setAttributes( { caption: value } ) }
+						inlineToolbar
+					/>
+				) }
+			</figure>
 		</Fragment>
 	);
 }
