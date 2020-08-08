@@ -2,19 +2,27 @@
  * WordPress dependencies.
  */
 const { registerBlockType } = wp.blocks;
-const { createElement, useState, useEffect, Component } = wp.element;
+const { createElement, Fragment, useState, useEffect, Component } = wp.element;
 const { __ } = wp.i18n;
-const { Placeholder, SandBox, Button, ExternalLink, Spinner } = wp.components;
+const {
+	Placeholder,
+	SandBox,
+	Button,
+	ExternalLink,
+	Spinner,
+	Toolbar,
+	ToolbarButton
+} = wp.components;
 const { compose } = wp.compose;
 const { withSelect } = wp.data;
-const { RichText } = wp.blockEditor;
+const { RichText, BlockControls } = wp.blockEditor;
 
 const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fetching } ) => {
 	const { url, caption } = attributes;
 	const { embedScriptURL } = bpSettings;
 	const label = __( 'BuddyPress Activity URL', 'buddypress' );
 	const [ value, setURL ] = useState( url );
-	const [ isEditingURL, setIsEditingURL ] = useState( true );
+	const [ isEditingURL, setIsEditingURL ] = useState( ! url );
 
 	const onSubmit = ( event ) => {
 		if ( event ) {
@@ -24,6 +32,16 @@ const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fe
 		setIsEditingURL( false );
 		setAttributes( { url: value } );
 	};
+
+	const switchBackToURLInput = ( event ) => {
+		if ( event ) {
+			event.preventDefault();
+		}
+
+		setIsEditingURL( true );
+		setURL( '' );
+		setAttributes( { url: '' } );
+	}
 
 	if ( isEditingURL ) {
 		return (
@@ -69,12 +87,25 @@ const EditEmbedActivity = ( { attributes, setAttributes, bpSettings, preview, fe
 	}
 
 	return (
-		<div className="wp-block-embed__wrapper">
-			<SandBox
-				html={ preview && preview.html ? preview.html : '' }
-				scripts={ [ embedScriptURL ] }
-			/>
-		</div>
+		<Fragment>
+			{ ! isEditingURL && (
+				<BlockControls>
+					<Toolbar>
+						<ToolbarButton
+							icon="edit"
+							title={ __( 'Edit URL', 'buddypress' ) }
+							onClick={ switchBackToURLInput }
+						/>
+					</Toolbar>
+				</BlockControls>
+			) }
+			<div className="wp-block-embed__wrapper">
+				<SandBox
+					html={ preview && preview.html ? preview.html : '' }
+					scripts={ [ embedScriptURL ] }
+				/>
+			</div>
+		</Fragment>
 	);
 }
 
