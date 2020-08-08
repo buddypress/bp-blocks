@@ -50,6 +50,18 @@ const EditEmbedActivity = ( {
 		setAttributes( { url: '' } );
 	};
 
+	const editToolbar = (
+		<BlockControls>
+			<Toolbar>
+				<ToolbarButton
+					icon="edit"
+					title={ __( 'Edit URL', 'buddypress' ) }
+					onClick={ switchBackToURLInput }
+				/>
+			</Toolbar>
+		</BlockControls>
+	);
+
 	if ( isEditingURL ) {
 		return (
 			<Placeholder
@@ -90,22 +102,31 @@ const EditEmbedActivity = ( {
 				<Spinner />
 				<p>{ __( 'Embedding…', 'buddypress' ) }</p>
 			</div>
-		)
+		);
+	}
+
+	if ( ! preview || ! preview['x_buddypress'] || 'activity' !== preview['x_buddypress'] ) {
+		// Reset the URL.
+		setAttributes( { url: '' } );
+
+		return (
+			<Fragment>
+				{ editToolbar }
+				<Placeholder
+					icon="buddicons-activity"
+					label={ label }
+				>
+					<p className="components-placeholder__error">
+						{ __( 'The URL you provided is not a permalink to a BuddyPress Activity. Please use another URL.', 'buddypress' ) }
+					</p>
+				</Placeholder>
+			</Fragment>
+		);
 	}
 
 	return (
 		<Fragment>
-			{ ! isEditingURL && (
-				<BlockControls>
-					<Toolbar>
-						<ToolbarButton
-							icon="edit"
-							title={ __( 'Edit URL', 'buddypress' ) }
-							onClick={ switchBackToURLInput }
-						/>
-					</Toolbar>
-				</BlockControls>
-			) }
+			{ ! isEditingURL && editToolbar }
 			<figure className="wp-block-embed is-type-bp-activity">
 				<div className="wp-block-embed__wrapper">
 					<SandBox
@@ -134,18 +155,15 @@ const editEmbedActivityBlock = compose( [
 		const {
 			getEmbedPreview,
 			isRequestingEmbedPreview,
-			isPreviewEmbedFallback,
 		} = select( 'core' );
 
 		const preview = undefined !== url && getEmbedPreview( url );
-		const previewIsFallback = undefined !== url && isPreviewEmbedFallback( url );
 		const fetching = undefined !== url && isRequestingEmbedPreview( url );
 
 		return {
 			bpSettings: editorSettings.bp.activity || {},
 			preview: preview,
 			fetching: fetching,
-			fallback: previewIsFallback,
 		};
 	} ),
 ] )( EditEmbedActivity );
