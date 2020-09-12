@@ -1,10 +1,21 @@
 /**
  * WordPress dependencies.
  */
-const { Button } = wp.components;
-const { __ } = wp.i18n;
-const { create, getTextContent } = wp.richText;
-const { renderToString } = wp.element;
+const {
+  components: {
+    Button,
+  },
+  i18n: {
+    __,
+  },
+  richText: {
+    create,
+    getTextContent,
+  },
+  element: {
+    renderToString,
+  },
+} = wp;
 
 /**
  * External dependencies.

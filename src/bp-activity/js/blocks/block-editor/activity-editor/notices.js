@@ -1,11 +1,22 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
-const { useSelect, useDispatch } = wp.data;
-const { SnackbarList, NoticeList } = wp.components;
+const {
+  element: {
+    Fragment,
+  },
+  data: {
+    useSelect,
+    useDispatch,
+  },
+  components: {
+    SnackbarList,
+    NoticeList,
+  },
+} = wp;
 
 /**
- * External dependencies
+ * External dependencies.
  */
 const { filter } = lodash;
 
@@ -23,7 +34,7 @@ export default function Notices() {
 	} );
 
 	return (
-		<>
+		<Fragment>
 			<NoticeList
 				notices={ dismissibleNotices }
 				className="activity-editor-dismissible-notices"
@@ -35,6 +46,6 @@ export default function Notices() {
 				className="activity-editor-snackbar-notices"
 				onRemove={ removeNotice }
 			/>
-		</>
+		</Fragment>
 	);
 }

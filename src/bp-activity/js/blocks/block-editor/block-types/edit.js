@@ -1,27 +1,59 @@
 /**
  * WordPress dependencies.
  */
-const { registerBlockType, createBlock } = wp.blocks;
-const { useDispatch } = wp.data;
-const { RichText, BlockControls } = wp.blockEditor;
-const { insert, create, getTextContent } = wp.richText;
-const { Button, ToolbarGroup, Popover, Dashicon } = wp.components;
-const { renderToString, useState, useRef } = wp.element;
-const { __ } = wp.i18n;
+const {
+  blocks: {
+    createBlock,
+  },
+  data: {
+    useDispatch,
+  },
+  blockEditor: {
+    RichText,
+    BlockControls,
+  },
+  richText: {
+    insert,
+    create,
+    getTextContent,
+  },
+  components: {
+    Button,
+    ToolbarGroup,
+    Popover,
+    Dashicon,
+  },
+  element: {
+    renderToString,
+    useState,
+    useRef,
+    Fragment,
+  },
+  i18n: {
+    __,
+  },
+} = wp;
 
 /**
  * Internal dependencies.
  */
 import EmojiPickerTabs from '../emojis/emoji-picker';
+import { BP_TEXT_BLOCK } from './constants';
 
 const getRange = () => {
 	const selection = window.getSelection();
 	return selection.rangeCount ? selection.getRangeAt( 0 ) : null;
-}
+};
 
-const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes } ) => {
+const EditText = ( {
+  attributes,
+  mergeBlocks,
+  onReplace,
+  clientId,
+  setAttributes,
+} ) => {
 	const { content, placeholder } = attributes;
-	const name = 'bp/text';
+	const name = BP_TEXT_BLOCK;
 	const { removeBlock } = useDispatch( 'core/block-editor' );
 	const onRemove = () => removeBlock( clientId );
 	const [ isVisible, setVisible ] = useState( false );
@@ -30,8 +62,8 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 	const ref = useRef();
 
 	const setContent = ( content ) => {
-		setAttributes( { content: content } )
-	}
+		setAttributes( { content: content } );
+	};
 
 	const insertEmoji = ( emoji ) => {
 		const anchor = getRange();
@@ -74,10 +106,10 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 
 		// Give the focus back to the RichText.
 		ref.current.focus();
-	}
+	};
 
 	return (
-		<>
+		<Fragment>
 			<BlockControls>
 				<ToolbarGroup>
 					<Button
@@ -86,7 +118,11 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 					>
 						<Dashicon icon="smiley"/>
 						{ isVisible && (
-							<Popover className="activity-editor-emoji-picker__popover" position="bottom center" onClose={ () => setVisible( false ) }>
+							<Popover
+                className="activity-editor-emoji-picker__popover"
+                position="bottom center"
+                onClose={ () => setVisible( false ) }
+              >
 								<EmojiPickerTabs onPick={ insertEmoji } />
 							</Popover>
 						) }
@@ -120,40 +156,8 @@ const editText = ( { attributes, mergeBlocks, onReplace, clientId, setAttributes
 				}
 				placeholder={ placeholder }
 			/>
-		</>
+		</Fragment>
 	);
 }
 
-registerBlockType( 'bp/text', {
-	title: __( 'Text', 'buddypress' ),
-
-	description: __( 'What’s on your mind buddy? Use this block to write your awesome updates.', 'buddypress' ),
-
-	icon: 'format-status',
-
-	category: 'common',
-
-	attributes: {
-		content: {
-			type: 'string',
-			source: 'html',
-			selector: 'p',
-			default: '',
-		},
-		placeholder: {
-			type: 'string',
-			default: __( 'Start writing or type / to choose a block', 'buddypress' ),
-		}
-	},
-
-	edit: editText,
-
-	save: function( { attributes } ) {
-        return (
-            <RichText.Content
-                tagName="p"
-                value={ attributes.content }
-            />
-        );
-    },
-} );
+export default EditText;

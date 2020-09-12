@@ -1,34 +1,57 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
-const { useSelect, useDispatch } = wp.data;
-const { useMemo } = wp.element;
-const { serialize, synchronizeBlocksWithTemplate } = wp.blocks;
-const { uploadMedia } = wp.mediaUtils;
 const {
-	BlockEditorKeyboardShortcuts,
-	BlockEditorProvider,
-	BlockList,
-	WritingFlow,
-	ObserveTyping,
-} = wp.blockEditor;
-const { Popover } = wp.components;
-const { __ } = wp.i18n;
+  data: {
+    useSelect,
+    useDispatch,
+  },
+  element: {
+    useMemo,
+  },
+  blocks: {
+    serialize,
+    synchronizeBlocksWithTemplate,
+  },
+  mediaUtils: {
+    uploadMedia,
+  },
+  i18n: {
+    __,
+  },
+  components: {
+    Popover,
+  },
+  blockEditor: {
+    BlockEditorKeyboardShortcuts,
+    BlockEditorProvider,
+    BlockList,
+    WritingFlow,
+    ObserveTyping,
+  },
+} = wp;
 
-function BlockEditor( { settings: _settings } ) {
+/**
+ * Internal dependencies.
+ */
+import { BP_ACTIVITY_STORE_KEY } from '../store';
+
+export default function BlockEditor( { settings: _settings } ) {
 	const blocks = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getBlocks();
+		return select( BP_ACTIVITY_STORE_KEY ).getBlocks();
 	}, [] );
-	const { updateContent, resetJustPostedActivity } = useDispatch( 'bp/activity' );
+
 	const activityCreated = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getJustPostedActivity();
+		return select( BP_ACTIVITY_STORE_KEY ).getJustPostedActivity();
 	}, [] );
-	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
 		const _canUserCreateMedia = select( 'core' ).canUser( 'create', 'media' );
 		return _canUserCreateMedia || _canUserCreateMedia !== false;
 	}, [] );
+
+  const { updateContent, resetJustPostedActivity } = useDispatch( BP_ACTIVITY_STORE_KEY );
+	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
 
 	const settings = useMemo(() => {
 		if ( ! canUserCreateMedia ) {
@@ -51,12 +74,12 @@ function BlockEditor( { settings: _settings } ) {
 
 	const updateBlocks = ( newBlocks ) => {
 		updateContent( serialize( newBlocks ), newBlocks );
-	}
+	};
 
 	const resetActivity = ( activity ) => {
 		updateBlocks( activity.blocks );
 		removeNotice( 'activity-posted-error' );
-	}
+	};
 
 	if ( activityCreated ) {
 		if ( activityCreated.link ) {
@@ -112,6 +135,3 @@ function BlockEditor( { settings: _settings } ) {
 		</div>
 	);
 }
-
-export default BlockEditor;
-

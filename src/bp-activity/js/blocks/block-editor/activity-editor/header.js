@@ -1,18 +1,28 @@
 /**
  * WordPress dependencies.
  */
-const { Button, Dashicon } = wp.components;
-const { useSelect } = wp.data;
-const { __, sprintf } = wp.i18n;
+const {
+  components: {
+    Dashicon,
+    Button,
+  },
+  data: {
+    useSelect,
+  },
+  i18n: {
+    __,
+  },
+} = wp;
 
 /**
  * Internal dependencies.
  */
 import ActivityPublishButton from './publish-button';
+import { BP_ACTIVITY_STORE_KEY } from '../store';
 
 export default function Header() {
 	const user = useSelect( ( select ) => {
-		return select( 'bp/activity' ).getCurrentUser();
+		return select( BP_ACTIVITY_STORE_KEY ).getCurrentUser();
 	}, [] );
 
 	let buttonVisual = (

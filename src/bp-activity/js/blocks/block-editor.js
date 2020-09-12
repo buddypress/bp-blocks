@@ -1,30 +1,41 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
-const domReady = wp.domReady;
-const { render } = wp.element;
-const { Popover, SlotFillProvider, DropZoneProvider } = wp.components;
-const { useSelect } = wp.data;
+const {
+  domReady,
+  element: {
+    render,
+    Fragment,
+  },
+  data: {
+    useSelect,
+  },
+  components: {
+    Popover,
+    SlotFillProvider,
+    DropZoneProvider,
+  },
+} = wp;
 
 /**
- * Internal dependencies
+ * Internal dependencies.
  */
-import './store';
-import EditorSkeleton from './components/activity-editor/skeleton';
-import Notices from './components/activity-editor/notices';
-import Header from './components/activity-editor/header';
-import Sidebar from './components/activity-editor/sidebar';
-import BlockEditor from './components/activity-editor/editor';
-import registerActivityBlocks from './components/block-types';
+import { BP_ACTIVITY_STORE_KEY } from './block-editor/store';
+import EditorSkeleton from './block-editor/activity-editor/skeleton';
+import Notices from './block-editor/activity-editor/notices';
+import Header from './block-editor/activity-editor/header';
+import Sidebar from './block-editor/activity-editor/sidebar';
+import BlockEditor from './block-editor/activity-editor/editor';
+import registerActivityBlocks from './block-editor/block-types';
 
 /**
- * Styles
+ * Styles.
  */
 import '../../css/blocks/activity-editor.scss';
 
 function Editor( { settings } ) {
 	const isSidebarVisible = useSelect( ( select ) => {
-		return select( 'bp/activity' ).isSidebarVisible();
+		return select( BP_ACTIVITY_STORE_KEY ).isSidebarVisible();
 	}, [] );
 
 	return (
@@ -35,10 +46,10 @@ function Editor( { settings } ) {
 					header={ <Header /> }
 					sidebar={<Sidebar />}
 					content={
-						<>
+						<Fragment>
 							<Notices />
 							<BlockEditor settings={settings} />
-						</>
+						</Fragment>
 					}
 				/>
 				<Popover.Slot />
