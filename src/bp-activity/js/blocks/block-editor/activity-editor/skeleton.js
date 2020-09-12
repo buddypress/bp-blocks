@@ -2,12 +2,12 @@
  * WordPress dependencies.
  */
 const {
-  components: {
-    navigateRegions,
-  },
-  i18n: {
-    __,
-  },
+	components: {
+		navigateRegions,
+	},
+	i18n: {
+		__,
+	},
 } = wp;
 
 /**

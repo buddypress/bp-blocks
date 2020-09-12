@@ -2,19 +2,19 @@
  * WordPress dependencies.
  */
 const {
-  domReady,
-  element: {
-    render,
-    Fragment,
-  },
-  data: {
-    useSelect,
-  },
-  components: {
-    Popover,
-    SlotFillProvider,
-    DropZoneProvider,
-  },
+	domReady,
+	element: {
+		render,
+		Fragment,
+	},
+	data: {
+		useSelect,
+	},
+	components: {
+		Popover,
+		SlotFillProvider,
+		DropZoneProvider,
+	},
 } = wp;
 
 /**
@@ -43,7 +43,7 @@ function Editor( { settings } ) {
 			<DropZoneProvider>
 				<EditorSkeleton
 					className={ isSidebarVisible ? 'sidebar-visible' : 'sidebar-invisible' }
-					header={ <Header /> }
+					header={<Header />}
 					sidebar={<Sidebar />}
 					content={
 						<Fragment>

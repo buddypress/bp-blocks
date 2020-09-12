@@ -2,12 +2,12 @@
  * WordPress dependencies.
  */
 const {
-  i18n: {
-    __,
-  },
-  blocks: {
-    registerBlockType,
-  },
+	i18n: {
+		__,
+	},
+	blocks: {
+		registerBlockType,
+	},
 } = wp;
 
 /**

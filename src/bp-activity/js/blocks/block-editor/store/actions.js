@@ -2,14 +2,39 @@
  * External dependencies.
  */
 const {
-  assignIn,
-  uniqueId,
+	assignIn,
+	uniqueId,
 } = lodash;
 
 /**
  * Internal dependencies.
  */
 import { TYPES as types } from './action-types';
+
+/**
+ * Resolver for creating an activity.
+ */
+export function* insertActivity( activity ) {
+	let inserting = true, created;
+
+	yield { type: types.CREATE_START, inserting, activity };
+
+	try {
+		created = yield createFromAPI( '/buddypress/v1/activity', activity );
+
+	} catch ( error ) {
+		created = assignIn( {
+			id: uniqueId(),
+			error: error.message,
+		}, activity );
+
+		yield { type: types.ADD_ERROR, created };
+	}
+
+	inserting = false;
+
+	yield { type: types.CREATE_END, inserting, created };
+}
 
 /**
  * Returns an action object used to get the current user.
@@ -41,10 +66,10 @@ export function getUserGroups( groups ) {
  * Returns an action object used to fetch something from the API.
  *.
  * @param {string} path Endpoint path.
- * @param {boolean} [parse=true] Should we parse the request.
+ * @param {boolean} parse Should we parse the request.
  * @return {Object} Object for action.
  */
-export function fetchFromAPI( path, parse = true ) {
+export function fetchFromAPI( path, parse ) {
   return {
     type: types.FETCH_FROM_API,
     path,
@@ -141,29 +166,4 @@ export function resetActivityGroup() {
   return {
     type: types.RESET_ACTIVITY_GROUP,
   };
-}
-
-/**
- * Resolver for creating an activity.
- */
-export function* insertActivity( activity ) {
-	let inserting = true, created;
-
-	yield { type: 'CREATE_START', inserting, activity };
-
-	try {
-		created = yield createFromAPI( '/buddypress/v1/activity', activity );
-
-	} catch ( error ) {
-		created = assignIn( {
-			id: uniqueId(),
-			error: error.message,
-		}, activity );
-
-		yield { type: 'ADD_ERROR', created };
-	}
-
-	inserting = false;
-
-	yield { type: 'CREATE_END', inserting, created };
 }

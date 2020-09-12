@@ -2,32 +2,32 @@
  * WordPress dependencies.
  */
 const {
-  element: {
-    Fragment,
-    useState,
-  },
-  i18n: {
-    __,
-  },
-  components: {
-    Placeholder,
-    SandBox,
-    Button,
-    ExternalLink,
-    Spinner,
-    Toolbar,
-    ToolbarButton,
-  },
-  compose: {
-    compose,
-  },
-  data: {
-    withSelect,
-  },
-  blockEditor: {
-    RichText,
-    BlockControls,
-  }
+	element: {
+		Fragment,
+		useState,
+	},
+	i18n: {
+		__,
+	},
+	components: {
+		Placeholder,
+		SandBox,
+		Button,
+		ExternalLink,
+		Spinner,
+		Toolbar,
+		ToolbarButton,
+	},
+	compose: {
+		compose,
+	},
+	data: {
+		withSelect,
+	},
+	blockEditor: {
+		RichText,
+		BlockControls,
+	}
 } = wp;
 
 const EditEmbedActivity = ( {

@@ -2,36 +2,36 @@
  * WordPress dependencies.
  */
 const {
-  blocks: {
-    createBlock,
-  },
-  data: {
-    useDispatch,
-  },
-  blockEditor: {
-    RichText,
-    BlockControls,
-  },
-  richText: {
-    insert,
-    create,
-    getTextContent,
-  },
-  components: {
-    Button,
-    ToolbarGroup,
-    Popover,
-    Dashicon,
-  },
-  element: {
-    renderToString,
-    useState,
-    useRef,
-    Fragment,
-  },
-  i18n: {
-    __,
-  },
+	blocks: {
+		createBlock,
+	},
+	data: {
+		useDispatch,
+	},
+	blockEditor: {
+		RichText,
+		BlockControls,
+	},
+	richText: {
+		insert,
+		create,
+		getTextContent,
+	},
+	components: {
+		Button,
+		ToolbarGroup,
+		Popover,
+		Dashicon,
+	},
+	element: {
+		renderToString,
+		useState,
+		useRef,
+		Fragment,
+	},
+	i18n: {
+		__,
+	},
 } = wp;
 
 /**
@@ -46,11 +46,11 @@ const getRange = () => {
 };
 
 const EditText = ( {
-  attributes,
-  mergeBlocks,
-  onReplace,
-  clientId,
-  setAttributes,
+	attributes,
+	mergeBlocks,
+	onReplace,
+	clientId,
+	setAttributes,
 } ) => {
 	const { content, placeholder } = attributes;
 	const name = BP_TEXT_BLOCK;
@@ -119,10 +119,10 @@ const EditText = ( {
 						<Dashicon icon="smiley"/>
 						{ isVisible && (
 							<Popover
-                className="activity-editor-emoji-picker__popover"
-                position="bottom center"
-                onClose={ () => setVisible( false ) }
-              >
+								className="activity-editor-emoji-picker__popover"
+								position="bottom center"
+								onClose={ () => setVisible( false ) }
+							>
 								<EmojiPickerTabs onPick={ insertEmoji } />
 							</Popover>
 						) }
