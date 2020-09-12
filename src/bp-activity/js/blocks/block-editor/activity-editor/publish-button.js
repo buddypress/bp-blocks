@@ -2,24 +2,24 @@
  * WordPress dependencies.
  */
 const {
-  i18n: {
-    __,
-  },
-  element: {
-    Component,
-  },
-  compose: {
-    compose,
-  },
-  data: {
-    withSelect,
-    withDispatch,
-  },
-  components: {
-    Button,
-    Dashicon,
-    VisuallyHidden,
-  },
+	i18n: {
+		__,
+	},
+	element: {
+		Component,
+	},
+	compose: {
+		compose,
+	},
+	data: {
+		withSelect,
+		withDispatch,
+	},
+	components: {
+		Button,
+		Dashicon,
+		VisuallyHidden,
+	},
 } = wp;
 
 /**
@@ -34,12 +34,12 @@ class ActivityPublishButton extends Component {
 
 	postActivity() {
 		const {
-      user,
-      content,
-      date,
-      group,
-      onInsertActivity,
-    } = this.props;
+			user,
+			content,
+			date,
+			group,
+			onInsertActivity,
+		} = this.props;
 
 		const activity = {
 			user_id: user.id,
@@ -62,9 +62,9 @@ class ActivityPublishButton extends Component {
 
 	toggleSidebarVisibility() {
 		const {
-      onToggleSidebarVisibility,
-      isSidebarVisible,
-    } = this.props;
+			onToggleSidebarVisibility,
+			isSidebarVisible,
+		} = this.props;
 
 		return onToggleSidebarVisibility( ! isSidebarVisible );
 	}
@@ -91,7 +91,9 @@ class ActivityPublishButton extends Component {
 					onClick={ () => this.toggleSidebarVisibility() }
 				>
 					<Dashicon icon="admin-generic"/>
-					<VisuallyHidden>{ __( 'Toggle Settings Sidebar', 'buddypress' ) }</VisuallyHidden>
+					<VisuallyHidden>
+						{ __( 'Toggle Settings Sidebar', 'buddypress' ) }
+					</VisuallyHidden>
 				</Button>
 			</div>
 		);

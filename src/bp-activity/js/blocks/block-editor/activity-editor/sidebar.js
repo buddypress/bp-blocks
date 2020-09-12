@@ -2,31 +2,31 @@
  * WordPress dependencies.
  */
 const {
-  components: {
-    Panel,
-    PanelBody,
-    PanelRow,
-    Dropdown,
-    Button,
-    DateTimePicker,
-    Dashicon,
-    SelectControl,
-    ExternalLink,
-  },
-  i18n: {
-    __,
-  },
-  date: {
-    dateI18n,
-    __experimentalGetSettings,
-  },
-  data: {
-    useSelect,
-    useDispatch,
-  },
-  element: {
-    useState,
-  },
+	components: {
+		Panel,
+		PanelBody,
+		PanelRow,
+		Dropdown,
+		Button,
+		DateTimePicker,
+		Dashicon,
+		SelectControl,
+		ExternalLink,
+	},
+	i18n: {
+		__,
+	},
+	date: {
+		dateI18n,
+		__experimentalGetSettings,
+	},
+	data: {
+		useSelect,
+		useDispatch,
+	},
+	element: {
+		useState,
+	},
 } = wp;
 
 /**
@@ -54,7 +54,6 @@ const getSlugValue = ( item ) => {
 };
 
 export default function Sidebar() {
-	const [ isOpen, onToggle ] = useState( false );
 	const [ component, onSelect ] = useState( 'activity' );
 	const { activityDate, userGroups, group, user } = useSelect( ( select ) => {
 		const store = select( BP_ACTIVITY_STORE_KEY );
@@ -68,10 +67,10 @@ export default function Sidebar() {
 	}, [] );
 
 	const {
-    setActivityDate,
-    setActivityGroup,
-    resetActivityGroup,
-  } = useDispatch( BP_ACTIVITY_STORE_KEY );
+		setActivityDate,
+		setActivityGroup,
+		resetActivityGroup,
+	} = useDispatch( BP_ACTIVITY_STORE_KEY );
 
 	const currentDate = ! activityDate ? new Date() : activityDate;
 	const dateTimeFormat = __experimentalGetSettings();
@@ -120,7 +119,9 @@ export default function Sidebar() {
 								isLink
 							>
 								<Dashicon icon="dismiss" />
-								<span className="screen-reader-text">{ __( 'Cancel Schedule', 'buddypress' ) }</span>
+								<span className="screen-reader-text">
+									{ __( 'Cancel Schedule', 'buddypress' ) }
+								</span>
 							</Button>
 						) }
 					</PanelRow>

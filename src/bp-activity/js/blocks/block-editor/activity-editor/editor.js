@@ -2,33 +2,33 @@
  * WordPress dependencies.
  */
 const {
-  data: {
-    useSelect,
-    useDispatch,
-  },
-  element: {
-    useMemo,
-  },
-  blocks: {
-    serialize,
-    synchronizeBlocksWithTemplate,
-  },
-  mediaUtils: {
-    uploadMedia,
-  },
-  i18n: {
-    __,
-  },
-  components: {
-    Popover,
-  },
-  blockEditor: {
-    BlockEditorKeyboardShortcuts,
-    BlockEditorProvider,
-    BlockList,
-    WritingFlow,
-    ObserveTyping,
-  },
+	data: {
+		useSelect,
+		useDispatch,
+	},
+	element: {
+		useMemo,
+	},
+	blocks: {
+		serialize,
+		synchronizeBlocksWithTemplate,
+	},
+	mediaUtils: {
+		uploadMedia,
+	},
+	i18n: {
+		__,
+	},
+	components: {
+		Popover,
+	},
+	blockEditor: {
+		BlockEditorKeyboardShortcuts,
+		BlockEditorProvider,
+		BlockList,
+		WritingFlow,
+		ObserveTyping,
+	},
 } = wp;
 
 /**
@@ -40,18 +40,16 @@ export default function BlockEditor( { settings: _settings } ) {
 	const blocks = useSelect( ( select ) => {
 		return select( BP_ACTIVITY_STORE_KEY ).getBlocks();
 	}, [] );
-
+	const { updateContent, resetJustPostedActivity } = useDispatch( BP_ACTIVITY_STORE_KEY );
 	const activityCreated = useSelect( ( select ) => {
 		return select( BP_ACTIVITY_STORE_KEY ).getJustPostedActivity();
 	}, [] );
+	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
 
 	const canUserCreateMedia = useSelect( ( select ) => {
 		const _canUserCreateMedia = select( 'core' ).canUser( 'create', 'media' );
 		return _canUserCreateMedia || _canUserCreateMedia !== false;
 	}, [] );
-
-  const { updateContent, resetJustPostedActivity } = useDispatch( BP_ACTIVITY_STORE_KEY );
-	const { createInfoNotice, createErrorNotice, removeNotice } = useDispatch( 'core/notices' );
 
 	const settings = useMemo(() => {
 		if ( ! canUserCreateMedia ) {
@@ -70,7 +68,9 @@ export default function BlockEditor( { settings: _settings } ) {
 	}, [ canUserCreateMedia, _settings ] );
 
 	// Apply template if available.
-	const activityBlocks = settings.template ? synchronizeBlocksWithTemplate( blocks, settings.template ) : blocks;
+	const activityBlocks = settings.template ?
+		synchronizeBlocksWithTemplate( blocks, settings.template )
+		: blocks;
 
 	const updateBlocks = ( newBlocks ) => {
 		updateContent( serialize( newBlocks ), newBlocks );
@@ -104,7 +104,7 @@ export default function BlockEditor( { settings: _settings } ) {
 				isDismissible: true,
 				actions: [ {
 					label: __( 'Restore Activity content', 'buddypress' ),
-					onClick: () => { resetActivity( activityCreated ) },
+					onClick: () => { resetActivity( activityCreated ); },
 				} ],
 			} );
 		}

@@ -2,9 +2,9 @@
  * WordPress dependencies.
  */
 const {
-  data: {
-    registerStore,
-  },
+	data: {
+		registerStore,
+	},
 } = wp;
 
 /**
@@ -20,8 +20,8 @@ import { controls } from './controls';
 registerStore( STORE_KEY, {
 	reducer,
 	actions,
-  controls,
 	selectors,
+	controls,
 	resolvers,
 } );
 

@@ -2,16 +2,17 @@
  * WordPress dependencies.
  */
 const {
-  components: {
-    Dashicon,
-    Button,
-  },
-  data: {
-    useSelect,
-  },
-  i18n: {
-    __,
-  },
+	components: {
+		Dashicon,
+		Button,
+	},
+	data: {
+		useSelect,
+	},
+	i18n: {
+		sprintf,
+		__,
+	},
 } = wp;
 
 /**
@@ -55,7 +56,11 @@ export default function Header() {
 				<Button
 					className="activity-editor-header__user-avatar"
 					href={ user.link }
-					label={ sprintf( __( 'View all %s‘s activities', 'buddypress' ), user.name ) }
+					label={ sprintf(
+            			/* translators: %s is the user's name */
+						__( 'View all %s‘s activities', 'buddypress' ),
+						user.name
+					) }
 				>
 					{ buttonVisual }
 				</Button>

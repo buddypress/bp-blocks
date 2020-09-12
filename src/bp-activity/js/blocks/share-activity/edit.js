@@ -5,45 +5,45 @@ const {
 	element: {
 		Fragment,
 	},
-  i18n: {
-    __,
-  },
-  blockEditor: {
-    RichText,
-    getColorClassName,
-    InspectorControls,
-    getColorObjectByColorValue,
-    getColorObjectByAttributeValues,
-    PanelColorSettings,
-  },
-  data: {
-    useSelect,
-  },
-  components: {
-    PanelBody,
-    RangeControl,
-    ToggleControl,
-  },
+	i18n: {
+		__,
+	},
+	blockEditor: {
+		RichText,
+		getColorClassName,
+		InspectorControls,
+		getColorObjectByColorValue,
+		getColorObjectByAttributeValues,
+		PanelColorSettings,
+	},
+	data: {
+		useSelect,
+	},
+	components: {
+		PanelBody,
+		RangeControl,
+		ToggleControl,
+	},
 } = wp;
 
 /**
  * External dependencies.
  */
 const {
-  identity,
-  isEqual,
-  isObject,
-  pickBy,
-  mapValues,
+	identity,
+	isEqual,
+	isObject,
+	pickBy,
+	mapValues,
 } = lodash;
 
 /**
  * Internal dependencies.
  */
 import {
-  INITIAL_BORDER_RADIUS_POSITION,
-  MIN_BORDER_RADIUS_VALUE,
-  MAX_BORDER_RADIUS_VALUE,
+	INITIAL_BORDER_RADIUS_POSITION,
+	MIN_BORDER_RADIUS_VALUE,
+	MAX_BORDER_RADIUS_VALUE,
 } from './constants';
 
 const cleanEmptyObject = ( object ) => {

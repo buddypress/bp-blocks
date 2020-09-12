@@ -2,17 +2,17 @@
  * WordPress dependencies.
  */
 const {
-  element: {
-    Fragment,
-  },
-  data: {
-    useSelect,
-    useDispatch,
-  },
-  components: {
-    SnackbarList,
-    NoticeList,
-  },
+	element: {
+		Fragment,
+	},
+	data: {
+		useSelect,
+		useDispatch,
+	},
+	components: {
+		SnackbarList,
+		NoticeList,
+	},
 } = wp;
 
 /**

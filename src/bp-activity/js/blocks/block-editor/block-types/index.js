@@ -2,14 +2,14 @@
  * WordPress dependencies.
  */
 const {
-  blocks: {
-    unregisterBlockType,
-    setDefaultBlockName,
-    getBlockTypes,
-  },
-  blockLibrary: {
-    registerCoreBlocks,
-  },
+	blocks: {
+		unregisterBlockType,
+		setDefaultBlockName,
+		getBlockTypes,
+	},
+	blockLibrary: {
+		registerCoreBlocks,
+	},
 } = wp;
 
 /**
