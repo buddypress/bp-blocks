@@ -3,17 +3,17 @@
  */
 const {
 	blockEditor: {
-    RichText,
-  },
+		RichText,
+	},
 } = wp;
 
 const SaveText = ( { attributes } ) => {
-  return (
-    <RichText.Content
-      tagName="p"
-      value={ attributes.content }
-    />
-  );
+	return (
+		<RichText.Content
+			tagName="p"
+			value={ attributes.content }
+		/>
+	);
 };
 
 export default SaveText;
