@@ -57,7 +57,7 @@ export default function Header() {
 					className="activity-editor-header__user-avatar"
 					href={ user.link }
 					label={ sprintf(
-            			/* translators: %s is the user's name */
+						/* translators: %s is the user's name */
 						__( 'View all %s‘s activities', 'buddypress' ),
 						user.name
 					) }

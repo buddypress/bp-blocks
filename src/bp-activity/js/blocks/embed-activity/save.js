@@ -22,10 +22,10 @@ const saveEmbedActivityBlock = ( { attributes } ) => {
 		}
 		</div>
 		{ ! RichText.isEmpty( caption ) && (
-		<RichText.Content
-			tagName="figcaption"
-			value={ caption }
-		/>
+			<RichText.Content
+				tagName="figcaption"
+				value={ caption }
+			/>
 		) }
 	</figure>
 	);
