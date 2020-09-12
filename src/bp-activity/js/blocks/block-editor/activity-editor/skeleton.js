@@ -1,13 +1,19 @@
 /**
- * External dependencies
+ * WordPress dependencies.
  */
-import classnames from 'classnames';
+const {
+  components: {
+    navigateRegions,
+  },
+  i18n: {
+    __,
+  },
+} = wp;
 
 /**
- * WordPress dependencies
+ * External dependencies.
  */
-const { navigateRegions } = wp.components;
-const { __ } = wp.i18n;
+import classnames from 'classnames';
 
 function EditorSkeleton( {
 	footer,

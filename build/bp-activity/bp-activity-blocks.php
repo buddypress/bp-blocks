@@ -380,7 +380,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 		array(
 			'text'                => '',
 			'borderRadius'        => '',
-			'style'               => '',
+			'style'               => array(),
 			'backgroundColor'     => '',
 			'textColor'           => '',
 			'wpLoginLinkFallback' => true,

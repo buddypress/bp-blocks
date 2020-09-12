@@ -1,0 +1,28 @@
+/**
+ * WordPress dependencies.
+ */
+const {
+  data: {
+    registerStore,
+  },
+} = wp;
+
+/**
+ * Internal dependencies.
+ */
+import { STORE_KEY } from './constants';
+import * as selectors from './selectors';
+import * as actions from './actions';
+import * as resolvers from './resolvers';
+import reducer from './reducers';
+import { controls } from './controls';
+
+registerStore( STORE_KEY, {
+	reducer,
+	actions,
+  controls,
+	selectors,
+	resolvers,
+} );
+
+export const BP_ACTIVITY_STORE_KEY = STORE_KEY;

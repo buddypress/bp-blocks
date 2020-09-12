@@ -1,11 +1,31 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
-const { __ } = wp.i18n;
-const { Component } = wp.element;
-const { Button, Dashicon, VisuallyHidden } = wp.components;
-const { compose } = wp.compose;
-const { withSelect, withDispatch } = wp.data;
+const {
+  i18n: {
+    __,
+  },
+  element: {
+    Component,
+  },
+  compose: {
+    compose,
+  },
+  data: {
+    withSelect,
+    withDispatch,
+  },
+  components: {
+    Button,
+    Dashicon,
+    VisuallyHidden,
+  },
+} = wp;
+
+/**
+ * Internal dependencies.
+ */
+import { BP_ACTIVITY_STORE_KEY } from '../store';
 
 class ActivityPublishButton extends Component {
 	constructor() {
@@ -13,7 +33,14 @@ class ActivityPublishButton extends Component {
 	}
 
 	postActivity() {
-		const { user, content, date, group, onInsertActivity } = this.props;
+		const {
+      user,
+      content,
+      date,
+      group,
+      onInsertActivity,
+    } = this.props;
+
 		const activity = {
 			user_id: user.id,
 			type: 'activity_update',
@@ -34,7 +61,10 @@ class ActivityPublishButton extends Component {
 	}
 
 	toggleSidebarVisibility() {
-		const { onToggleSidebarVisibility, isSidebarVisible } = this.props;
+		const {
+      onToggleSidebarVisibility,
+      isSidebarVisible,
+    } = this.props;
 
 		return onToggleSidebarVisibility( ! isSidebarVisible );
 	}
@@ -70,7 +100,7 @@ class ActivityPublishButton extends Component {
 
 export default compose( [
 	withSelect( ( select ) => {
-		const store = select( 'bp/activity' );
+		const store = select( BP_ACTIVITY_STORE_KEY );
 		return {
 			user: store.getCurrentUser(),
 			content: store.getContent(),
@@ -82,10 +112,10 @@ export default compose( [
 	} ),
 	withDispatch( ( dispatch ) => ( {
 		onInsertActivity( activity ) {
-			dispatch( 'bp/activity' ).insertActivity( activity );
+			dispatch( BP_ACTIVITY_STORE_KEY ).insertActivity( activity );
 		},
 		onToggleSidebarVisibility( visibility ) {
-			dispatch( 'bp/activity' ).toggleSidebarVisibility( visibility );
+			dispatch( BP_ACTIVITY_STORE_KEY ).toggleSidebarVisibility( visibility );
 		},
 	} ) ),
 ] )( ActivityPublishButton );

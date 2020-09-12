@@ -1,26 +1,43 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
 const {
-	Panel,
-	PanelBody,
-	PanelRow,
-	Dropdown,
-	Button,
-	DateTimePicker,
-	Dashicon,
-	SelectControl,
-	ExternalLink,
-} = wp.components;
-const { __ } = wp.i18n;
-const { dateI18n, __experimentalGetSettings } = wp.date;
-const { useSelect, useDispatch } = wp.data;
-const { useState } = wp.element;
+  components: {
+    Panel,
+    PanelBody,
+    PanelRow,
+    Dropdown,
+    Button,
+    DateTimePicker,
+    Dashicon,
+    SelectControl,
+    ExternalLink,
+  },
+  i18n: {
+    __,
+  },
+  date: {
+    dateI18n,
+    __experimentalGetSettings,
+  },
+  data: {
+    useSelect,
+    useDispatch,
+  },
+  element: {
+    useState,
+  },
+} = wp;
 
 /**
  * BuddyPress dependencies.
  */
 const { AutoCompleter } = bp.blockComponents;
+
+/**
+ * Internal dependencies.
+ */
+import { BP_ACTIVITY_STORE_KEY } from '../store';
 
 const GROUP_STATI = {
 	public: __( 'Public', 'buddypress' ),
@@ -34,23 +51,27 @@ const getSlugValue = ( item ) => {
 	}
 
 	return null;
-}
+};
 
-function Sidebar() {
+export default function Sidebar() {
 	const [ isOpen, onToggle ] = useState( false );
 	const [ component, onSelect ] = useState( 'activity' );
 	const { activityDate, userGroups, group, user } = useSelect( ( select ) => {
-		const store = select( 'bp/activity' );
+		const store = select( BP_ACTIVITY_STORE_KEY );
 
 		return {
 			activityDate: store.getActivityDate(),
 			userGroups: store.getUserGroups(),
 			group: store.getActivityGroup(),
 			user: store.getCurrentUser(),
-		}
+		};
 	}, [] );
 
-	const { setActivityDate, setActivityGroup, resetActivityGroup } = useDispatch( 'bp/activity' );
+	const {
+    setActivityDate,
+    setActivityGroup,
+    resetActivityGroup,
+  } = useDispatch( BP_ACTIVITY_STORE_KEY );
 
 	const currentDate = ! activityDate ? new Date() : activityDate;
 	const dateTimeFormat = __experimentalGetSettings();
@@ -156,5 +177,3 @@ function Sidebar() {
 		</div>
 	);
 }
-
-export default Sidebar;

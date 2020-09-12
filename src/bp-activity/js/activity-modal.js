@@ -12,7 +12,7 @@ const getActivityBlockEditorMessage = ( event ) => {
 	if ( 'function' === typeof window.tb_remove ) {
 		window.tb_remove();
 	}
-}
+};
 window.addEventListener( 'message', getActivityBlockEditorMessage, false );
 
 document.querySelectorAll( '.bp-block-activity-share a.thickbox' ).forEach( ( a ) => {

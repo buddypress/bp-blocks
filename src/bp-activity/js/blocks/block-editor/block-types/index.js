@@ -1,8 +1,16 @@
 /**
  * WordPress dependencies.
  */
-const { unregisterBlockType, setDefaultBlockName, getBlockTypes } = wp.blocks;
-const { registerCoreBlocks } = wp.blockLibrary;
+const {
+  blocks: {
+    unregisterBlockType,
+    setDefaultBlockName,
+    getBlockTypes,
+  },
+  blockLibrary: {
+    registerCoreBlocks,
+  },
+} = wp;
 
 /**
  * External dependencies.
@@ -13,6 +21,7 @@ const { indexOf } = lodash;
  * Internal dependencies.
  */
 import './bp-text';
+import { BP_TEXT_BLOCK } from './constants';
 
 const registerActivityBlocks = () => {
 	registerCoreBlocks();
@@ -29,7 +38,7 @@ const registerActivityBlocks = () => {
 		'core-embed/crowdsignal',
 		'core/missing',
 		'core/block',
-	]
+	];
 
 	getBlockTypes().forEach( ( { name } ) => {
 		if ( -1 === indexOf( whiteList, name ) ) {
@@ -37,7 +46,7 @@ const registerActivityBlocks = () => {
 		}
 	} );
 
-	setDefaultBlockName( 'bp/text' );
+	setDefaultBlockName( BP_TEXT_BLOCK );
 };
 
 export default registerActivityBlocks;

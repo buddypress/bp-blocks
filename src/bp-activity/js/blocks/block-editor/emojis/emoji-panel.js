@@ -1,12 +1,22 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
-const { useState } = wp.element;
-const { useInstanceId } = wp.compose;
-const { NavigableMenu, Button, VisuallyHidden } = wp.components;
+const {
+  element: {
+    useState,
+  },
+  compose: {
+    useInstanceId,
+  },
+  components: {
+    NavigableMenu,
+    Button,
+    VisuallyHidden,
+  },
+} = wp;
 
 /**
- * External dependencies
+ * External dependencies.
  */
 const { partial, noop, find } = lodash;
 import classnames from 'classnames';
