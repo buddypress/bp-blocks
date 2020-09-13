@@ -1,53 +1,48 @@
 {
-  "name": "bp-blocks",
-  "version": "6.1.0-alpha",
-  "description": "BuddyPress Blocks development plugin.",
-  "scripts": {
-    "start": "npm run dev-scripts && parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
-    "dev": "npm run dev-scripts && parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps --no-minify",
-    "build": "npm run build-scripts && parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
-    "build-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps",
-    "dev-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps --no-minify",
-    "wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php build/*/*.php --standard=WordPress",
-    "pot": "npm run dev && wp i18n make-pot . languages/buddypress.pot --domain='buddypress' --include=\"build/*/js/blocks\" --exclude=\".git,src,node_modules,languages,vendor,.cache\" --headers='{\"Project-Id-Version\": \"BP Blocks 1.0.0\", \"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-blocks/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\"}'",
-    "po2json": "wp i18n make-json languages"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/buddypress/bp-blocks.git"
-  },
-  "keywords": [
-    "buddypress",
-    "blocks"
-  ],
-  "author": "The BuddyPress Contributors",
-  "license": "GPL-2.0+",
-  "bugs": {
-    "url": "https://github.com/buddypress/bp-blocks/issues"
-  },
-  "homepage": "https://github.com/buddypress/bp-blocks#readme",
-  "babel": {
-    "presets": [
-      "@wordpress/default"
-    ]
-  },
-  "engines": {
-    "node": "12.18.2",
-    "npm": "6.14.6"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@types/classnames": "2.2.10",
-    "@wordpress/babel-preset-default": "^4.18.0",
-    "parcel-bundler": "^1.12.4",
-    "sass": "^1.26.10"
-  },
-  "dependencies": {
-    "@wordpress/base-styles": "^1.11.0",
-    "@wordpress/editor": "^9.21.0",
-    "classnames": "^2.2.6",
-    "emoji-datasource": "^5.0.1",
-    "minify-json": "^1.0.0",
-    "svgo": "^1.3.2"
-  }
+	"name": "bp-blocks",
+	"version": "6.1.0-alpha",
+	"description": "BuddyPress Blocks development plugin.",
+	"engines": {
+		"node": "12.18.2",
+		"npm": "6.14.6"
+	},
+	"scripts": {
+		"start": "npm run dev-scripts && parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+		"dev": "npm run dev-scripts && parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps --no-minify",
+		"build": "npm run build-scripts && parcel build src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
+		"build-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps",
+		"dev-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps --no-minify",
+		"wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php build/*/*.php --standard=WordPress",
+		"pot": "npm run dev && wp i18n make-pot . languages/buddypress.pot --domain='buddypress' --include=\"build/*/js/blocks\" --exclude=\".git,src,node_modules,languages,vendor,.cache\" --headers='{\"Project-Id-Version\": \"BP Blocks 1.0.0\", \"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-blocks/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\"}'",
+		"po2json": "wp i18n make-json languages"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/buddypress/bp-blocks.git"
+	},
+	"keywords": [
+		"buddypress",
+		"blocks"
+	],
+	"author": "The BuddyPress Contributors",
+	"license": "GPL-2.0+",
+	"bugs": {
+		"url": "https://github.com/buddypress/bp-blocks/issues"
+	},
+	"homepage": "https://github.com/buddypress/bp-blocks#readme",
+	"devDependencies": {
+		"@babel/core": "^7.11.6",
+		"@types/classnames": "2.2.10",
+		"@wordpress/babel-preset-default": "^4.18.0",
+		"parcel-bundler": "^1.12.4",
+		"sass": "^1.26.10"
+	},
+	"dependencies": {
+		"@wordpress/base-styles": "^2.1.0",
+		"@wordpress/editor": "^9.21.0",
+		"classnames": "^2.2.6",
+		"emoji-datasource": "^5.0.1",
+		"minify-json": "^1.0.0",
+		"svgo": "^1.3.2"
+	}
 }
