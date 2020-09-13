@@ -8,9 +8,6 @@
 @import "~@wordpress/base-styles/_animations";
 @import "~@wordpress/base-styles/_z-index";
 
-// fix a bug where this variable is missing in WordPress core.
-$gray-900: #191e23;
-
 /**
  * Internal dependencies
  */
