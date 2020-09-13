@@ -23,7 +23,7 @@
 	padding: 3px 8px; // Use padding to offset the is-active border, this benefits Windows High Contrast mode
 	margin-left: 0;
 	font-weight: 400;
-	color: $dark-gray-900;
+	color: $gray-900;
 	font-size: inherit;
 	width: 11.11%;
 
@@ -42,7 +42,7 @@
 
 	&.is-active {
 		// The transparent shadow ensures no jumpiness when focus animates on an active tab.
-		box-shadow: inset 0 0 0 $border-width-focus transparent, inset 0 0 -$border-width-tab 0 0 $blue-wordpress-700;
+		box-shadow: inset 0 0 0 $border-width-focus transparent, inset 0 0 -$border-width-tab 0 0 #00669b;
 		font-weight: 600;
 		position: relative;
 
@@ -59,11 +59,11 @@
 	}
 
 	&:focus {
-		box-shadow: inset 0 0 0 $border-width-focus $blue-wordpress-700;
+		box-shadow: inset 0 0 0 $border-width-focus #00669b;
 	}
 
 	&.is-active:focus {
-		box-shadow: inset 0 0 0 $border-width-focus $blue-wordpress-700, inset 0 0 -$border-width-tab 0 0 $blue-wordpress-700;
+		box-shadow: inset 0 0 0 $border-width-focus #00669b, inset 0 0 -$border-width-tab 0 0 #00669b;
 	}
 }
 
@@ -75,7 +75,7 @@
 	padding: 0 8px 16px 8px;
 
 	&:focus {
-		outline: 1px dotted $light-gray-500;
+		outline: 1px dotted $light-gray-600;
 	}
 
 	@include break-medium {
