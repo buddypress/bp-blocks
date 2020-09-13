@@ -43,10 +43,10 @@ export function* insertActivity( activity ) {
  * @return {Object} Object for action.
  */
 export function getCurrentUser( user ) {
-  return {
-    type: types.GET_CURRENT_USER,
-    user,
-  };
+	return {
+		type: types.GET_CURRENT_USER,
+		user,
+	};
 }
 
 /**
@@ -56,10 +56,10 @@ export function getCurrentUser( user ) {
  * @return {Object} Object for action.
  */
 export function getUserGroups( groups ) {
-  return {
-    type: types.GET_USER_GROUPS,
-    groups,
-  };
+	return {
+		type: types.GET_USER_GROUPS,
+		groups,
+	};
 }
 
 /**
@@ -70,11 +70,11 @@ export function getUserGroups( groups ) {
  * @return {Object} Object for action.
  */
 export function fetchFromAPI( path, parse ) {
-  return {
-    type: types.FETCH_FROM_API,
-    path,
-    parse,
-  };
+	return {
+		type: types.FETCH_FROM_API,
+		path,
+		parse,
+	};
 }
 
 /**
@@ -85,11 +85,11 @@ export function fetchFromAPI( path, parse ) {
  * @return {Object} Object for action.
  */
 export function createFromAPI( path, data ) {
-  return {
-    type: types.CREATE_FROM_API,
-    path,
-    data,
-  };
+	return {
+		type: types.CREATE_FROM_API,
+		path,
+		data,
+	};
 }
 
 /**
@@ -100,11 +100,11 @@ export function createFromAPI( path, data ) {
  * @return {Object} Object for action.
  */
 export function updateContent( content, blocks ) {
-  return {
-    type: types.UPDATE_CONTENT,
-    content,
-    blocks,
-  };
+	return {
+		type: types.UPDATE_CONTENT,
+		content,
+		blocks,
+	};
 }
 
 /**
@@ -113,9 +113,9 @@ export function updateContent( content, blocks ) {
  * @return {Object} Object for action.
  */
 export function resetJustPostedActivity() {
-  return {
-    type: types.RESET_CREATED,
-  };
+	return {
+		type: types.RESET_CREATED,
+	};
 }
 
 /**
@@ -125,10 +125,10 @@ export function resetJustPostedActivity() {
  * @return {Object} Object for action.
  */
 export function toggleSidebarVisibility( visibility ) {
-  return {
-    type: types.UPDATE_SIDEBAR_VISIBILITY,
-    visibility,
-  };
+	return {
+		type: types.UPDATE_SIDEBAR_VISIBILITY,
+		visibility,
+	};
 }
 
 /**
@@ -138,10 +138,10 @@ export function toggleSidebarVisibility( visibility ) {
  * @return {Object} Object for action.
  */
 export function setActivityDate( date ) {
-  return {
-    type: types.SET_ACTIVITY_DATE,
-    date,
-  };
+	return {
+		type: types.SET_ACTIVITY_DATE,
+		date,
+	};
 }
 
 /**
@@ -151,10 +151,10 @@ export function setActivityDate( date ) {
  * @return {Object} Object for action.
  */
 export function setActivityGroup( groupId ) {
-  return {
-    type: types.SET_ACTIVITY_GROUP,
-    groupId,
-  };
+	return {
+		type: types.SET_ACTIVITY_GROUP,
+		groupId,
+	};
 }
 
 /**
@@ -163,7 +163,7 @@ export function setActivityGroup( groupId ) {
  * @return {Object} Object for action.
  */
 export function resetActivityGroup() {
-  return {
-    type: types.RESET_ACTIVITY_GROUP,
-  };
+	return {
+		type: types.RESET_ACTIVITY_GROUP,
+	};
 }

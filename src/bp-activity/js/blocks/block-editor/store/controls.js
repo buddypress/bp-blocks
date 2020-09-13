@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 const {
-  apiFetch,
+	apiFetch,
 } = wp;
 
 /**
@@ -12,10 +12,10 @@ const {
  *                  the controls property of the registration object.
  */
 export const controls = {
-  FETCH_FROM_API( { path, parse } ) {
-    return apiFetch( { path, parse } );
-  },
-  CREATE_FROM_API( { path, data } ) {
-    return apiFetch( { path, method: 'POST', data } );
-  },
+	FETCH_FROM_API( { path, parse } ) {
+		return apiFetch( { path, parse } );
+	},
+	CREATE_FROM_API( { path, data } ) {
+		return apiFetch( { path, method: 'POST', data } );
+	},
 };
