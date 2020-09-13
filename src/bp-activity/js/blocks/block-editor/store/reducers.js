@@ -27,82 +27,82 @@ const DEFAULT_STATE = {
  * @return  {Object}          New or existing state.
  */
 const reducer = ( state = DEFAULT_STATE, action ) => {
-  switch ( action.type ) {
-    case types.GET_CURRENT_USER:
-      return {
-        ...state,
-        user: action.user,
-      };
+	switch ( action.type ) {
+		case types.GET_CURRENT_USER:
+			return {
+				...state,
+				user: action.user,
+			};
 
-    case types.GET_USER_GROUPS:
-      return {
-        ...state,
-        groups: action.groups,
-      };
+		case types.GET_USER_GROUPS:
+			return {
+				...state,
+				groups: action.groups,
+			};
 
-    case types.CREATE_START:
-      return {
-        ...state,
-        inserting: action.inserting,
-        created: action.created,
-      };
+		case types.CREATE_START:
+			return {
+				...state,
+				inserting: action.inserting,
+				created: action.created,
+			};
 
-    case types.CREATE_END:
-      return {
-        ...state,
-        inserting: action.inserting,
-        created: action.created[0],
-        content: '',
-        date: '',
-        groupId: 0,
-        blocks: [],
-      };
+		case types.CREATE_END:
+			return {
+				...state,
+				inserting: action.inserting,
+				created: action.created[0],
+				content: '',
+				date: '',
+				groupId: 0,
+				blocks: [],
+			};
 
-    case types.ADD_ERROR:
-      return {
-        ...state,
-        created: { ...action.created, blocks: state.blocks },
-      };
+		case types.ADD_ERROR:
+			return {
+				...state,
+				created: { ...action.created, blocks: state.blocks },
+			};
 
-    case types.UPDATE_CONTENT:
-      return {
-        ...state,
-        content: action.content,
-        blocks: action.blocks, ...state.blocks,
-      };
+		case types.UPDATE_CONTENT:
+			return {
+				...state,
+				content: action.content,
+				blocks: action.blocks, ...state.blocks,
+			};
 
-    case types.SET_ACTIVITY_DATE:
-      return {
-        ...state,
-        date: action.date,
-      };
+		case types.SET_ACTIVITY_DATE:
+			return {
+				...state,
+				date: action.date,
+			};
 
-    case types.SET_ACTIVITY_GROUP:
-      return {
-        ...state,
-        groupId: action.groupId,
-      };
+		case types.SET_ACTIVITY_GROUP:
+			return {
+				...state,
+				groupId: action.groupId,
+			};
 
-    case types.RESET_ACTIVITY_GROUP:
-      return {
-        ...state,
-        groupId: 0,
-      };
+		case types.RESET_ACTIVITY_GROUP:
+			return {
+				...state,
+				groupId: 0,
+			};
 
-    case types.RESET_CREATED:
-      return {
-        ...state,
-        created: {},
-      };
+		case types.RESET_CREATED:
+			return {
+				...state,
+				created: {},
+			};
 
-    case types.UPDATE_SIDEBAR_VISIBILITY:
-      return {
-        ...state,
-        isSidebarVisible: action.visibility,
-      };
-  }
+		case types.UPDATE_SIDEBAR_VISIBILITY:
+			return {
+				...state,
+				isSidebarVisible: action.visibility,
+			};
+	}
 
-  return state;
+	return state;
 };
 
 export default reducer;

@@ -2,7 +2,7 @@
  * External dependencies.
  */
 const {
-  find,
+	find,
 } = lodash;
 
 /**
@@ -12,7 +12,7 @@ const {
  * @return {Object} The data to return.
  */
 export const getCurrentUser = ( state ) => {
-  return state.user || {};
+	return state.user || {};
 };
 
 /**
@@ -22,7 +22,7 @@ export const getCurrentUser = ( state ) => {
  * @return {Array} Array of user's groups.
  */
 export const getUserGroups = ( state ) => {
-  return state.groups || [];
+	return state.groups || [];
 };
 
 /**
@@ -32,7 +32,7 @@ export const getUserGroups = ( state ) => {
  * @return {string} The data to return.
  */
 export const getContent = ( state )  => {
-  return state.content || '';
+	return state.content || '';
 };
 
 /**
@@ -42,7 +42,7 @@ export const getContent = ( state )  => {
  * @return {Array} Array of of blocks.
  */
 export const getBlocks = ( state )  => {
-  return state.blocks || [];
+	return state.blocks || [];
 };
 
 /**
@@ -52,7 +52,7 @@ export const getBlocks = ( state )  => {
  * @return {boolean} True if a activity is being added.
  */
 export const isInsertingActivity = ( state )  => {
-  return state.inserting || false;
+	return state.inserting || false;
 };
 
 /**
@@ -62,7 +62,7 @@ export const isInsertingActivity = ( state )  => {
  * @return {Object} The data to return.
  */
 export const getJustPostedActivity = ( state )  => {
-  return state.created || {};
+	return state.created || {};
 };
 
 /**
@@ -72,7 +72,7 @@ export const getJustPostedActivity = ( state )  => {
  * @return {boolean} True if sidebar is visible.
  */
 export const isSidebarVisible = ( state ) => {
-  return state.isSidebarVisible || false;
+	return state.isSidebarVisible || false;
 };
 
 /**
@@ -82,7 +82,7 @@ export const isSidebarVisible = ( state ) => {
  * @return {string} The data to return.
  */
 export const getActivityDate = ( state ) => {
-  return state.date || '';
+	return state.date || '';
 };
 
 /**
@@ -92,5 +92,5 @@ export const getActivityDate = ( state ) => {
  * @return {integer} The group ID.
  */
 export const getActivityGroup = ( state ) => {
-  return find( state.groups || [], { id: state.groupId || 0 } );
+	return find( state.groups || [], { id: state.groupId || 0 } );
 };

@@ -2,17 +2,17 @@
  * WordPress dependencies.
  */
 const {
-  element: {
-    useState,
-  },
-  compose: {
-    useInstanceId,
-  },
-  components: {
-    NavigableMenu,
-    Button,
-    VisuallyHidden,
-  },
+	element: {
+		useState,
+	},
+	compose: {
+		useInstanceId,
+	},
+	components: {
+		NavigableMenu,
+		Button,
+		VisuallyHidden,
+	},
 } = wp;
 
 /**

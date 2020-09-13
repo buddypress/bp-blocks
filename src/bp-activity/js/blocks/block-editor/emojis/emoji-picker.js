@@ -2,19 +2,19 @@
  * WordPress dependencies.
  */
 const {
-  components: {
-    Button,
-  },
-  i18n: {
-    __,
-  },
-  richText: {
-    create,
-    getTextContent,
-  },
-  element: {
-    renderToString,
-  },
+	components: {
+		Button,
+	},
+	i18n: {
+		__,
+	},
+	richText: {
+		create,
+		getTextContent,
+	},
+	element: {
+		renderToString,
+	},
 } = wp;
 
 /**

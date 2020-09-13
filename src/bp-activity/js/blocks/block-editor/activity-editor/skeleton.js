@@ -35,7 +35,7 @@ function EditorSkeleton( {
 					className="block-editor-editor-skeleton__header"
 					role="region"
 					/* translators: accessibility text for the top bar landmark region. */
-					aria-label={ __( 'Editor top bar' ) }
+					aria-label={ __( 'Editor top bar', 'buddypress' ) }
 					tabIndex="-1"
 				>
 					{ header }
@@ -46,7 +46,7 @@ function EditorSkeleton( {
 					className="block-editor-editor-skeleton__content"
 					role="region"
 					/* translators: accessibility text for the content landmark region. */
-					aria-label={ __( 'Editor content' ) }
+					aria-label={ __( 'Editor content', 'buddypress' ) }
 					tabIndex="-1"
 				>
 					{ content }
@@ -56,7 +56,7 @@ function EditorSkeleton( {
 						className="block-editor-editor-skeleton__sidebar"
 						role="region"
 						/* translators: accessibility text for the settings landmark region. */
-						aria-label={ __( 'Editor settings' ) }
+						aria-label={ __( 'Editor settings', 'buddypress' ) }
 						tabIndex="-1"
 					>
 						{ sidebar }
@@ -67,7 +67,7 @@ function EditorSkeleton( {
 						className="block-editor-editor-skeleton__publish"
 						role="region"
 						/* translators: accessibility text for the publish landmark region. */
-						aria-label={ __( 'Editor publish' ) }
+						aria-label={ __( 'Editor publish', 'buddypress' ) }
 						tabIndex="-1"
 					>
 						{ publish }
@@ -79,7 +79,7 @@ function EditorSkeleton( {
 					className="block-editor-editor-skeleton__footer"
 					role="region"
 					/* translators: accessibility text for the footer landmark region. */
-					aria-label={ __( 'Editor footer' ) }
+					aria-label={ __( 'Editor footer', 'buddypress' ) }
 					tabIndex="-1"
 				>
 					{ footer }
