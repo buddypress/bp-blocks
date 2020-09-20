@@ -59,8 +59,6 @@ const EditEmbedActivity = ( {
 		}
 
 		setIsEditingURL( true );
-		setURL( '' );
-		setAttributes( { url: '' } );
 	};
 
 	const editToolbar = (
