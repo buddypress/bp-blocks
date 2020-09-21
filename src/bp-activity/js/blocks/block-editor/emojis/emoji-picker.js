@@ -1,4 +1,15 @@
 /**
+ * Internal dependencies.
+ */
+import EmojiPanel from './emoji-panel';
+import emojiData from './emojis.json';
+
+/**
+ * External dependencies.
+ */
+const { groupBy } = lodash;
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -17,19 +28,11 @@ const {
 	},
 } = wp;
 
-/**
- * External dependencies.
- */
-const { groupBy } = lodash;
-
-/**
- * Internal dependencies.
- */
-import EmojiPanel from './emoji-panel';
-import emojiData from './emojis.json';
-
-const EmojiPickerListItem = ( { emoji, onClick } ) => {
-	if ( ! emoji ) {
+const EmojiPickerListItem = ( {
+	emoji,
+	onClick
+} ) => {
+	if ( !emoji ) {
 		return null;
 	}
 
@@ -50,23 +53,24 @@ const EmojiPickerListItem = ( { emoji, onClick } ) => {
 	);
 };
 
-const EmojiPickerList = ( { emojis, onPick } ) => {
-	return (
-		<ul role="list" className="activity-editor-emoji-picker-list">
-			{ emojis.map( ( emoji ) => {
-				return (
-					<EmojiPickerListItem
-						key={ emoji.id }
-						emoji={ emoji.char }
-						onClick={ () => {
-							onPick( emoji.char );
-						} }
-					/>
-				);
-			} ) }
-		</ul>
-	);
-};
+const EmojiPickerList = ( {
+	emojis,
+	onPick
+} ) => (
+	<ul className="activity-editor-emoji-picker-list">
+		{ emojis.map( ( emoji ) => {
+			return (
+				<EmojiPickerListItem
+					key={ emoji.id }
+					emoji={ emoji.char }
+					onClick={ () => {
+						onPick( emoji.char );
+					} }
+				/>
+			);
+		} ) }
+	</ul>
+);
 
 const EmojiPickerTabs = ( { onPick } ) => {
 	const categories = groupBy( emojiData, 'category' );
@@ -140,16 +144,14 @@ const EmojiPickerTabs = ( { onPick } ) => {
 				},
 			] }
 		>
-			{ ( tab ) => {
-				return(
-					<div className="activity-editor-emoji-picker__results">
-						<EmojiPickerList
-							emojis={ tab.items }
-							onPick={ onPick }
-						/>
-					</div>
-				);
-			} }
+			{ ( tab ) => (
+				<div className="activity-editor-emoji-picker__results">
+					<EmojiPickerList
+						emojis={ tab.items }
+						onPick={ onPick }
+					/>
+				</div>
+			) }
 		</EmojiPanel>
 	);
 };

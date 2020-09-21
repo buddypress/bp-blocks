@@ -1,4 +1,9 @@
 /**
+ * External dependencies.
+ */
+import PropTypes from 'prop-types';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -38,8 +43,14 @@ const EditEmbedActivity = ( {
 	preview,
 	fetching
 } ) => {
-	const { url, caption } = attributes;
-	const { embedScriptURL } = bpSettings;
+	const {
+		url,
+		caption
+	} = attributes;
+	const {
+		embedScriptURL,
+	} = bpSettings;
+
 	const label = __( 'BuddyPress Activity URL', 'buddypress' );
 	const [ value, setURL ] = useState( url );
 	const [ isEditingURL, setIsEditingURL ] = useState( ! url );
@@ -118,7 +129,7 @@ const EditEmbedActivity = ( {
 		);
 	}
 
-	if ( ! preview || ! preview['x_buddypress'] || 'activity' !== preview['x_buddypress'] ) {
+	if ( ! preview || ! preview.x_buddypress || preview.x_buddypress !== 'activity' ) {
 		// Reset the URL.
 		setAttributes( { url: '' } );
 
@@ -144,7 +155,7 @@ const EditEmbedActivity = ( {
 				<div className="wp-block-embed__wrapper">
 					<SandBox
 						html={ preview && preview.html ? preview.html : '' }
-						scripts={ [ embedScriptURL ] }
+						scripts={[ embedScriptURL ]}
 					/>
 				</div>
 				{ ( ! RichText.isEmpty( caption ) || isSelected ) && (
@@ -152,16 +163,30 @@ const EditEmbedActivity = ( {
 						tagName="figcaption"
 						placeholder={ __( 'Write caption…', 'buddypress' ) }
 						value={ caption }
-						onChange={ ( value ) => setAttributes( { caption: value } ) }
+						onChange={ ( newValue ) => setAttributes( { caption: newValue } ) }
 						inlineToolbar
 					/>
 				) }
 			</figure>
 		</Fragment>
 	);
-}
+};
 
-const editEmbedActivityBlock = compose( [
+EditEmbedActivity.propTypes = {
+	attributes: PropTypes.shape({
+		url: PropTypes.string.isRequired,
+		caption: PropTypes.string.isRequired,
+	}).isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	isSelected: PropTypes.bool.isRequired,
+	bpSettings: PropTypes.shape({
+		embedScriptURL: PropTypes.string.isRequired,
+	}).isRequired,
+	preview: PropTypes.arrayOf(PropTypes.string).isRequired,
+	fetching: PropTypes.bool.isRequired,
+};
+
+const EmbedActivityBlockEdit = compose( [
 	withSelect( ( select, ownProps ) => {
 		const { url } = ownProps.attributes;
 		const editorSettings = select( 'core/editor' ).getEditorSettings();
@@ -181,4 +206,4 @@ const editEmbedActivityBlock = compose( [
 	} ),
 ] )( EditEmbedActivity );
 
-export default editEmbedActivityBlock;
+export default EmbedActivityBlockEdit;

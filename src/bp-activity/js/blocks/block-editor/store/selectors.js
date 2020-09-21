@@ -11,9 +11,7 @@ const {
  * @param {Object} state The current state.
  * @return {Object} The data to return.
  */
-export const getCurrentUser = ( state ) => {
-	return state.user || {};
-};
+export const getCurrentUser = ( state ) => state.user || {};
 
 /**
  * Retrieves user's groups.
@@ -21,9 +19,7 @@ export const getCurrentUser = ( state ) => {
  * @param {Object} state The current state.
  * @return {Array} Array of user's groups.
  */
-export const getUserGroups = ( state ) => {
-	return state.groups || [];
-};
+export const getUserGroups = ( state ) => state.groups || [];
 
 /**
  * Retrieves the content.
@@ -31,9 +27,7 @@ export const getUserGroups = ( state ) => {
  * @param {Object} state The current state.
  * @return {string} The data to return.
  */
-export const getContent = ( state )  => {
-	return state.content || '';
-};
+export const getContent = ( state ) => state.content || '';
 
 /**
  * Retrieves blocks.
@@ -41,9 +35,7 @@ export const getContent = ( state )  => {
  * @param {Object} state The current state.
  * @return {Array} Array of of blocks.
  */
-export const getBlocks = ( state )  => {
-	return state.blocks || [];
-};
+export const getBlocks = ( state ) => state.blocks || [];
 
 /**
  * Returns true if an activity is being added.
@@ -51,9 +43,7 @@ export const getBlocks = ( state )  => {
  * @param {Object} state The current state.
  * @return {boolean} True if a activity is being added.
  */
-export const isInsertingActivity = ( state )  => {
-	return state.inserting || false;
-};
+export const isInsertingActivity = ( state ) => state.inserting || false;
 
 /**
  * Retrieves activity just posted.
@@ -61,9 +51,7 @@ export const isInsertingActivity = ( state )  => {
  * @param {Object} state The current state.
  * @return {Object} The data to return.
  */
-export const getJustPostedActivity = ( state )  => {
-	return state.created || {};
-};
+export const getJustPostedActivity = ( state ) => state.created || {};
 
 /**
  * Returns true if sidebar is visible.
@@ -71,9 +59,7 @@ export const getJustPostedActivity = ( state )  => {
  * @param {Object} state The current state.
  * @return {boolean} True if sidebar is visible.
  */
-export const isSidebarVisible = ( state ) => {
-	return state.isSidebarVisible || false;
-};
+export const isSidebarVisible = ( state ) => state.isSidebarVisible || false;
 
 /**
  * Retrieves the activity date.
@@ -81,9 +67,7 @@ export const isSidebarVisible = ( state ) => {
  * @param {Object} state The current state.
  * @return {string} The data to return.
  */
-export const getActivityDate = ( state ) => {
-	return state.date || '';
-};
+export const getActivityDate = ( state ) => state.date || '';
 
 /**
  * Returns the activity group.
@@ -91,6 +75,4 @@ export const getActivityDate = ( state ) => {
  * @param {Object} state The current state.
  * @return {integer} The group ID.
  */
-export const getActivityGroup = ( state ) => {
-	return find( state.groups || [], { id: state.groupId || 0 } );
-};
+export const getActivityGroup = ( state ) => find( state.groups || [], { id: state.groupId || 0 } );

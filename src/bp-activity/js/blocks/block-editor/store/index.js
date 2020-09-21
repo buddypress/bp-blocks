@@ -1,13 +1,4 @@
 /**
- * WordPress dependencies.
- */
-const {
-	data: {
-		registerStore,
-	},
-} = wp;
-
-/**
  * Internal dependencies.
  */
 import { STORE_KEY } from './constants';
@@ -15,7 +6,16 @@ import * as selectors from './selectors';
 import * as actions from './actions';
 import * as resolvers from './resolvers';
 import reducer from './reducers';
-import { controls } from './controls';
+import controls from './controls';
+
+/**
+ * WordPress dependencies.
+ */
+const {
+	data: {
+		registerStore,
+	},
+} = wp;
 
 registerStore( STORE_KEY, {
 	reducer,

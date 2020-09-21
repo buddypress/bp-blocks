@@ -41,7 +41,7 @@ const registerActivityBlocks = () => {
 	];
 
 	getBlockTypes().forEach( ( { name } ) => {
-		if ( -1 === indexOf( whiteList, name ) ) {
+		if ( indexOf( whiteList, name ) === -1 ) {
 			unregisterBlockType( name );
 		}
 	} );

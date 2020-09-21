@@ -1,4 +1,10 @@
 /**
+ * Internal dependencies.
+ */
+import ShareActivityEdit from './share-activity/edit';
+import { INITIAL_BORDER_RADIUS_POSITION } from './share-activity/constants';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -9,12 +15,6 @@ const {
 		registerBlockType,
 	},
 } = wp;
-
-/**
- * Internal dependencies.
- */
-import ShareActivityEdit from './share-activity/edit';
-import { INITIAL_BORDER_RADIUS_POSITION } from './share-activity/constants';
 
 registerBlockType( 'bp/share-activity', {
 	title: __( 'Share into activities', 'buddypress' ),

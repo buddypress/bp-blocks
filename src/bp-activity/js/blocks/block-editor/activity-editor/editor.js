@@ -83,7 +83,7 @@ export default function BlockEditor( { settings: _settings } ) {
 
 	if ( activityCreated ) {
 		if ( activityCreated.link ) {
-			if ( settings.isActivityAdminScreen && true === settings.isActivityAdminScreen ) {
+			if ( settings.isActivityAdminScreen && settings.isActivityAdminScreen === true ) {
 				createInfoNotice( __( 'Activity successfully published', 'buddypress' ), {
 					type: 'snackbar',
 					isDismissible: true,

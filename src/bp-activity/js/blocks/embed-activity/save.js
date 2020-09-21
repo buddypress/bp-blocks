@@ -1,4 +1,9 @@
 /**
+ * External dependencies.
+ */
+import PropTypes from 'prop-types';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -7,8 +12,11 @@ const {
 	},
 } = wp;
 
-const saveEmbedActivityBlock = ( { attributes } ) => {
-	const { url, caption } = attributes;
+const EmbedActivityBlockSave = ( { attributes } ) => {
+	const {
+		url,
+		caption
+	} = attributes;
 
 	if ( !url ) {
 		return null;
@@ -31,4 +39,11 @@ const saveEmbedActivityBlock = ( { attributes } ) => {
 	);
 };
 
-export default saveEmbedActivityBlock;
+EmbedActivityBlockSave.propTypes = {
+	attributes: PropTypes.shape({
+		url: PropTypes.string.isRequired,
+		caption: PropTypes.string.isRequired,
+	}).isRequired,
+};
+
+export default EmbedActivityBlockSave;

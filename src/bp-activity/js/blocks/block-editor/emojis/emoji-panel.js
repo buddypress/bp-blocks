@@ -1,4 +1,15 @@
 /**
+ * External dependencies.
+ */
+import classnames from 'classnames';
+
+const {
+	partial,
+	noop,
+	find
+} = lodash;
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -15,26 +26,27 @@ const {
 	},
 } = wp;
 
-/**
- * External dependencies.
- */
-const { partial, noop, find } = lodash;
-import classnames from 'classnames';
-
-const TabButton = ( { tabId, onClick, children, selected, ...rest } ) => (
+const TabButton = ( {
+	tabId,
+	onClick,
+	children,
+	selected,
+	...rest
+} ) => (
 	<Button
 		role="tab"
 		tabIndex={ selected ? null : -1 }
 		aria-selected={ selected }
 		id={ tabId }
 		onClick={ onClick }
+		// eslint-disable-next-line react/jsx-props-no-spreading
 		{ ...rest }
 	>
 		{ children }
 	</Button>
 );
 
-export default function EmojiPanel( {
+const EmojiPanel = ( {
 	className,
 	children,
 	tabs,
@@ -42,7 +54,7 @@ export default function EmojiPanel( {
 	orientation = 'horizontal',
 	activeClass = 'is-active',
 	onSelect = noop,
-} ) {
+} ) => {
 	const instanceId = useInstanceId( EmojiPanel, 'emoji-panel' );
 	const [ selected, setSelected ] = useState(
 		initialTabName || ( tabs.length > 0 ? tabs[ 0 ].name : null )
@@ -58,7 +70,7 @@ export default function EmojiPanel( {
 	};
 
 	const selectedTab = find( tabs, { name: selected } );
-	const selectedId = `${ instanceId }-${ selectedTab.name }`;
+	const selectedId = `${instanceId}-${selectedTab.name}`;
 
 	return (
 		<div className={ className }>
@@ -74,18 +86,20 @@ export default function EmojiPanel( {
 							'components-emoji-panel__tabs-item',
 							tab.className,
 							{
-								[ activeClass ]: tab.name === selected,
+								[activeClass]: tab.name === selected,
 							}
 						) }
-						tabId={ `${ instanceId }-${ tab.name }` }
-						aria-controls={ `${ instanceId }-${ tab.name }-view` }
+						tabId={ `${instanceId}-${tab.name}` }
+						aria-controls={ `${instanceId}-${tab.name}-view` }
 						selected={ tab.name === selected }
 						key={ tab.name }
 						onClick={ partial( handleClick, tab.name ) }
 					>
 						{ tab.title }
 						{ tab.label && (
-							<VisuallyHidden>{ tab.label }</VisuallyHidden>
+							<VisuallyHidden>
+								{ tab.label }
+							</VisuallyHidden>
 						) }
 					</TabButton>
 				) ) }
@@ -94,7 +108,7 @@ export default function EmojiPanel( {
 				<div
 					aria-labelledby={ selectedId }
 					role="tabpanel"
-					id={ `${ selectedId }-view` }
+					id={ `${selectedId}-view` }
 					className="components-emoji-panel__tab-content"
 				>
 					{ children( selectedTab ) }
@@ -102,4 +116,6 @@ export default function EmojiPanel( {
 			) }
 		</div>
 	);
-}
+};
+
+export default EmojiPanel;

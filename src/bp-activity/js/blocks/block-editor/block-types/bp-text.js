@@ -1,4 +1,11 @@
 /**
+ * Internal dependencies.
+ */
+import EditText from './edit';
+import SaveText from './save';
+import { BP_TEXT_BLOCK } from './constants';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -9,13 +16,6 @@ const {
 		__,
 	},
 } = wp;
-
-/**
- * Internal dependencies.
- */
-import EditText from './edit';
-import SaveText from './save';
-import { BP_TEXT_BLOCK } from './constants';
 
 registerBlockType( BP_TEXT_BLOCK, {
 	title: __( 'Text', 'buddypress' ),

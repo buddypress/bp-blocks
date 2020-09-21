@@ -100,9 +100,10 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				isSidebarVisible: action.visibility,
 			};
-	}
 
-	return state;
+		default:
+			return state;
+	}
 };
 
 export default reducer;

@@ -1,4 +1,10 @@
 /**
+ * Internal dependencies.
+ */
+import EmbedActivityBlockEdit from './embed-activity/edit';
+import EmbedActivityBlockSave from './embed-activity/save';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -9,12 +15,6 @@ const {
 		registerBlockType,
 	},
 } = wp;
-
-/**
- * Internal dependencies.
- */
-import editEmbedActivityBlock from './embed-activity/edit';
-import saveEmbedActivityBlock from './embed-activity/save';
 
 registerBlockType( 'bp/embed-activity', {
 	title: __( 'Embed an activity', 'buddypress' ),
@@ -34,6 +34,6 @@ registerBlockType( 'bp/embed-activity', {
 	supports: {
 		align: true,
 	},
-	edit: editEmbedActivityBlock,
-	save: saveEmbedActivityBlock,
+	edit: EmbedActivityBlockEdit,
+	save: EmbedActivityBlockSave,
 } );

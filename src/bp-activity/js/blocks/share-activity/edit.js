@@ -1,4 +1,17 @@
 /**
+ * External dependencies.
+ */
+import PropTypes from 'prop-types';
+
+const {
+	identity,
+	isEqual,
+	isObject,
+	pickBy,
+	mapValues,
+} = lodash;
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -27,17 +40,6 @@ const {
 } = wp;
 
 /**
- * External dependencies.
- */
-const {
-	identity,
-	isEqual,
-	isObject,
-	pickBy,
-	mapValues,
-} = lodash;
-
-/**
  * Internal dependencies.
  */
 import {
@@ -59,16 +61,24 @@ const cleanEmptyObject = ( object ) => {
 };
 
 const ShareActivityEdit = ( { attributes, setAttributes } ) => {
-	const { text, backgroundColor, textColor, borderRadius, style, wpLoginLinkFallback } = attributes;
+	const {
+		text,
+		backgroundColor,
+		textColor,
+		borderRadius,
+		style,
+		wpLoginLinkFallback
+	} = attributes;
 	const backgroundClass = getColorClassName( 'background-color', backgroundColor );
 	const textClass = getColorClassName( 'color', textColor );
-	const { colors } = useSelect( ( select ) => {
-		return select( 'core/block-editor' ).getSettings();
-	}, [] );
+	const { colors } = useSelect(
+		( select ) => select( 'core/block-editor' ).getSettings(),
+		[]
+	);
 
 	let className = 'wp-block-button__link';
-	let styleProps = {};
-	let styleColors = {
+	const styleProps = {};
+	const styleColors = {
 		text: '',
 		background: '',
 	};
@@ -88,41 +98,41 @@ const ShareActivityEdit = ( { attributes, setAttributes } ) => {
 	if ( !! backgroundClass || styleColors.background ) {
 		className += ' has-background';
 
-		if ( !! backgroundClass ) {
-			className += ' ' + backgroundClass;
+		if ( backgroundClass ) {
+			className += ` ${backgroundClass}`;
 		}
 	}
 
 	if ( !! textClass || styleColors.text ) {
 		className += ' has-text-color';
 
-		if ( !! textClass ) {
-			className += ' ' + textClass;
+		if ( textClass ) {
+			className += ` ${textClass}`;
 		}
 	}
 
 	const onChangeColor = ( name ) => ( value ) => {
 		const colorObject = getColorObjectByColorValue( colors, value );
-		const attributeName = name + 'Color';
+		const attributeName = `${name} Color`;
 		const colorSlug = colorObject && colorObject.slug ? colorObject.slug : undefined;
 		const newStyle = {
 			...style,
 			color: {
 				...styleColors,
-				[ name ]: value,
+				[name]: value,
 			},
 		};
 
-		const newNamedColor = colorSlug ? colorSlug : undefined;
+		const newNamedColor = colorSlug || undefined;
 		const newAttributes = {
 			style: cleanEmptyObject( newStyle ),
-			[ attributeName ]: newNamedColor,
+			[attributeName]: newNamedColor,
 		};
 
 		setAttributes( newAttributes );
 	};
 
-	return(
+	return (
 		<Fragment>
 			<div className="wp-block-button">
 				<RichText
@@ -133,14 +143,14 @@ const ShareActivityEdit = ( { attributes, setAttributes } ) => {
 					className={ className }
 					style={ {
 						borderRadius: borderRadius
-							? borderRadius + 'px'
+							? `${borderRadius}px`
 							: 0,
 						...styleProps,
 					} }
 				/>
 			</div>
 			<InspectorControls>
-				<PanelBody title={ __( 'Unconnected users Settings', 'buddypress' ) } initialOpen={ true }>
+				<PanelBody title={ __( 'Unconnected users Settings', 'buddypress' ) } initialOpen>
 					<ToggleControl
 						label={ __( 'Fallback to the WordPress login link', 'buddypress' ) }
 						checked={ !! wpLoginLinkFallback }
@@ -194,6 +204,20 @@ const ShareActivityEdit = ( { attributes, setAttributes } ) => {
 			</InspectorControls>
 		</Fragment>
 	);
+};
+
+ShareActivityEdit.propTypes = {
+	attributes: PropTypes.shape({
+		text: PropTypes.string.isRequired,
+		backgroundColor: PropTypes.string.isRequired,
+		textColor: PropTypes.string.isRequired,
+		borderRadius: PropTypes.number.isRequired,
+		// eslint-disable-next-line react/forbid-prop-types
+		style: PropTypes.object.isRequired,
+		wpLoginLinkFallback: PropTypes.bool.isRequired,
+
+	}).isRequired,
+	setAttributes: PropTypes.func.isRequired
 };
 
 export default ShareActivityEdit;

@@ -12,31 +12,6 @@ const {
 import { TYPES as types } from './action-types';
 
 /**
- * Resolver for creating an activity.
- */
-export function* insertActivity( activity ) {
-	let inserting = true, created;
-
-	yield { type: types.CREATE_START, inserting, activity };
-
-	try {
-		created = yield createFromAPI( '/buddypress/v1/activity', activity );
-
-	} catch ( error ) {
-		created = assignIn( {
-			id: uniqueId(),
-			error: error.message,
-		}, activity );
-
-		yield { type: types.ADD_ERROR, created };
-	}
-
-	inserting = false;
-
-	yield { type: types.CREATE_END, inserting, created };
-}
-
-/**
  * Returns an action object used to get the current user.
  *
  * @param {Object} user Current user object.
@@ -166,4 +141,29 @@ export function resetActivityGroup() {
 	return {
 		type: types.RESET_ACTIVITY_GROUP,
 	};
+}
+
+/**
+ * Resolver for creating an activity.
+ */
+export function* insertActivity( activity ) {
+	let inserting = true;
+	let created;
+
+	yield { type: types.CREATE_START, inserting, activity };
+
+	try {
+		created = yield createFromAPI( '/buddypress/v1/activity', activity );
+	} catch ( error ) {
+		created = assignIn( {
+			id: uniqueId(),
+			error: error.message,
+		}, activity );
+
+		yield { type: types.ADD_ERROR, created };
+	}
+
+	inserting = false;
+
+	yield { type: types.CREATE_END, inserting, created };
 }

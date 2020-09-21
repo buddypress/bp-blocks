@@ -1,4 +1,15 @@
 /**
+ * External dependencies.
+ */
+import PropTypes from 'prop-types';
+
+/**
+ * Internal dependencies.
+ */
+import EmojiPickerTabs from '../emojis/emoji-picker';
+import { BP_TEXT_BLOCK } from './constants';
+
+/**
  * WordPress dependencies.
  */
 const {
@@ -34,12 +45,6 @@ const {
 	},
 } = wp;
 
-/**
- * Internal dependencies.
- */
-import EmojiPickerTabs from '../emojis/emoji-picker';
-import { BP_TEXT_BLOCK } from './constants';
-
 const getRange = () => {
 	const selection = window.getSelection();
 	return selection.rangeCount ? selection.getRangeAt( 0 ) : null;
@@ -52,7 +57,10 @@ const EditText = ( {
 	clientId,
 	setAttributes,
 } ) => {
-	const { content, placeholder } = attributes;
+	const {
+		content,
+		placeholder
+	} = attributes;
 	const name = BP_TEXT_BLOCK;
 	const { removeBlock } = useDispatch( 'core/block-editor' );
 	const onRemove = () => removeBlock( clientId );
@@ -61,8 +69,8 @@ const EditText = ( {
 	// Used to track the current RichText.
 	const ref = useRef();
 
-	const setContent = ( content ) => {
-		setAttributes( { content: content } );
+	const setContent = ( newContent ) => {
+		setAttributes( { content: newContent } );
 	};
 
 	const insertEmoji = ( emoji ) => {
@@ -72,12 +80,12 @@ const EditText = ( {
 		const textValue = getTextContent( value );
 
 		value.start = anchor.startOffset;
-		value.end   = anchor.endOffset;
+		value.end = anchor.endOffset;
 
 		// The text value contains HTML tags.
 		if ( textValue.length !== anchor.startContainer.length ) {
 			let index = anchor.startContainer.textContent;
-			if ( null !== anchor.startContainer.nextSibling ) {
+			if ( anchor.startContainer.nextSibling !== null ) {
 				index += anchor.startContainer.nextSibling.outerHTML;
 			}
 
@@ -87,12 +95,12 @@ const EditText = ( {
 
 				if ( -1 !== findIndex ) {
 					value.start += findIndex;
-					value.end   += findIndex;
+					value.end += findIndex;
 				}
 			} else {
 				// Otherwise put it at the end of the text value.
 				value.start += textValue.length;
-				value.end   += textValue.length;
+				value.end += textValue.length;
 			}
 		}
 
@@ -116,7 +124,7 @@ const EditText = ( {
 						className="components-dropdown-menu__toggle"
 						onClick={ setVisible }
 					>
-						<Dashicon icon="smiley"/>
+						<Dashicon icon="smiley" />
 						{ isVisible && (
 							<Popover
 								className="activity-editor-emoji-picker__popover"
@@ -133,7 +141,7 @@ const EditText = ( {
 				identifier="content"
 				tagName="p"
 				ref={ ref }
-				onChange={ ( content ) => setContent( content ) }
+				onChange={ ( newContent ) => setContent( newContent ) }
 				value={ content }
 				onSplit={ ( value ) => {
 					if ( ! value ) {
@@ -158,6 +166,17 @@ const EditText = ( {
 			/>
 		</Fragment>
 	);
-}
+};
+
+EditText.propTypes = {
+	attributes: PropTypes.shape({
+		content: PropTypes.string.isRequired,
+		placeholder: PropTypes.string.isRequired,
+	}).isRequired,
+	mergeBlocks: PropTypes.func.isRequired,
+	onReplace: PropTypes.func.isRequired,
+	setAttributes: PropTypes.func.isRequired,
+	clientId: PropTypes.string.isRequired,
+};
 
 export default EditText;
