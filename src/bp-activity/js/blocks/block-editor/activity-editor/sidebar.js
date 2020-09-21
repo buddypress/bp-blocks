@@ -92,7 +92,7 @@ export default function Sidebar() {
 				<PanelBody
 					className="activity-editor-sidebar__main-panel"
 					title={ __( 'Status & sharing options', 'buddypress' ) }
-					opened={ true }
+					opened
 				>
 					<PanelRow className="activity-editor-sidebar-main-panel__schedule">
 						<span>{ __( 'Publish', 'buddypress' ) }</span>
@@ -154,7 +154,7 @@ export default function Sidebar() {
 									ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
 									placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
 									onSelectItem={ ( { itemID } ) => setActivityGroup( itemID ) }
-									useAvatar={ true }
+									useAvatar
 								/>
 							</PanelRow>
 						</>

@@ -47,7 +47,7 @@ import {
 } from './constants';
 
 const cleanEmptyObject = ( object ) => {
-	if ( ! isObject( object ) ) {
+	if ( !isObject( object ) ) {
 		return object;
 	}
 	const cleanedNestedObjects = pickBy(

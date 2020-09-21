@@ -124,11 +124,11 @@ export default function BlockEditor( { settings: _settings } ) {
 				<div className="editor-styles-wrapper">
 					<BlockEditorKeyboardShortcuts />
 					<Popover.Slot name="block-toolbar" />
-						<WritingFlow>
-							<ObserveTyping>
-								<BlockList className="activity-block-editor__block-list" />
-							</ObserveTyping>
-						</WritingFlow>
+					<WritingFlow>
+						<ObserveTyping>
+							<BlockList className="activity-block-editor__block-list" />
+						</ObserveTyping>
+					</WritingFlow>
 					<Popover.Slot />
 				</div>
 			</BlockEditorProvider>

@@ -9,7 +9,7 @@ const getActivityBlockEditorMessage = ( event ) => {
 		buttonClicked.classList.remove( 'thickbox' );
 	}
 
-	if ( 'function' === typeof window.tb_remove ) {
+	if ( typeof window.tb_remove === 'function' ) {
 		window.tb_remove();
 	}
 };

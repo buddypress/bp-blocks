@@ -45,12 +45,12 @@ function Editor( { settings } ) {
 					className={ isSidebarVisible ? 'sidebar-visible' : 'sidebar-invisible' }
 					header={<Header />}
 					sidebar={<Sidebar />}
-					content={
+					content={(
 						<Fragment>
 							<Notices />
 							<BlockEditor settings={settings} />
 						</Fragment>
-					}
+					)}
 				/>
 				<Popover.Slot />
 			</DropZoneProvider>

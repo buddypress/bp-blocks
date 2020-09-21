@@ -2,12 +2,12 @@
  * WordPress dependencies.
  */
 const {
-  blocks: {
-    registerBlockType,
-  },
-  i18n: {
-    __,
-  },
+	blocks: {
+		registerBlockType,
+	},
+	i18n: {
+		__,
+	},
 } = wp;
 
 registerBlockType( 'bp/members', {
@@ -16,9 +16,7 @@ registerBlockType( 'bp/members', {
 	icon: 'groups',
 	category: 'buddypress',
 	attributes: {},
-	edit: function() {
-		return(
-			<p>{ __( 'BuddyPress Members.', 'buddypress' ) }</p>
-		)
-	},
+	edit: () => (
+		<p>{ __( 'BuddyPress Members.', 'buddypress' ) }</p>
+	),
 } );
