@@ -40,10 +40,6 @@ registerBlockType( 'bp/members', {
 			type: 'boolean',
 			default: true,
 		},
-		displayCoverImage: {
-			type: 'boolean',
-			default: true,
-		},
 	},
 	edit: editMembersBlock,
 } );
