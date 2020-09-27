@@ -25,6 +25,7 @@ const {
 	},
 	i18n: {
 		__,
+		sprintf,
 	},
 	apiFetch,
 	url: {
@@ -50,39 +51,62 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editMembers = ( { attributes, setAttributes, bpSettings, bpMembers } ) => {
+const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
 	const {
 		isAvatarEnabled,
 		isMentionEnabled,
-		isCoverImageEnabled,
 	} = bpSettings;
 	const {
 		itemIDs,
 		avatarSize,
 		displayMentionSlug,
 		displayUserName,
-		displayCoverImage,
 	} = attributes;
 	const hasMembers = 0 !== itemIDs.length;
-	const [ members, queryMembers ] = useState( [] );
+	const [ members, setMembers ] = useState( [] );
 	let membersList;
 
 	if ( hasMembers && itemIDs.length !== members.length ) {
+		/**
+		 * The populate_extras param should help us to get specific BP data for fetched users
+		 *
+		 * @see https://github.com/buddypress/BP-REST/pull/355
+		 */
 		apiFetch( {
-			path: addQueryArgs( `/buddypress/v1/members`, { include: itemIDs } ),
+			path: addQueryArgs( `/buddypress/v1/members`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
-			queryMembers( items );
+			setMembers( items );
 		} )
 	}
 
 	if ( members.length ) {
 		membersList = members.map( ( member ) => {
 			return (
-				<div key={ 'bp-member-' + member.id } className="bp-members-block-list">
-					{ isAvatarEnabled && (
-						<img key={ 'avatar-' + member.id } className="user-avatar" alt="" src={ member.avatar_urls[ avatarSize ] } />
+				<div key={ 'bp-member-' + member.id } className="member-content">
+					{ isAvatarEnabled && 'none' !== avatarSize && (
+						<div className="item-header-avatar">
+							<a href={ member.link } target="_blank">
+								<img
+									key={ 'avatar-' + member.id }
+									className="avatar"
+									alt={ sprintf( __( 'Profile photo of %s', 'buddypress' ), member.name ) }
+									src={ member.avatar_urls[ avatarSize ] }
+								/>
+							</a>
+						</div>
 					) }
-					<span>{ member.name }</span>
+					<div className="member-description">
+						{ displayUserName && (
+							<strong>
+								<a href={ member.link } target="_blank">
+									{ member.name }
+								</a>
+							</strong>
+						) }
+						{ isMentionEnabled && displayMentionSlug && (
+							<span className="user-nicename">@{ member.mention_name }</span>
+						) }
+					</div>
 				</div>
 			);
 		} );
@@ -99,7 +123,7 @@ const editMembers = ( { attributes, setAttributes, bpSettings, bpMembers } ) => 
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
-						label={ __( 'Display Profile button', 'buddypress' ) }
+						label={ __( 'Display the user name', 'buddypress' ) }
 						checked={ !! displayUserName }
 						onChange={ () => {
 							setAttributes( { displayUserName: ! displayUserName } );
@@ -137,24 +161,13 @@ const editMembers = ( { attributes, setAttributes, bpSettings, bpMembers } ) => 
 							} }
 						/>
 					) }
-
-					{ isCoverImageEnabled && (
-						<ToggleControl
-							label={ __( 'Display Cover Image', 'buddypress' ) }
-							checked={ !! displayCoverImage }
-							onChange={ () => {
-								setAttributes( { displayCoverImage: ! displayCoverImage } );
-							} }
-							help={
-								displayCoverImage
-									? __( 'Include the user\'s cover image over their display name.', 'buddypress' )
-									: __( 'Toggle to display the user\'s cover image over their display name.', 'buddypress' )
-							}
-						/>
-					) }
 				</PanelBody>
 			</InspectorControls>
-			{ membersList }
+
+			<div className={ 'bp-block-members avatar-' +avatarSize  }>
+				{ membersList }
+			</div>
+
 			<Placeholder
 				icon={ hasMembers ? '' : 'groups' }
 				label={ hasMembers ? '' : __( 'BuddyPress Members', 'buddypress' ) }

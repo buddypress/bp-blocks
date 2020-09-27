@@ -90,7 +90,6 @@ function bp_members_render_members_block( $attributes = array() ) {
 			'avatarSize'         => 'full',
 			'displayMentionSlug' => true,
 			'displayUserName'    => true,
-			'displayCoverImage'  => true,
 		)
 	);
 

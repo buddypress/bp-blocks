@@ -15,3 +15,40 @@
 		}
 	}
 }
+
+.bp-block-members {
+
+	.member-content {
+		display: flex;
+	}
+
+	img.avatar {
+		width: auto;
+		height: auto;
+	}
+
+	&.avatar-none .item-header-avatar {
+		display: none;
+	}
+
+	&.avatar-full {
+		min-height: 150px;
+	}
+
+	&.avatar-full .item-header-avatar {
+		width: 180px;
+	}
+
+	.user-nicename {
+		display: block;
+	}
+
+	&.avatar-thumb .member-content {
+		min-height: 50px;
+		align-items: center;
+	}
+
+	&.avatar-thumb .item-header-avatar {
+		width: 70px;
+	}
+}
