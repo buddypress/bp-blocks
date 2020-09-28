@@ -5,6 +5,10 @@
 
 		&.is-appender {
 			min-height: 0;
+
+			.components-placeholder__label:empty {
+				display: none;
+			}
 		}
 
 		input.components-placeholder__input {
