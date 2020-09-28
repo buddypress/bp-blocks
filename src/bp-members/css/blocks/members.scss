@@ -14,6 +14,13 @@
 			padding: 6px 8px;
 		}
 	}
+
+	.member-content {
+
+		.is-right {
+			right: -2px;
+		}
+	}
 }
 
 .bp-block-members {
@@ -27,28 +34,44 @@
 		height: auto;
 	}
 
-	&.avatar-none .item-header-avatar {
-		display: none;
+	&.avatar-none {
+		.item-header-avatar {
+			display: none;
+		}
+
+		.member-description {
+			width: calc( 100% - 44px );
+		}
 	}
 
 	&.avatar-full {
 		min-height: 150px;
-	}
 
-	&.avatar-full .item-header-avatar {
-		width: 180px;
+		.item-header-avatar {
+			width: 180px;
+		}
+
+		.member-description {
+			width: calc( 100% - 224px );
+		}
 	}
 
 	.user-nicename {
 		display: block;
 	}
 
-	&.avatar-thumb .member-content {
-		min-height: 50px;
-		align-items: center;
-	}
+	&.avatar-thumb {
 
-	&.avatar-thumb .item-header-avatar {
-		width: 70px;
+		.member-content {
+			min-height: 50px;
+		}
+
+		.item-header-avatar {
+			width: 70px;
+		}
+
+		.member-description {
+			width: calc( 100% - 114px );
+		}
 	}
 }

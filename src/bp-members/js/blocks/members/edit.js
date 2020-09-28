@@ -11,6 +11,8 @@ const {
 		SelectControl,
 		ToggleControl,
 		Button,
+		Dashicon,
+		Tooltip,
 	},
 	compose: {
 		compose,
@@ -43,6 +45,15 @@ const { AutoCompleter } = bp.blockComponents;
  */
 import { AVATAR_SIZES } from './constants';
 
+/**
+ * External dependencies.
+ */
+const {
+	reject,
+	remove,
+	sortBy,
+} = lodash;
+
 const getSlugValue = ( item ) => {
 	if ( item && item.mention_name ) {
 		return item.mention_name;
@@ -51,7 +62,7 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
+const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) => {
 	const {
 		isAvatarEnabled,
 		isMentionEnabled,
@@ -66,6 +77,23 @@ const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
 	const [ members, setMembers ] = useState( [] );
 	let membersList;
 
+	const onSelectedMember = ( { itemID } ) => {
+		if ( itemID && -1 === itemIDs.indexOf( itemID ) ) {
+			setAttributes( {
+				itemIDs: [...itemIDs, parseInt( itemID, 10 ) ]
+			} );
+		}
+	};
+
+	const onRemoveMember = ( ( itemID ) => {
+		if ( itemID && -1 !== itemIDs.indexOf( itemID ) ) {
+			setMembers( reject( members, ['id', itemID ] ) );
+			setAttributes( {
+				itemIDs: remove( itemIDs, ( value ) => { return value !== itemID } )
+			} );
+		}
+	} );
+
 	if ( hasMembers && itemIDs.length !== members.length ) {
 		/**
 		 * The populate_extras param should help us to get specific BP data for fetched users
@@ -75,7 +103,11 @@ const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
 		apiFetch( {
 			path: addQueryArgs( `/buddypress/v1/members`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
-			setMembers( items );
+			setMembers(
+				sortBy( items, [ ( item ) => {
+					return itemIDs.indexOf( item.id );
+				} ] )
+			);
 		} )
 	}
 
@@ -107,16 +139,21 @@ const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
 							<span className="user-nicename">@{ member.mention_name }</span>
 						) }
 					</div>
+					{ isSelected && (
+						<Tooltip text={ __( 'Remove member', 'buddypress' ) }>
+							<Button
+								className="is-right"
+								onClick={ () => onRemoveMember( member.id ) }
+								label={ __( 'Remove member', 'buddypress' ) }
+							>
+								<Dashicon icon="no"/>
+							</Button>
+						</Tooltip>
+					) }
 				</div>
 			);
 		} );
 	}
-
-	const onSelectedMember = ( { itemID } ) => {
-		if ( -1 === itemIDs.indexOf( itemID ) && itemID ) {
-			setAttributes( { itemIDs: [...itemIDs, parseInt( itemID, 10 ) ] } );
-		}
-	};
 
 	return (
 		<Fragment>
@@ -164,25 +201,29 @@ const editMembers = ( { attributes, setAttributes, bpSettings } ) => {
 				</PanelBody>
 			</InspectorControls>
 
-			<div className={ 'bp-block-members avatar-' +avatarSize  }>
-				{ membersList }
-			</div>
+			{ hasMembers && (
+				<div className={ 'bp-block-members avatar-' +avatarSize  }>
+					{ membersList }
+				</div>
+			) }
 
-			<Placeholder
-				icon={ hasMembers ? '' : 'groups' }
-				label={ hasMembers ? '' : __( 'BuddyPress Members', 'buddypress' ) }
-				instructions={ __( 'Start typing the name of the member you want to add to the members list.', 'buddypress' ) }
-				className={ 0 !== itemIDs.length ? 'is-appender' : 'is-large' }
-			>
-				<AutoCompleter
-					component="members"
-					slugValue={ getSlugValue }
-					ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
-					placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }
-					onSelectItem={ onSelectedMember }
-					useAvatar={ isAvatarEnabled }
-				/>
-			</Placeholder>
+			{ ( isSelected || 0 === itemIDs.length ) && (
+				<Placeholder
+					icon={ hasMembers ? '' : 'groups' }
+					label={ hasMembers ? '' : __( 'BuddyPress Members', 'buddypress' ) }
+					instructions={ __( 'Start typing the name of the member you want to add to the members list.', 'buddypress' ) }
+					className={ 0 !== itemIDs.length ? 'is-appender' : 'is-large' }
+				>
+					<AutoCompleter
+						component="members"
+						slugValue={ getSlugValue }
+						ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
+						placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }
+						onSelectItem={ onSelectedMember }
+						useAvatar={ isAvatarEnabled }
+					/>
+				</Placeholder>
+			) }
 		</Fragment>
 	);
 };
