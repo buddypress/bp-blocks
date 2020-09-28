@@ -38,6 +38,7 @@ function bp_blocks_register_member_blocks( $blocks ) {
 					'wp-url',
 					'wp-block-editor',
 					'bp-block-components',
+					'lodash',
 				),
 				'style'              => 'bp-members-block',
 				'style_url'          => plugins_url( 'css/blocks/members.css', __FILE__ ),
@@ -57,10 +58,6 @@ function bp_blocks_register_member_blocks( $blocks ) {
 						'default' => true,
 					),
 					'displayUserName'    => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
-					'displayCoverImage'  => array(
 						'type'    => 'boolean',
 						'default' => true,
 					),
