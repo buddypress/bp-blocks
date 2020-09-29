@@ -4,6 +4,7 @@
 const {
 	blockEditor: {
 		InspectorControls,
+		BlockControls,
 	},
 	components: {
 		Placeholder,
@@ -13,6 +14,8 @@ const {
 		Button,
 		Dashicon,
 		Tooltip,
+		ToolbarGroup,
+		RangeControl,
 	},
 	compose: {
 		compose,
@@ -72,10 +75,31 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 		avatarSize,
 		displayMentionSlug,
 		displayUserName,
+		layoutPreference,
+		columns,
 	} = attributes;
 	const hasMembers = 0 !== itemIDs.length;
 	const [ members, setMembers ] = useState( [] );
+	const layoutControls = [
+		{
+			icon: 'text',
+			title: __( 'List view', 'buddypress' ),
+			onClick: () => setAttributes( { layoutPreference: 'list' } ),
+			isActive: layoutPreference === 'list',
+		},
+		{
+			icon: 'screenoptions',
+			title: __( 'Grid view', 'buddypress' ),
+			onClick: () => setAttributes( { layoutPreference: 'grid' } ),
+			isActive: layoutPreference === 'grid',
+		},
+	];
 	let membersList;
+	let containerClasses = 'bp-block-members avatar-' + avatarSize;
+
+	if ( layoutPreference === 'grid' ) {
+		containerClasses += ' is-grid columns-' + columns;
+	}
 
 	const onSelectedMember = ( { itemID } ) => {
 		if ( itemID && -1 === itemIDs.indexOf( itemID ) ) {
@@ -198,11 +222,28 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 							} }
 						/>
 					) }
+
+					{ layoutPreference === 'grid' && (
+						<RangeControl
+							label={ __( 'Columns', 'buddypress' ) }
+							value={ columns }
+							onChange={ ( value ) =>
+								setAttributes( { columns: value } )
+							}
+							min={ 2 }
+							max={ 4 }
+							required
+						/>
+					) }
 				</PanelBody>
 			</InspectorControls>
 
+			<BlockControls>
+				<ToolbarGroup controls={ layoutControls } />
+			</BlockControls>
+
 			{ hasMembers && (
-				<div className={ 'bp-block-members avatar-' +avatarSize  }>
+				<div className={ containerClasses }>
 					{ membersList }
 				</div>
 			) }

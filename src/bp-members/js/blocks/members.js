@@ -40,6 +40,14 @@ registerBlockType( 'bp/members', {
 			type: 'boolean',
 			default: true,
 		},
+		layoutPreference: {
+			type: "string",
+			default: "list",
+		},
+		columns: {
+			type: "number",
+			default: 2
+		},
 	},
 	edit: editMembersBlock,
 } );
