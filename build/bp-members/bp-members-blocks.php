@@ -61,6 +61,15 @@ function bp_blocks_register_member_blocks( $blocks ) {
 						'type'    => 'boolean',
 						'default' => true,
 					),
+					'layoutPreference'   => array(
+						'type'    => 'string',
+						'default' => 'list',
+						'enum'    => array( 'list', 'grid' ),
+					),
+					'columns'            => array(
+						'type'    => 'number',
+						'default' => 2,
+					),
 				),
 				'render_callback'    => 'bp_members_render_members_block',
 			),
