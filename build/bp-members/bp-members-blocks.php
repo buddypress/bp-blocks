@@ -182,5 +182,5 @@ function bp_members_render_members_block( $attributes = array() ) {
 	 * @param array  $block_args The block arguments.
 	 * @param array  $members    The list of WP_User objects.
 	 */
-	return apply_filters( 'bp_members_render_member_block_output', $output, $block_args, $members );
+	return apply_filters( 'bp_members_render_members_block_output', $output, $block_args, $members );
 }
