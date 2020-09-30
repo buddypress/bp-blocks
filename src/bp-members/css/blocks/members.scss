@@ -26,11 +26,16 @@
 		}
 	}
 
+	.columns-2,
 	.columns-3,
 	.columns-4 {
 
 		.member-content {
 			position: relative;
+
+			.member-description {
+				padding-left: 44px;
+			}
 
 			.is-right {
 				position: absolute;
@@ -114,11 +119,28 @@
 
 	.member-content {
 		display: flex;
+		padding-bottom: 1em;
+
+		.user-nicename {
+			display: block;
+
+			a {
+				color: currentColor;
+				text-decoration: none;
+				border: none;
+			}
+		}
 	}
 
+	&.columns-2 .member-content,
 	&.columns-3 .member-content,
 	&.columns-4 .member-content {
 		display: block;
+		text-align: center;
+
+		.item-header-avatar {
+			margin: 0 auto;
+		}
 
 		.member-description {
 			width: calc( 100% - 44px );
@@ -129,8 +151,12 @@
 		width: auto;
 		height: auto;
 	}
+}
 
-	.user-nicename {
-		display: block;
+.entry .entry-content .bp-block-members .user-nicename {
+	a {
+		color: currentColor;
+		text-decoration: none;
+		border: none;
 	}
 }
