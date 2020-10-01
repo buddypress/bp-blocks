@@ -27,6 +27,7 @@ const {
 		createElement,
 		Fragment,
 		useState,
+		createInterpolateElement,
 	},
 	i18n: {
 		__,
@@ -46,7 +47,7 @@ const { AutoCompleter } = bp.blockComponents;
 /**
  * Internal dependencies.
  */
-import { AVATAR_SIZES } from './constants';
+import { AVATAR_SIZES, EXTRA_DATA } from './constants';
 
 /**
  * External dependencies.
@@ -75,6 +76,7 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 		avatarSize,
 		displayMentionSlug,
 		displayUserName,
+		extraData,
 		layoutPreference,
 		columns,
 	} = attributes;
@@ -96,9 +98,14 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 	];
 	let membersList;
 	let containerClasses = 'bp-block-members avatar-' + avatarSize;
+	let memberItemClasses = 'member-content';
+	let extraDataOptions = EXTRA_DATA;
 
 	if ( layoutPreference === 'grid' ) {
 		containerClasses += ' is-grid columns-' + columns;
+		extraDataOptions = EXTRA_DATA.filter( ( extra ) => {
+			return 'latest_update' !== extra.value;
+		} );
 	}
 
 	const onSelectedMember = ( { itemID } ) => {
@@ -119,11 +126,6 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 	} );
 
 	if ( hasMembers && itemIDs.length !== members.length ) {
-		/**
-		 * The populate_extras param should help us to get specific BP data for fetched users
-		 *
-		 * @see https://github.com/buddypress/BP-REST/pull/355
-		 */
 		apiFetch( {
 			path: addQueryArgs( `/buddypress/v1/members`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
@@ -137,8 +139,14 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 
 	if ( members.length ) {
 		membersList = members.map( ( member ) => {
+			let hasActivity = false;
+			if ( layoutPreference === 'list' && 'latest_update' === extraData && member.latest_update && member.latest_update.rendered ) {
+				hasActivity = true;
+				memberItemClasses += ' has-activity';
+			}
+
 			return (
-				<div key={ 'bp-member-' + member.id } className="member-content">
+				<div key={ 'bp-member-' + member.id } className={ memberItemClasses }>
 					{ isAvatarEnabled && 'none' !== avatarSize && (
 						<div className="item-header-avatar">
 							<a href={ member.link } target="_blank">
@@ -152,15 +160,32 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 						</div>
 					) }
 					<div className="member-description">
-						{ displayUserName && (
+						{ hasActivity && (
+							<blockquote className="wp-block-quote">
+								<div dangerouslySetInnerHTML={ { __html: member.latest_update.rendered } } />
+								<cite>
+									<a href={ member.link } target="_blank">
+										{ member.name } (@{ member.mention_name })
+									</a>
+								</cite>
+							</blockquote>
+						) }
+						{ ! hasActivity && displayUserName && (
 							<strong>
 								<a href={ member.link } target="_blank">
 									{ member.name }
 								</a>
 							</strong>
 						) }
-						{ isMentionEnabled && displayMentionSlug && (
+
+						{ ! hasActivity && isMentionEnabled && displayMentionSlug && (
 							<span className="user-nicename">@{ member.mention_name }</span>
+						) }
+
+						{ 'last_activity' === extraData && member.last_activity && member.last_activity.date && (
+							<time dateTime={ member.last_activity.date }>
+								{ sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff ) }
+							</time>
 						) }
 					</div>
 					{ isSelected && (
@@ -222,6 +247,16 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 							} }
 						/>
 					) }
+
+					<SelectControl
+						label={ __( 'BuddyPress extra information', 'buddypress' ) }
+						value={ extraData }
+						options={ extraDataOptions }
+						help={ __( 'Select "None" to show no extra information.', 'buddypress' ) }
+						onChange={ ( option ) => {
+							setAttributes( { extraData: option } );
+						} }
+					/>
 
 					{ layoutPreference === 'grid' && (
 						<RangeControl

@@ -61,6 +61,11 @@ function bp_blocks_register_member_blocks( $blocks ) {
 						'type'    => 'boolean',
 						'default' => true,
 					),
+					'extraData'          => array(
+						'type'    => 'string',
+						'default' => 'none',
+						'enum'    => array( 'last_activity', 'latest_update', 'none' ),
+					),
 					'layoutPreference'   => array(
 						'type'    => 'string',
 						'default' => 'list',
@@ -96,6 +101,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 			'avatarSize'         => 'full',
 			'displayMentionSlug' => true,
 			'displayUserName'    => true,
+			'extraData'          => 'none',
 			'layoutPreference'   => 'list',
 			'columns'            => '2',
 		)
@@ -106,23 +112,34 @@ function bp_members_render_members_block( $attributes = array() ) {
 		return '';
 	}
 
-	$container_classes = sprintf( 'bp-block-members avatar-%s', $block_args['avatarSize'] );
+	$member_item_classes = 'member-content';
+	$container_classes   = sprintf( 'bp-block-members avatar-%s', $block_args['avatarSize'] );
 	if ( 'grid' === $block_args['layoutPreference'] ) {
 		$container_classes .= sprintf( ' is-grid columns-%d', (int) $block_args['columns'] );
 	}
 
-	$query = bp_core_get_users(
-		array(
-			'user_ids' => $member_ids,
-		)
+	$query_args = array(
+		'user_ids' => $member_ids,
 	);
+
+	if ( 'none' !== $block_args['extraData'] ) {
+		$query_args['populate_extras'] = true;
+	}
+
+	$query = bp_core_get_users( $query_args );
 
 	// Initialize the output and the members.
 	$output  = '';
 	$members = $query['users'];
 
 	foreach ( $members as $member ) {
-		$output .= '<div class="member-content">';
+		$has_activity = false;
+		if ( 'list' === $block_args['layoutPreference'] && 'latest_update' === $block_args['extraData'] && isset( $member->latest_update ) && $member->latest_update ) {
+			$has_activity         = true;
+			$member_item_classes .= ' has-activity';
+		}
+
+		$output .= sprintf( '<div class="%s">', $member_item_classes );
 
 		// Get Member link.
 		$member_link = bp_core_get_user_domain( $member->ID );
@@ -152,19 +169,52 @@ function bp_members_render_members_block( $attributes = array() ) {
 		}
 
 		$output .= '<div class="member-description">';
-		if ( $block_args['displayUserName'] ) {
-			$output .= sprintf(
-				'<strong><a href="%1$s">%2$s</a></strong>',
-				esc_url( $member_link ),
-				esc_html( $member->display_name )
-			);
-		}
 
-		if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() && $block_args['displayMentionSlug'] ) {
+		// Add the latest activity the member posted.
+		if ( $has_activity ) {
+			$activity_content = '';
+			$activity_data    = maybe_unserialize( $member->latest_update );
+
+			if ( isset( $activity_data['content'] ) ) {
+				$activity_content = apply_filters( 'bp_get_activity_content', $activity_data['content'] );
+			}
+
 			$output .= sprintf(
-				'<span class="user-nicename">@%s</span>',
+				'<blockquote class="wp-block-quote">
+					%1$s
+					<cite>
+						<a href="%2$s">%3$s (@%4$s)</a>
+					</cite>
+				</blockquote>',
+				$activity_content,
+				esc_url( $member_link ),
+				esc_html( $member->display_name ),
 				esc_html( $member->user_nicename )
 			);
+		} else {
+			if ( $block_args['displayUserName'] ) {
+				$output .= sprintf(
+					'<strong><a href="%1$s">%2$s</a></strong>',
+					esc_url( $member_link ),
+					esc_html( $member->display_name )
+				);
+			}
+
+			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() && $block_args['displayMentionSlug'] ) {
+				$output .= sprintf(
+					'<span class="user-nicename">@%s</span>',
+					esc_html( $member->user_nicename )
+				);
+			}
+
+			if ( 'last_activity' === $block_args['extraData'] ) {
+				$output .= sprintf(
+					'<time datetime="%1$s">%2$s</time>',
+					esc_attr( bp_core_get_iso8601_date( $member->last_activity ) ),
+					/* translators: %s: a human time diff */
+					sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_core_time_since( $member->last_activity ) )
+				);
+			}
 		}
 
 		$output .= '</div></div>';
