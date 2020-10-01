@@ -27,7 +27,6 @@ const {
 		createElement,
 		Fragment,
 		useState,
-		createInterpolateElement,
 	},
 	i18n: {
 		__,
