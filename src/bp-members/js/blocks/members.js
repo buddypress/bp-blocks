@@ -40,12 +40,16 @@ registerBlockType( 'bp/members', {
 			type: 'boolean',
 			default: true,
 		},
+		extraData: {
+			type: 'string',
+			default: 'none',
+		},
 		layoutPreference: {
-			type: "string",
-			default: "list",
+			type: 'string',
+			default: 'list',
 		},
 		columns: {
-			type: "number",
+			type: 'number',
 			default: 2
 		},
 	},
