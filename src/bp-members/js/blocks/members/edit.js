@@ -141,7 +141,7 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 			let hasActivity = false;
 			if ( layoutPreference === 'list' && 'latest_update' === extraData && member.latest_update && member.latest_update.rendered ) {
 				hasActivity = true;
-				memberItemClasses += ' has-activity';
+				memberItemClasses = 'member-content has-activity';
 			}
 
 			return (
@@ -163,9 +163,17 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 							<blockquote className="wp-block-quote">
 								<div dangerouslySetInnerHTML={ { __html: member.latest_update.rendered } } />
 								<cite>
-									<a href={ member.link } target="_blank">
-										{ member.name } (@{ member.mention_name })
-									</a>
+									{ displayUserName && (
+										<span>
+											{ member.name }
+										</span>
+									) }
+									&nbsp;
+									{ isMentionEnabled && displayMentionSlug && (
+										<a href={ member.link } target="_blank">
+											(@{ member.mention_name })
+										</a>
+									) }
 								</cite>
 							</blockquote>
 						) }
