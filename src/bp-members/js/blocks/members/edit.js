@@ -146,6 +146,17 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 
 			return (
 				<div key={ 'bp-member-' + member.id } className={ memberItemClasses }>
+					{ isSelected && (
+						<Tooltip text={ __( 'Remove member', 'buddypress' ) }>
+							<Button
+								className="is-right"
+								onClick={ () => onRemoveMember( member.id ) }
+								label={ __( 'Remove member', 'buddypress' ) }
+							>
+								<Dashicon icon="no"/>
+							</Button>
+						</Tooltip>
+					) }
 					{ isAvatarEnabled && 'none' !== avatarSize && (
 						<div className="item-header-avatar">
 							<a href={ member.link } target="_blank">
@@ -195,17 +206,6 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 							</time>
 						) }
 					</div>
-					{ isSelected && (
-						<Tooltip text={ __( 'Remove member', 'buddypress' ) }>
-							<Button
-								className="is-right"
-								onClick={ () => onRemoveMember( member.id ) }
-								label={ __( 'Remove member', 'buddypress' ) }
-							>
-								<Dashicon icon="no"/>
-							</Button>
-						</Tooltip>
-					) }
 				</div>
 			);
 		} );
