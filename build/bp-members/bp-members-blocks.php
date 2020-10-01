@@ -135,8 +135,8 @@ function bp_members_render_members_block( $attributes = array() ) {
 	foreach ( $members as $member ) {
 		$has_activity = false;
 		if ( 'list' === $block_args['layoutPreference'] && 'latest_update' === $block_args['extraData'] && isset( $member->latest_update ) && $member->latest_update ) {
-			$has_activity         = true;
-			$member_item_classes .= ' has-activity';
+			$has_activity        = true;
+			$member_item_classes = 'member-content has-activity';
 		}
 
 		$output .= sprintf( '<div class="%s">', $member_item_classes );
@@ -179,17 +179,27 @@ function bp_members_render_members_block( $attributes = array() ) {
 				$activity_content = apply_filters( 'bp_get_activity_content', $activity_data['content'] );
 			}
 
+			$display_name = '';
+			if ( $block_args['displayUserName'] ) {
+				$display_name = $member->display_name;
+			}
+
+			$mention_name = '';
+			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() && $block_args['displayMentionSlug'] ) {
+				$mention_name = '(@' . $member->user_nicename . ')';
+			}
+
 			$output .= sprintf(
 				'<blockquote class="wp-block-quote">
 					%1$s
 					<cite>
-						<a href="%2$s">%3$s (@%4$s)</a>
+						<span>%2$s</span>
+						%3$s
 					</cite>
 				</blockquote>',
 				$activity_content,
-				esc_url( $member_link ),
-				esc_html( $member->display_name ),
-				esc_html( $member->user_nicename )
+				esc_html( $display_name ),
+				esc_html( $mention_name )
 			);
 		} else {
 			if ( $block_args['displayUserName'] ) {

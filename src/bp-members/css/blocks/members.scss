@@ -24,6 +24,10 @@
 		.is-right {
 			right: -2px;
 		}
+
+		&.has-activity {
+			align-items: inherit!important;
+		}
 	}
 
 	.columns-2,
@@ -120,6 +124,20 @@
 	.member-content {
 		display: flex;
 		padding-bottom: 1em;
+
+		&.has-activity {
+			align-items: center;
+
+			.wp-block-quote {
+				margin-bottom: 0;
+
+				cite a {
+					color: currentColor;
+					text-decoration: none;
+					border: none;
+				}
+			}
+		}
 
 		.user-nicename {
 			display: block;
