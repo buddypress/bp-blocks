@@ -112,8 +112,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 		return '';
 	}
 
-	$member_item_classes = 'member-content';
-	$container_classes   = sprintf( 'bp-block-members avatar-%s', $block_args['avatarSize'] );
+	$container_classes = sprintf( 'bp-block-members avatar-%s', $block_args['avatarSize'] );
 	if ( 'grid' === $block_args['layoutPreference'] ) {
 		$container_classes .= sprintf( ' is-grid columns-%d', (int) $block_args['columns'] );
 	}
@@ -133,7 +132,9 @@ function bp_members_render_members_block( $attributes = array() ) {
 	$members = $query['users'];
 
 	foreach ( $members as $member ) {
-		$has_activity = false;
+		$has_activity        = false;
+		$member_item_classes = 'member-content';
+
 		if ( 'list' === $block_args['layoutPreference'] && 'latest_update' === $block_args['extraData'] && isset( $member->latest_update ) && $member->latest_update ) {
 			$has_activity        = true;
 			$member_item_classes = 'member-content has-activity';

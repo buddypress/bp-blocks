@@ -97,7 +97,6 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 	];
 	let membersList;
 	let containerClasses = 'bp-block-members avatar-' + avatarSize;
-	let memberItemClasses = 'member-content';
 	let extraDataOptions = EXTRA_DATA;
 
 	if ( layoutPreference === 'grid' ) {
@@ -139,6 +138,8 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 	if ( members.length ) {
 		membersList = members.map( ( member ) => {
 			let hasActivity = false;
+			let memberItemClasses = 'member-content';
+
 			if ( layoutPreference === 'list' && 'latest_update' === extraData && member.latest_update && member.latest_update.rendered ) {
 				hasActivity = true;
 				memberItemClasses = 'member-content has-activity';
