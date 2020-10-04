@@ -82,7 +82,7 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 					<ToolbarButton
 						icon="edit"
 						title={ __( 'Select another group', 'buddypress' ) }
-						onClick={ () =>{
+						onClick={ () => {
 							setAttributes( { itemID: 0 } );
 						} }
 					/>
