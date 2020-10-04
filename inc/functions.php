@@ -6,7 +6,9 @@
  * @subpackage \inc\functions
  */
 
-// Exit if accessed directly.
+namespace BP\Blocks;
+
+ // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,8 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 6.0.0
  */
-function bp_blocks_include() {
+function inc() {
 	$build_dir = trailingslashit( bp_blocks()->dir ) . 'build';
+
+	// Include Block components.
+	require $build_dir . '/bp-core/bp-core-blocks.php';
 
 	foreach ( array_keys( buddypress()->active_components ) as $component ) {
 		if ( ! is_dir( $build_dir . '/bp-' . $component ) ) {
@@ -31,4 +36,7 @@ function bp_blocks_include() {
 		}
 	}
 }
-add_action( 'bp_include', 'bp_blocks_include', 20 );
+add_action( 'bp_include', __NAMESPACE__ . '\inc', 20 );
+
+// Remove some BP Hooks.
+remove_action( 'bp_blocks_init', 'bp_register_block_components', 1 );

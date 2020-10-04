@@ -6,7 +6,9 @@
  * @subpackage \inc\globals
  */
 
-// Exit if accessed directly.
+namespace BP\Blocks;
+
+ // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -16,10 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 6.0.0
  */
-function bp_blocks_globals() {
+function globals() {
 	$bpb = bp_blocks();
 
-	$bpb->version = '6.1.0-alpha';
+	$bpb->version = '7.0.0-alpha';
 
 	// Path.
 	$bpb->dir = plugin_dir_path( dirname( __FILE__ ) );
@@ -30,4 +32,4 @@ function bp_blocks_globals() {
 	// Activity update recorded time.
 	$bpb->activity_recorded_time = '';
 }
-add_action( 'bp_include', 'bp_blocks_globals' );
+add_action( 'bp_include', __NAMESPACE__ . '\globals' );

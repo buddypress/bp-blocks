@@ -6,13 +6,15 @@
  * @subpackage \build\bp-activity\bp-activity-filters
  */
 
-// Exit if accessed directly.
+namespace BP\Blocks;
+
+ // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 // Filter the activity content to adapt it if it contains Blocks.
-add_filter( 'bp_get_activity_content_body', 'bp_activity_do_blocks', 9 );
+add_filter( 'bp_get_activity_content_body', __NAMESPACE__ . '\bp_activity_do_blocks', 9 );
 
 // Disable too restrictive filters.
 remove_filter( 'bp_get_activity_content_body', 'bp_activity_filter_kses', 1 );
@@ -27,7 +29,7 @@ remove_filter( 'bp_activity_latest_update_content', 'bp_activity_filter_kses', 1
 /**
  * Make sure the WP Emoji output is containing all needed attributes.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param string $activity_content The activity content.
  * @return string The sanitized activity content.
@@ -94,19 +96,19 @@ function bp_blocks_activity_kses( $activity_content ) {
 
 	return $bp_sanitized;
 }
-add_filter( 'bp_get_activity_content_body', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_get_activity_parent_content', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_get_activity_latest_update', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_get_activity_feed_item_description', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_activity_content_before_save', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_activity_action_before_save', 'bp_blocks_activity_kses', 1 );
-add_filter( 'bp_activity_latest_update_content', 'bp_blocks_activity_kses', 1 );
+add_filter( 'bp_get_activity_content_body', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_get_activity_parent_content', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_get_activity_latest_update', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_get_activity_latest_update_excerpt', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_get_activity_feed_item_description', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_activity_content_before_save', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_activity_action_before_save', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
+add_filter( 'bp_activity_latest_update_content', __NAMESPACE__ . '\bp_blocks_activity_kses', 1 );
 
 /**
  * Allow usage of the paragraph tag and the link’s target attribute into Activities content.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $tags The activity allowed tags.
  * @return array The activity allowed tags.
@@ -118,7 +120,7 @@ function bp_blocks_activity_allowed_tags( $tags = array() ) {
 
 	return array_merge( $tags, array( 'p' => true ) );
 }
-add_filter( 'bp_activity_allowed_tags', 'bp_blocks_activity_allowed_tags' );
+add_filter( 'bp_activity_allowed_tags', __NAMESPACE__ . '\bp_blocks_activity_allowed_tags' );
 
 /**
  * Filters the Acticity loop to only fetch past activities.
@@ -126,7 +128,7 @@ add_filter( 'bp_activity_allowed_tags', 'bp_blocks_activity_allowed_tags' );
  * NB: this still needs some work (eg: Acticity Scheduled User screen, activity action string
  * adaptations, Activity Admin status column, Activity edit screen...).
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $args The `bp_has_activities()` loop arguments.
  * @return array The `bp_has_activities()` loop arguments.
@@ -149,12 +151,12 @@ function bp_blocks_activity_has_activities_without_scheduled_ones( $args = array
 
 	return $args;
 }
-add_filter( 'bp_after_has_activities_parse_args', 'bp_blocks_activity_has_activities_without_scheduled_ones', 10, 1 );
+add_filter( 'bp_after_has_activities_parse_args', __NAMESPACE__ . '\bp_blocks_activity_has_activities_without_scheduled_ones', 10, 1 );
 
 /**
  * Makes sure the activity recorded time is saved if set.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $args The `bp_activity_add()` arguments.
  * @return array The `bp_activity_add()` arguments.
@@ -175,7 +177,7 @@ function bp_blocks_activity_set_recorded_time_argument( $args ) {
 /**
  * Makes sure the REST Activity endpoint transports the Activity date.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param object          $prepared_activity The activity to be saved.
  * @param WP_REST_Request $request The REST request.
@@ -190,12 +192,12 @@ function bp_blocks_activity_rest_pre_insert_value( $prepared_activity, $request 
 		$bpb->activity_recorded_time = end( $date_data );
 
 		// bp_activity_post_update() does not transport the date.
-		add_filter( 'bp_after_activity_add_parse_args', 'bp_blocks_activity_set_recorded_time_argument', 10, 1 );
+		add_filter( 'bp_after_activity_add_parse_args', __NAMESPACE__ . '\bp_blocks_activity_set_recorded_time_argument', 10, 1 );
 	}
 
 	return $prepared_activity;
 }
-add_filter( 'bp_rest_activity_pre_insert_value', 'bp_blocks_activity_rest_pre_insert_value', 10, 2 );
+add_filter( 'bp_rest_activity_pre_insert_value', __NAMESPACE__ . '\bp_blocks_activity_rest_pre_insert_value', 10, 2 );
 
 // Activity links moderation shouldn't take WP Emoji links in account.
 remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
@@ -228,4 +230,4 @@ function _bp_activity_check_moderation_keys( $activity ) {
 		$activity->component = false;
 	}
 }
-add_action( 'bp_activity_before_save', '_bp_activity_check_moderation_keys', 2, 1 );
+add_action( 'bp_activity_before_save', __NAMESPACE__ . '\_bp_activity_check_moderation_keys', 2, 1 );
