@@ -21,6 +21,8 @@
  * GitHub Plugin URI: https://github.com/buddypress/bp-blocks
  */
 
+namespace BP\Blocks;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -78,4 +80,4 @@ final class BP_Blocks {
 function bp_blocks() {
 	return BP_Blocks::start();
 }
-add_action( 'bp_include', 'bp_blocks', 9 );
+add_action( 'bp_include', __NAMESPACE__ . '\bp_blocks', 9 );

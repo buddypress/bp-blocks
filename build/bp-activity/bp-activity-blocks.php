@@ -6,7 +6,9 @@
  * @subpackage \build\bp-activity\bp-activity-blocks
  */
 
-// Exit if accessed directly.
+namespace BP\Blocks;
+
+ // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -14,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Register scripts and styles for the Activity component.
  *
- * @since 6.1.0
+ * @since TBD
  */
 function bp_activity_register_scripts_and_styles() {
 	wp_register_script(
@@ -32,17 +34,16 @@ function bp_activity_register_scripts_and_styles() {
 		filemtime( dirname( __FILE__ ) . '/css/activity-modal.css' )
 	);
 }
-add_action( 'bp_init', 'bp_activity_register_scripts_and_styles' );
+add_action( 'bp_init', __NAMESPACE__ . '\bp_activity_register_scripts_and_styles' );
 
 /**
  * Sets the Activity block editor settings.
  *
  * @link https://github.com/getdave/standalone-block-editor
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  */
-function _bp_activity_blocks_get_editor_settings() {
+function bp_activity_blocks_get_editor_settings() {
 	$settings = array(
 		'disableCustomColors'                  => get_theme_support( 'disable-custom-colors' ),
 		'disableCustomFontSizes'               => get_theme_support( 'disable-custom-font-sizes' ),
@@ -67,10 +68,9 @@ function _bp_activity_blocks_get_editor_settings() {
 /**
  * Loads the Activity Editor screen.
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  */
-function _bp_activity_blocks_editor_load_screen() {
+function bp_activity_blocks_editor_load_screen() {
 	if ( isset( $_GET['url'] ) ) { // phpcs:ignore
 		define( 'IFRAME_REQUEST', true );
 	}
@@ -111,8 +111,8 @@ function _bp_activity_blocks_editor_load_screen() {
 		filemtime( dirname( __FILE__ ) . '/css/blocks/activity-editor.css' )
 	);
 
-	add_action( 'bp_admin_enqueue_scripts', '_bp_activity_blocks_editor_enqueue_assets' );
-	add_filter( 'admin_body_class', '_bp_activity_blocks_editor_admin_body_class' );
+	add_action( 'bp_admin_enqueue_scripts', __NAMESPACE__ . '\bp_activity_blocks_editor_enqueue_assets' );
+	add_filter( 'admin_body_class', __NAMESPACE__ . '\bp_activity_blocks_editor_admin_body_class' );
 }
 
 /**
@@ -120,14 +120,13 @@ function _bp_activity_blocks_editor_load_screen() {
  *
  * @link https://github.com/getdave/standalone-block-editor
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  */
-function _bp_activity_blocks_editor_enqueue_assets() {
+function bp_activity_blocks_editor_enqueue_assets() {
 	/**
 	 * Filter here to add your preloaded paths.
 	 *
-	 * @since 6.1.0
+	 * @since TBD
 	 *
 	 * @param array $value the list of preloaded paths.
 	 */
@@ -155,7 +154,7 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 
 	wp_enqueue_script( 'bp-activity-block-editor' );
 
-	$settings = _bp_activity_blocks_get_editor_settings();
+	$settings = bp_activity_blocks_get_editor_settings();
 	if ( defined( 'IFRAME_REQUEST' ) && isset( $_GET['url'] ) && $_GET['url'] ) { // phpcs:ignore
 		wp_add_inline_style(
 			'common',
@@ -207,13 +206,12 @@ function _bp_activity_blocks_editor_enqueue_assets() {
 /**
  * Adds specific needed admin body classes.
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  *
  * @param string $admin_body_class The Admin screen body classes.
  * @return string The Admin screen body classes.
  */
-function _bp_activity_blocks_editor_admin_body_class( $admin_body_class = '' ) {
+function bp_activity_blocks_editor_admin_body_class( $admin_body_class = '' ) {
 	global $hook_suffix;
 	$screen_class = preg_replace( '/[^a-z0-9_-]+/i', '-', $hook_suffix );
 
@@ -233,10 +231,9 @@ function _bp_activity_blocks_editor_admin_body_class( $admin_body_class = '' ) {
  *
  * @link https://github.com/getdave/standalone-block-editor
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  */
-function _bp_activity_blocks_editor_screen() {
+function bp_activity_blocks_editor_screen() {
 	?>
 	<div id="bp-activity-block-editor" class="bp-activity-block-editor"></div>
 	<?php
@@ -245,27 +242,26 @@ function _bp_activity_blocks_editor_screen() {
 /**
  * Adds an submenu to the Activity Admin menu.
  *
- * @access private
- * @since 6.1.0
+ * @since TBD
  */
-function _bp_activity_blocks_add_editor_submenu() {
+function bp_activity_blocks_add_editor_submenu() {
 	$screen = add_submenu_page(
 		'bp-activity',
 		__( 'Activity Block Editor', 'bp-blocks' ),
 		__( 'Add new', 'bp-blocks' ),
 		'exist',
 		'bp-activity-new',
-		'_bp_activity_blocks_editor_screen'
+		__NAMESPACE__ . '\bp_activity_blocks_editor_screen'
 	);
 
-	add_action( 'load-' . $screen, '_bp_activity_blocks_editor_load_screen' );
+	add_action( 'load-' . $screen, __NAMESPACE__ . '\bp_activity_blocks_editor_load_screen' );
 }
-add_action( bp_core_admin_hook(), '_bp_activity_blocks_add_editor_submenu' );
+add_action( bp_core_admin_hook(), __NAMESPACE__ . '\bp_activity_blocks_add_editor_submenu' );
 
 /**
  * Determine whether an activity or its content string has blocks.
  *
- * @since 6.1.0
+ * @since TBD
  * @see parse_blocks()
  *
  * @param string|int|BP_Activity_Activity|null $activity Activity content, Activity ID, or Activity object.
@@ -295,18 +291,16 @@ function bp_activity_has_blocks( $activity = null ) {
  * If bp_activity_do_blocks() needs to remove wpautop() from the `bp_get_activity_content_body` filter, this re-adds it afterwards,
  * for subsequent `bp_get_activity_content_body` usage.
  *
- * @access private
- *
- * @since 6.1.0
+ * @since TBD
  *
  * @param string $content The activity content running through this filter.
  * @return string The unmodified activity content.
  */
-function _bp_activity_restore_wpautop_hook( $content ) {
-	$current_priority = has_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook' );
+function bp_activity_restore_wpautop_hook( $content ) {
+	$current_priority = has_filter( 'bp_get_activity_content_body', __NAMESPACE__ . '\bp_activity_restore_wpautop_hook' );
 
 	add_filter( 'bp_get_activity_content_body', 'wpautop', $current_priority - 1 );
-	remove_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook', $current_priority );
+	remove_filter( 'bp_get_activity_content_body', __NAMESPACE__ . '\bp_activity_restore_wpautop_hook', $current_priority );
 
 	return $content;
 }
@@ -314,7 +308,7 @@ function _bp_activity_restore_wpautop_hook( $content ) {
 /**
  * Parses dynamic blocks out of activity content and re-renders them.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param string $content Activity content.
  * @return string Updated activity content.
@@ -331,7 +325,7 @@ function bp_activity_do_blocks( $content ) {
 	$priority = has_filter( 'bp_get_activity_content_body', 'wpautop' );
 	if ( false !== $priority && doing_filter( 'bp_get_activity_content_body' ) && bp_activity_has_blocks( $content ) ) {
 		remove_filter( 'bp_get_activity_content_body', 'wpautop', $priority );
-		add_filter( 'bp_get_activity_content_body', '_bp_activity_restore_wpautop_hook', $priority + 1 );
+		add_filter( 'bp_get_activity_content_body', __NAMESPACE__ . '\bp_activity_restore_wpautop_hook', $priority + 1 );
 	}
 
 	return $output;
@@ -340,7 +334,7 @@ function bp_activity_do_blocks( $content ) {
 /**
  * Returns the link to the Activity Block Editor.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $args A list of query arguments.
  * @return string The link to the Activity Block Editor.
@@ -369,7 +363,7 @@ function bp_activity_get_block_editor_link( $args = array() ) {
 /**
  * Callback function to render the block to share post/page via Activity stream.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $attributes The block attributes.
  * @return string           HTML output.
@@ -497,7 +491,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 	/**
 	 * Filter here to edit the block output.
 	 *
-	 * @since 6.1.0
+	 * @since TBD
 	 *
 	 * @param string $output The HTML output of the block.
 	 * @param array  $args The block extended arguments.
@@ -508,9 +502,9 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 /**
  * Register Activity Blocks.
  *
- * @since 6.1.0
+ * @since TBD
  */
-function bp_blocks_register_activity_blocks() {
+function register_activity_blocks() {
 	bp_register_block(
 		array(
 			'name'               => 'bp/share-activity',
@@ -547,7 +541,7 @@ function bp_blocks_register_activity_blocks() {
 					'default' => true,
 				),
 			),
-			'render_callback'    => 'bp_activity_render_share_activity_block',
+			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_share_activity_block',
 		)
 	);
 
@@ -568,12 +562,12 @@ function bp_blocks_register_activity_blocks() {
 		)
 	);
 }
-add_action( 'bp_activity_blocks_init', 'bp_blocks_register_activity_blocks' );
+add_action( 'bp_activity_blocks_init', __NAMESPACE__ . '\register_activity_blocks' );
 
 /**
  * Add BP Activity blocks specific settings to the BP Blocks Editor ones.
  *
- * @since 6.1.0
+ * @since TBD
  *
  * @param array $bp_editor_settings BP blocks editor settings.
  * @return array BP Activity blocks editor settings.
@@ -588,4 +582,4 @@ function bp_activity_editor_settings( $bp_editor_settings = array() ) {
 		)
 	);
 }
-add_filter( 'bp_blocks_editor_settings', 'bp_activity_editor_settings' );
+add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_activity_editor_settings' );
