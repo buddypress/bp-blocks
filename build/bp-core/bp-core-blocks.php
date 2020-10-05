@@ -29,7 +29,8 @@ function bp_register_block_components() {
 			'wp-api-fetch',
 			'wp-url',
 		),
-		bp_get_version()
+		bp_get_version(),
+		false
 	);
 }
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );

@@ -8,7 +8,7 @@
 
 namespace BP\Blocks;
 
- // Exit if accessed directly.
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
