@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function register_group_blocks() {
 	return array(
-		'bp/group' => array(
+		'bp/group'  => array(
 			'name'               => 'bp/group',
 			'editor_script'      => 'bp-group-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/group.js', __FILE__ ),
@@ -83,31 +83,31 @@ function register_group_blocks() {
 			'style'              => 'bp-groups-block',
 			'style_url'          => plugins_url( 'css/blocks/groups.css', __FILE__ ),
 			'attributes'         => array(
-				'itemIDs'            => array(
+				'itemIDs'          => array(
 					'type'  => 'array',
 					'items' => array(
 						'type' => 'integer',
 					),
 				),
-				'avatarSize'         => array(
+				'avatarSize'       => array(
 					'type'    => 'string',
 					'default' => 'full',
 				),
-				'displayGroupName'    => array(
+				'displayGroupName' => array(
 					'type'    => 'boolean',
 					'default' => true,
 				),
-				'extraInfo'          => array(
+				'extraInfo'        => array(
 					'type'    => 'string',
 					'default' => 'none',
 					'enum'    => array( 'description', 'popular', 'active', 'none' ),
 				),
-				'layoutPreference'   => array(
+				'layoutPreference' => array(
 					'type'    => 'string',
 					'default' => 'list',
 					'enum'    => array( 'list', 'grid' ),
 				),
-				'columns'            => array(
+				'columns'          => array(
 					'type'    => 'number',
 					'default' => 2,
 				),
@@ -299,12 +299,12 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
-			'itemIDs'            => array(),
-			'avatarSize'         => 'full',
-			'displayGroupName'   => true,
-			'extraInfo'          => 'none',
-			'layoutPreference'   => 'list',
-			'columns'            => '2',
+			'itemIDs'          => array(),
+			'avatarSize'       => 'full',
+			'displayGroupName' => true,
+			'extraInfo'        => 'none',
+			'layoutPreference' => 'list',
+			'columns'          => '2',
 		)
 	);
 
@@ -325,7 +325,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 	);
 
 	// Initialize the output and the groups.
-	$output  = '';
+	$output = '';
 	$groups = $query['groups'];
 
 	foreach ( $groups as $group ) {

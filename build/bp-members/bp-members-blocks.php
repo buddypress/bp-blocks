@@ -8,7 +8,7 @@
 
 namespace BP\Blocks;
 
- // Exit if accessed directly.
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function register_member_blocks() {
 	return array(
-		'bp/member' => array(
+		'bp/member'  => array(
 			'name'               => 'bp/member',
 			'editor_script'      => 'bp-member-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/member.js', __FILE__ ),
