@@ -123,14 +123,8 @@ const editGroups = ( { attributes, setAttributes, isSelected, bpSettings } ) => 
 	} );
 
 	if ( hasGroups && itemIDs.length !== groups.length ) {
-		let queryArgs = { include: itemIDs }
-
-		if ( -1 !== ['active', 'popular'].indexOf( extraInfo ) ) {
-			queryArgs.populate_extras = true;
-		}
-
 		apiFetch( {
-			path: addQueryArgs( `/buddypress/v1/groups`, queryArgs ),
+			path: addQueryArgs( `/buddypress/v1/groups`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
 			setGroups(
 				sortBy( items, [ ( item ) => {
@@ -188,9 +182,9 @@ const editGroups = ( { attributes, setAttributes, isSelected, bpSettings } ) => 
 							<div className="group-description-content" dangerouslySetInnerHTML={ { __html: group.description.rendered } } />
 						) }
 
-						{ 'active' === extraInfo && group.last_activity && (
+						{ 'active' === extraInfo && group.last_activity && group.last_activity_diff && (
 							<time dateTime={ group.last_activity }>
-								{ sprintf( __( 'Active %s', 'buddypress' ), group.last_activity ) }
+								{ sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff ) }
 							</time>
 						) }
 
