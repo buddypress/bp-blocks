@@ -275,7 +275,7 @@ const editGroups = ( { attributes, setAttributes, isSelected, bpSettings } ) => 
 			{ ( isSelected || 0 === itemIDs.length ) && (
 				<Placeholder
 					icon={ hasGroups ? '' : 'groups' }
-					label={ hasGroups ? '' : __( 'BuddyPress groups', 'buddypress' ) }
+					label={ hasGroups ? '' : __( 'BuddyPress Groups', 'buddypress' ) }
 					instructions={ __( 'Start typing the name of the group you want to add to the groups list.', 'buddypress' ) }
 					className={ 0 !== itemIDs.length ? 'is-appender' : 'is-large' }
 				>
