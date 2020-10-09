@@ -300,6 +300,7 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 				>
 					<AutoCompleter
 						component="members"
+						objectQueryArgs={ { exclude: itemIDs } }
 						slugValue={ getSlugValue }
 						ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
 						placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }

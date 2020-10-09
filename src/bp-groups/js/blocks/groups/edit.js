@@ -281,6 +281,7 @@ const editGroups = ( { attributes, setAttributes, isSelected, bpSettings } ) => 
 				>
 					<AutoCompleter
 						component="groups"
+						objectQueryArgs={ { 'show_hidden': false, exclude: itemIDs } }
 						slugValue={ getSlugValue }
 						ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
 						placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
