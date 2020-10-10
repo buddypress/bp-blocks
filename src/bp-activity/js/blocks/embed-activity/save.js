@@ -5,6 +5,9 @@ const {
 	blockEditor: {
 		RichText,
 	},
+	element: {
+		createElement,
+	},
 } = wp;
 
 const saveEmbedActivityBlock = ( { attributes } ) => {

@@ -502,11 +502,14 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
 /**
  * Register Activity Blocks.
  *
- * @since TBD
+ * @since 7.0.0 Introduce the 'bp/embed-activity' block.
+ * @since TBD Introduce the 'bp/share-activity' block.
+ *
+ * @return array The list of BP Activity blocks.
  */
 function register_activity_blocks() {
-	bp_register_block(
-		array(
+	return array(
+		'bp/share-activity' => array(
 			'name'               => 'bp/share-activity',
 			'editor_script'      => 'bp-share-activity-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/share-activity.js', __FILE__ ),
@@ -542,11 +545,8 @@ function register_activity_blocks() {
 				),
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_share_activity_block',
-		)
-	);
-
-	bp_register_block(
-		array(
+		),
+		'bp/embed-activity' => array(
 			'name'               => 'bp/embed-activity',
 			'editor_script'      => 'bp-embed-activity-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', __FILE__ ),
@@ -559,15 +559,15 @@ function register_activity_blocks() {
 				'wp-data',
 				'wp-compose',
 			),
-		)
+		),
 	);
 }
-add_action( 'bp_activity_blocks_init', __NAMESPACE__ . '\register_activity_blocks' );
+add_filter( 'bp_activity_register_blocks', __NAMESPACE__ . '\register_activity_blocks', 10, 0 );
 
 /**
  * Add BP Activity blocks specific settings to the BP Blocks Editor ones.
  *
- * @since TBD
+ * @since 7.0.0
  *
  * @param array $bp_editor_settings BP blocks editor settings.
  * @return array BP Activity blocks editor settings.

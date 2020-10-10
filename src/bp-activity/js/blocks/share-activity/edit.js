@@ -4,6 +4,7 @@
 const {
 	element: {
 		Fragment,
+		createElement,
 	},
 	i18n: {
 		__,
