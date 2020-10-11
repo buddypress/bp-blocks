@@ -22,21 +22,21 @@
 	&.avatar-none {
 
 		.group-description {
-			width: calc( 100% - 44px );
+			width: calc(100% - 44px);
 		}
 	}
 
 	&.avatar-full {
 
 		.group-description {
-			width: calc( 100% - 224px );
+			width: calc(100% - 224px);
 		}
 	}
 
 	&.avatar-thumb {
 
 		.group-description {
-			width: calc( 100% - 114px );
+			width: calc(100% - 114px);
 		}
 	}
 
@@ -58,7 +58,7 @@
 
 			.group-description {
 				padding-left: 44px;
-				width: calc( 100% - 44px );
+				width: calc(100% - 44px);
 			}
 		}
 	}
@@ -92,6 +92,7 @@
 	}
 
 	@media (min-width: 600px) {
+
 		@for $i from 2 through 4 {
 			&.columns-#{ $i } .group-content {
 				width: calc((100% / #{ $i }) - 1.25em + (1.25em / #{ $i }));
@@ -144,6 +145,7 @@
 	}
 
 	&.avatar-none {
+
 		.item-header-avatar {
 			display: none;
 		}

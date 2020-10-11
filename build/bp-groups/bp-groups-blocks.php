@@ -380,7 +380,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 		if ( $has_description && $group->description ) {
 			$output .= sprintf(
 				'<div class="group-description-content">%s</div>',
-				bp_get_group_description( $group ),
+				bp_get_group_description( $group )
 			);
 		} elseif ( 'active' === $block_args['extraInfo'] ) {
 			$output .= sprintf(
@@ -395,7 +395,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<div class="group-meta">%s</div>',
 				/* translators: %d: the number of group members. */
-				esc_html( sprintf( _n( '%d member', '%d members', $total_member_count, 'buddypress' ), $total_member_count ) ),
+				esc_html( sprintf( _n( '%d member', '%d members', $total_member_count, 'buddypress' ), $total_member_count ) )
 			);
 		}
 
