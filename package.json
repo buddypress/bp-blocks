@@ -3,8 +3,8 @@
   "version": "6.1.0-alpha",
   "description": "BuddyPress Blocks development plugin.",
   "engines": {
-    "node": "12.18.2",
-    "npm": "6.14.6"
+    "node": ">=14.15.0",
+    "npm": ">=6.14.8"
   },
   "scripts": {
     "start": "npm run dev-scripts && parcel watch src/bp-*/*s/blocks/* --out-dir build --no-source-maps",
@@ -36,8 +36,8 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@types/classnames": "2.2.10",
-    "@wordpress/babel-preset-default": "^4.18.0",
-    "parcel-bundler": "^1.12.4",
+    "@wordpress/babel-preset-default": "^5.0.1",
+    "parcel-bundler": "^1.12.5",
     "sass": "^1.26.10"
   },
   "dependencies": {
