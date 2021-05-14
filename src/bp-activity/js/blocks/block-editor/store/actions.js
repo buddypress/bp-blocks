@@ -12,6 +12,19 @@ const {
 import { TYPES as types } from './action-types';
 
 /**
+ * Returns an action object used to set an activity date.
+ *
+ * @param {array} list The active components.
+ * @return {Object} Object for action.
+ */
+ export function setActiveComponents( list ) {
+	return {
+		type: types.SET_ACTIVE_COMPONENTS,
+		list,
+	};
+}
+
+/**
  * Resolver for creating an activity.
  */
 export function* insertActivity( activity ) {
@@ -64,7 +77,7 @@ export function getUserGroups( groups ) {
 
 /**
  * Returns an action object used to fetch something from the API.
- *.
+ *
  * @param {string} path Endpoint path.
  * @param {boolean} parse Should we parse the request.
  * @return {Object} Object for action.
@@ -79,7 +92,7 @@ export function fetchFromAPI( path, parse ) {
 
 /**
  * Returns an action object used to create an object via the API.
- *.
+ *
  * @param {string} path Endpoint path.
  * @param {Object} data The data to be created.
  * @return {Object} Object for action.
@@ -94,7 +107,7 @@ export function createFromAPI( path, data ) {
 
 /**
  * Returns an action object used to update activity content.
- *.
+ *
  * @param {string} content Activity content.
  * @param {Array} blocks Array of blocks.
  * @return {Object} Object for action.
@@ -109,7 +122,7 @@ export function updateContent( content, blocks ) {
 
 /**
  * Returns an action object used to reset the activity recently posted.
- *.
+ *
  * @return {Object} Object for action.
  */
 export function resetJustPostedActivity() {
@@ -120,7 +133,7 @@ export function resetJustPostedActivity() {
 
 /**
  * Returns an action object used to toggle the sidebar visibility.
- *.
+ *
  * @param {boolean} visibility The visibility status.
  * @return {Object} Object for action.
  */
@@ -133,7 +146,7 @@ export function toggleSidebarVisibility( visibility ) {
 
 /**
  * Returns an action object used to set an activity date.
- *.
+ *
  * @param {string} date An activity date.
  * @return {Object} Object for action.
  */
@@ -146,7 +159,7 @@ export function setActivityDate( date ) {
 
 /**
  * Returns an action object used to set a group for an activity.
- *.
+ *
  * @param {integer} groupId A group ID.
  * @return {Object} Object for action.
  */
@@ -159,7 +172,7 @@ export function setActivityGroup( groupId ) {
 
 /**
  * Returns an action object used to reset activity group.
- *.
+ *
  * @return {Object} Object for action.
  */
 export function resetActivityGroup() {

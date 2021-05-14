@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
 	inserting: false,
 	created: {},
 	isSidebarVisible: false,
+	activeComponents: [],
 	groups: [],
 	groupId: 0,
 };
@@ -28,6 +29,12 @@ const DEFAULT_STATE = {
  */
 const reducer = ( state = DEFAULT_STATE, action ) => {
 	switch ( action.type ) {
+		case types.SET_ACTIVE_COMPONENTS:
+			return {
+				...state,
+				activeComponents: action.list,
+			};
+
 		case types.GET_CURRENT_USER:
 			return {
 				...state,

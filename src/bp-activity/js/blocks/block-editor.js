@@ -9,11 +9,12 @@ const {
 	},
 	data: {
 		useSelect,
+		useDispatch,
 	},
 	components: {
 		Popover,
 		SlotFillProvider,
-		DropZoneProvider,
+		FocusReturnProvider,
 	},
 } = wp;
 
@@ -37,10 +38,15 @@ function Editor( { settings } ) {
 	const isSidebarVisible = useSelect( ( select ) => {
 		return select( BP_ACTIVITY_STORE_KEY ).isSidebarVisible();
 	}, [] );
+	const { activeComponents } = settings;
+	const { setActiveComponents } = useDispatch( BP_ACTIVITY_STORE_KEY );
+
+	// Set active components.
+	setActiveComponents( activeComponents );
 
 	return (
 		<SlotFillProvider>
-			<DropZoneProvider>
+			<FocusReturnProvider>
 				<EditorSkeleton
 					className={ isSidebarVisible ? 'sidebar-visible' : 'sidebar-invisible' }
 					header={<Header />}
@@ -53,7 +59,7 @@ function Editor( { settings } ) {
 					}
 				/>
 				<Popover.Slot />
-			</DropZoneProvider>
+			</FocusReturnProvider>
 		</SlotFillProvider>
 	);
 }

@@ -57,10 +57,11 @@ export default function Sidebar() {
 	const [ component, onSelect ] = useState( 'activity' );
 	const { activityDate, userGroups, group, user } = useSelect( ( select ) => {
 		const store = select( BP_ACTIVITY_STORE_KEY );
+		const activeComponents = store.getActiveComponents();
 
 		return {
 			activityDate: store.getActivityDate(),
-			userGroups: store.getUserGroups(),
+			userGroups: -1 === activeComponents.indexOf( 'groups' ) ? [] : store.getUserGroups(),
 			group: store.getActivityGroup(),
 			user: store.getCurrentUser(),
 		};

@@ -51,6 +51,7 @@ function bp_activity_blocks_get_editor_settings() {
 		'codeEditingEnabled'                   => false,
 		'__experimentalBlockPatterns'          => array(),
 		'__experimentalBlockPatternCategories' => array(),
+		'activeComponents'                     => array_values( bp_core_get_active_components() ),
 	);
 
 	list( $color_palette, ) = (array) get_theme_support( 'editor-color-palette' );
@@ -106,6 +107,7 @@ function bp_activity_blocks_editor_load_screen() {
 			'wp-format-library',
 			'wp-components',
 			'wp-editor',
+			'wp-reset-editor-styles',
 			'wp-edit-post',
 		),
 		filemtime( dirname( __FILE__ ) . '/css/blocks/activity-editor.css' )
@@ -123,19 +125,23 @@ function bp_activity_blocks_editor_load_screen() {
  * @since TBD
  */
 function bp_activity_blocks_editor_enqueue_assets() {
+	$paths = array(
+		'/buddypress/v1/members/me?context=edit',
+	);
+
+	if ( bp_is_active( 'groups' ) ) {
+		$paths[] = '/buddypress/v1/groups/me?context=edit';
+	}
 	/**
 	 * Filter here to add your preloaded paths.
 	 *
 	 * @since TBD
 	 *
-	 * @param array $value the list of preloaded paths.
+	 * @param array $paths the list of preloaded paths.
 	 */
 	$preload_paths = apply_filters(
 		'bp_activity_blocks_editor_preload_paths',
-		array(
-			'/buddypress/v1/members/me?context=edit',
-			'/buddypress/v1/groups/me?context=edit',
-		)
+		$paths
 	);
 
 	// Preloads BP Activity's data.

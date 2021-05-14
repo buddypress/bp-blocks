@@ -9,17 +9,11 @@
 .editor-styles-wrapper {
 	-webkit-overflow-scrolling: touch;
 	background: $white;
-	height: calc(100% - #{$header-height});
 	left: 0;
 	overflow: auto;
 	position: absolute;
 	top: $header-height;
 	width: 100%;
-
-	.branch-5-4.iframe & {
-		height: calc(100% - 10px);
-		top: 28px;
-	}
 }
 
 .block-editor-editor-skeleton {
@@ -43,12 +37,7 @@
 	font-size: $editor-font-size;
 	line-height: $editor-line-height;
 	color: $gray-900;
-
-	// Important all other selectors scoped underneath
-	// `div.editor-styles-wrapper`
-	@import "~@wordpress/editor/src/editor-styles.scss";
 }
-
 
 .activity-block-editor__block-list {
     .block-editor-block-list__block {

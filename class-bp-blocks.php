@@ -11,7 +11,7 @@
  * Plugin Name:       BP Blocks
  * Plugin URI:        https://github.com/buddypress/bp-blocks
  * Description:       BuddyPress Blocks development plugin.
- * Version:           7.0.0
+ * Version:           8.0.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
  * License:           GPL-2.0+

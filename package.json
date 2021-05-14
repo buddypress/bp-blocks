@@ -1,6 +1,6 @@
 {
   "name": "bp-blocks",
-  "version": "6.1.0-alpha",
+  "version": "8.0.0",
   "description": "BuddyPress Blocks development plugin.",
   "engines": {
     "node": ">=14.15.0",
@@ -34,10 +34,10 @@
   },
   "homepage": "https://github.com/buddypress/bp-blocks#readme",
   "devDependencies": {
-    "@babel/core": "^7.11.6",
+    "@babel/core": "~7.13.14",
     "@types/classnames": "2.2.10",
-    "@wordpress/babel-preset-default": "^5.0.1",
-    "parcel-bundler": "^1.12.5",
+    "@wordpress/babel-preset-default": "~5.1.0",
+    "parcel-bundler": "~1.12.5",
     "sass": "^1.26.10"
   },
   "dependencies": {
