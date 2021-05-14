@@ -32,7 +32,7 @@ export default function Header() {
 
 	if ( user.avatar_urls && user.avatar_urls.thumb ) {
 		buttonVisual = (
-			<img src={ user.avatar_urls.thumb } />
+			<img src={ user.avatar_urls.thumb.replaceAll( '&#038;', '&' ) } />
 		);
 	}
 
