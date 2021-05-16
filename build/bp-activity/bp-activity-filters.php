@@ -138,7 +138,7 @@ function bp_blocks_activity_has_activities_without_scheduled_ones( $args = array
 		$date_query = array(
 			'relation' => 'AND',
 			array(
-				'before' => date( 'Y-m-d H:i:s', strtotime( current_time( 'mysql', 0 ) . '+15 seconds' ) ),
+				'before' => gmdate( 'Y-m-d H:i:s', strtotime( current_time( 'mysql', 0 ) . '+15 seconds' ) ),
 			),
 		);
 
