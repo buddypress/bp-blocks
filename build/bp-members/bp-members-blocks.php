@@ -126,6 +126,8 @@ function register_member_blocks() {
 				'wp-blocks',
 				'wp-element',
 				'wp-components',
+				'wp-compose',
+				'wp-data',
 				'wp-i18n',
 				'wp-editor',
 				'wp-block-editor',
@@ -155,6 +157,32 @@ function register_member_blocks() {
 	);
 }
 add_filter( 'bp_members_register_blocks', __NAMESPACE__ . '\register_member_blocks', 10, 0 );
+
+/**
+ * Add BP Members blocks specific settings to the BP Blocks Editor ones.
+ *
+ * @since 6.0.0
+ * @since 8.0.0 Adds a check for the friends component.
+ *
+ * @param array $bp_editor_settings BP blocks editor settings.
+ * @return array BP Members blocks editor settings.
+ */
+function bp_members_editor_settings( $bp_editor_settings = array() ) {
+	$bp = buddypress();
+
+	return array_merge(
+		$bp_editor_settings,
+		array(
+			'members' => array(
+				'isMentionEnabled'    => bp_is_active( 'activity' ) && bp_activity_do_mentions(),
+				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars,
+				'isCoverImageEnabled' => bp_is_active( 'members', 'cover_image' ),
+				'isFriendsActive'     => bp_is_active( 'friends' ),
+			),
+		)
+	);
+}
+add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_members_editor_settings' );
 
 /**
  * Adds a new rest field to fetch extra information about the user.
@@ -596,6 +624,12 @@ function bp_members_get_dynamic_members_template( $type = 'js', $tokens = array(
 		</script>
 	';
 
+	// Use BP Theme Compat API to allow template override.
+	$template_path = bp_locate_template( 'assets/widgets/dynamic-members.php' );
+	if ( $template_path ) {
+		$template = file_get_contents( $template_path );
+	}
+
 	if ( 'js' !== $type ) {
 		$template = wp_kses(
 			$template,
@@ -694,7 +728,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	// Set the Block's title.
 	if ( true === $block_args['linkTitle'] ) {
 		$widget_content = sprintf(
-			'<h2><a href="%1$s">%2$s</a></h2>',
+			'<h2 class="widget-title"><a href="%1$s">%2$s</a></h2>',
 			esc_url( $members_directory_link ),
 			esc_html( $block_args['title'] )
 		);
@@ -729,9 +763,8 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 		}
 
 		$item_options_output[] = sprintf(
-			'<a href="%1$s" id="%2$s" data-bp-sort="%3$s"%4$s>%5$s</a>',
+			'<a href="%1$s" data-bp-sort="%2$s"%3$s>%4$s</a>',
 			esc_url( $members_directory_link ),
-			esc_attr( $item_attr['id'] ),
 			esc_attr( $item_type ),
 			$item_attr['class'],
 			esc_html( $item_attr['label'] )

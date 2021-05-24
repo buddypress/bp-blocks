@@ -13,6 +13,12 @@
 		TextControl,
 		ToggleControl,
 	},
+	compose: {
+		compose,
+	},
+	data: {
+		withSelect,
+	},
 	editor: {
 		ServerSideRender,
 	},
@@ -30,8 +36,10 @@
  */
 import { TYPES } from './constants';
 
-const editDynamicMembersListBlock = ( { attributes, setAttributes } ) => {
+const editDynamicMembers = ( { attributes, setAttributes, bpSettings } ) => {
 	const { title, maxMembers, memberDefault, linkTitle } = attributes;
+	const { isFriendsActive } = bpSettings;
+	const sortTypes = !! isFriendsActive ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
 
 	return (
 		<Fragment>
@@ -57,7 +65,7 @@ const editDynamicMembersListBlock = ( { attributes, setAttributes } ) => {
 					<SelectControl
 						label={ __( 'Default members to show', 'buddypress' ) }
 						value={ memberDefault }
-						options={ TYPES }
+						options={ sortTypes }
 						onChange={ ( option ) => {
 							setAttributes( { memberDefault: option } );
 						} }
@@ -78,4 +86,15 @@ const editDynamicMembersListBlock = ( { attributes, setAttributes } ) => {
 	);
 };
 
-export default editDynamicMembersListBlock;
+const editDynamicMembersBlock = compose( [
+	withSelect( ( select ) => {
+		const editorSettings = select( 'core/editor' ).getEditorSettings();
+		return {
+			bpSettings: editorSettings?.bp?.members || {
+				isFriendsActive: true,
+			},
+		};
+	} ),
+] )( editDynamicMembers );
+
+export default editDynamicMembersBlock;
