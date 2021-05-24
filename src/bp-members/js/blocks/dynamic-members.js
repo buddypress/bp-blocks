@@ -13,7 +13,7 @@
 /**
  * Internal dependencies.
  */
-import editDynamicMembersListBlock from './dynamic-members/edit';
+import editDynamicMembersBlock from './dynamic-members/edit';
 import transforms from './dynamic-members/transforms';
 
 registerBlockType( 'bp/dynamic-members', {
@@ -43,6 +43,6 @@ registerBlockType( 'bp/dynamic-members', {
 			default: false,
 		},
 	},
-	edit: editDynamicMembersListBlock,
+	edit: editDynamicMembersBlock,
 	transforms: transforms,
 } );
