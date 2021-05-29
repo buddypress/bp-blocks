@@ -89,6 +89,12 @@ const editDynamicMembers = ( { attributes, setAttributes, bpSettings } ) => {
 const editDynamicMembersBlock = compose( [
 	withSelect( ( select ) => {
 		const editorSettings = select( 'core/editor' ).getEditorSettings();
+
+		// Settings passed into the Widgets Block Editor are not available in the store.
+		if ( window.bpWidetsEditorSettings && ! editorSettings.bp ) {
+			editorSettings.bp = window.bpWidetsEditorSettings;
+		}
+
 		return {
 			bpSettings: editorSettings?.bp?.members || {
 				isFriendsActive: true,

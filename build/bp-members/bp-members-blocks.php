@@ -627,7 +627,7 @@ function bp_members_get_dynamic_members_template( $type = 'js', $tokens = array(
 	// Use BP Theme Compat API to allow template override.
 	$template_path = bp_locate_template( 'assets/widgets/dynamic-members.php' );
 	if ( $template_path ) {
-		$template = file_get_contents( $template_path );
+		$template = file_get_contents( $template_path ); // phpcs:ignore
 	}
 
 	if ( 'js' !== $type ) {

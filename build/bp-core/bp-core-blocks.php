@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function bp_register_block_components() {
-	$test = wp_register_script(
+	wp_register_script(
 		'bp-block-components',
 		plugins_url( 'js/block-components.js', __FILE__ ),
 		array(
@@ -34,3 +34,23 @@ function bp_register_block_components() {
 	);
 }
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );
+
+/**
+ * Unlike the Post Editor, Widgets Editor settings are not reachable.
+ *
+ * @since 8.0.0
+ */
+function bp_blocks_widgets_editor_fallback_settings() {
+	$bp_widget_editor_settings = bp_blocks_editor_settings( array() );
+	$bp_widget_editor_settings = reset( $bp_widget_editor_settings );
+
+	wp_add_inline_script(
+		'wp-edit-widgets',
+		sprintf(
+			'window.bpWidetsEditorSettings = %s;',
+			wp_json_encode( $bp_widget_editor_settings )
+		),
+		'before'
+	);
+}
+add_action( 'widgets_admin_page', __NAMESPACE__ . '\bp_blocks_widgets_editor_fallback_settings' );
