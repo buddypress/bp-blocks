@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function register_group_blocks() {
 	return array(
-		'bp/group'  => array(
+		'bp/group'          => array(
 			'name'               => 'bp/group',
 			'editor_script'      => 'bp-group-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/group.js', __FILE__ ),
@@ -63,7 +63,7 @@ function register_group_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_group_block',
 		),
-		'bp/groups' => array(
+		'bp/groups'         => array(
 			'name'               => 'bp/groups',
 			'editor_script'      => 'bp-groups-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/groups.js', __FILE__ ),
@@ -114,9 +114,130 @@ function register_group_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_groups_block',
 		),
+		'bp/dynamic-groups' => array(
+			'name'               => 'bp/dynamic-groups',
+			'editor_script'      => 'bp-dynamic-groups-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/dynamic-groups.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-i18n',
+				'wp-editor',
+				'wp-block-editor',
+			),
+			'style'              => 'bp-dynamic-groups-block',
+			'style_url'          => plugins_url( 'css/blocks/dynamic-groups.css', __FILE__ ),
+			'attributes'         => array(
+				'title'        => array(
+					'type'    => 'string',
+					'default' => __( 'Groups', 'buddypress' ),
+				),
+				'maxGroups'    => array(
+					'type'    => 'number',
+					'default' => 5,
+				),
+				'groupDefault' => array(
+					'type'    => 'string',
+					'default' => 'active',
+				),
+				'linkTitle'    => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+			),
+			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_dynamic_groups_block',
+		),
 	);
 }
 add_filter( 'bp_groups_register_blocks', __NAMESPACE__ . '\register_group_blocks', 10, 0 );
+
+/**
+ * Adds a new rest field to fetch extra information about the group.
+ *
+ * This is used by the Dynamic groups widget/block.
+ *
+ * @since 8.0.0
+ */
+function bp_groups_register_widgets_rest_field() {
+	bp_rest_register_field(
+		'groups',
+		'extra',
+		array(
+			'get_callback' => __NAMESPACE__ . '\bp_groups_widgets_get_rest_extra_field',
+			'schema'       => array(
+				'description' => __( 'Extra information about the group to be used by the Groups dynamic widget.', 'buddypress' ),
+				'type'        => 'string',
+				'context'     => array( 'view', 'edit' ),
+			),
+		)
+	);
+}
+add_action( 'bp_rest_api_init', __NAMESPACE__ . '\bp_groups_register_widgets_rest_field' );
+
+/**
+ * Gets the extra information about the user used by the dynamic groups widget.
+ *
+ * @since 8.0.0
+ *
+ * @param array           $data     The list of properties of the BuddyPress group's object.
+ * @param string          $property The custom property being requested.
+ * @param WP_REST_Request $request  Full details about the request.
+ * @return string The extra information about the user used by the dynamic groups widget.
+ */
+function bp_groups_widgets_get_rest_extra_field( $data, $property, $request ) {
+	$value = null;
+	if ( 'extra' === $property ) {
+		$type     = $request->get_param( 'type' );
+		$group_id = (int) $data['id'];
+
+		// Registration date (human time diff).
+		if ( 'newest' === $type ) {
+			/* translators: %s is time elapsed since the group was created */
+			$value = sprintf( __( 'created %s', 'buddypress' ), bp_core_time_since( str_replace( 'T', ' ', $data['date_created'] ) ) );
+
+			// Amount of members.
+		} elseif ( 'popular' === $type ) {
+			$total_member_count = (int) $data['total_member_count'];
+
+			/** This filter is documented in buddypress/src/bp-groups/bp-groups-template.php */
+			$value = apply_filters(
+				'bp_get_group_member_count',
+				/* translators: %s: total member count */
+				sprintf( _n( '%s member', '%s members', $total_member_count, 'buddypress' ), bp_core_number_format( $total_member_count ) )
+			);
+
+			// Last activity date (human time diff).
+		} else {
+			/* translators: %s is time elapsed since the last activity happened */
+			$value = sprintf( __( 'Active %s', 'buddypress' ), $data['last_activity_diff'] );
+		}
+	}
+
+	return $value;
+}
+
+/**
+ * Registers a new script to manage the dynamic part of the Dynamic groups widget/block.
+ *
+ * @since 8.0.0
+ *
+ * @param array $scripts Data about the scripts to register.
+ * @return array Data about the scripts to register.
+ */
+function bp_groups_register_scripts( $scripts = array() ) {
+	$scripts['bp-dynamic-groups-script'] = array(
+		'file'         => esc_url( plugins_url( 'js/dynamic-groups.js', __FILE__ ) ),
+		'dependencies' => array(
+			'lodash',
+			'wp-url',
+		),
+		'footer'       => true,
+	);
+
+	return $scripts;
+}
+add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_groups_register_scripts', 10, 1 );
 
 /**
  * Callback function to render the BP Group Block.
@@ -416,3 +537,310 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 	 */
 	return apply_filters( 'bp_groups_render_groups_block_output', $output, $block_args, $groups );
 }
+
+/**
+ * Returns the template to use for the Dynamic Groups block items.
+ *
+ * @since 8.0.0
+ *
+ * @param string $type   Whether to use the template for JavaScript or PHP.
+ * @param array  $tokens The data to use to customize the template (Needed for the PHP template).
+ * @return string HTML/JS output.
+ */
+function bp_groups_get_dynamic_groups_template( $type = 'js', $tokens = array() ) {
+	$template = '
+		<script type="html/template" id="tmpl-bp-dynamic-groups-item">
+			<li class="vcard">
+				<div class="item-avatar">
+					<a href="{{{data.link}}}" class="bp-tooltip" data-bp-tooltip="{{data.name}}">
+						<img loading="lazy" src="{{{data.avatar_urls.thumb}}}" class="avatar group-{{data.id}}-avatar avatar-50 photo" width="50" height="50" alt="' . esc_html__( 'Profile Photo', 'buddypress' ) . '">
+					</a>
+				</div>
+
+				<div class="item">
+					<div class="item-title fn"><a href="{{{data.link}}}">{{data.name}}</a></div>
+					<div class="item-meta">
+						<span class="activity">{{data.extra}}</span>
+					</div>
+				</div>
+			</li>
+		</script>
+	';
+
+	// Use BP Theme Compat API to allow template override.
+	$template_path = bp_locate_template( 'assets/widgets/dynamic-groups.php' );
+	if ( $template_path ) {
+		$template = file_get_contents( $template_path ); // phpcs:ignore
+	}
+
+	if ( 'js' !== $type ) {
+		$template = wp_kses(
+			$template,
+			array(
+				'li'   => array( 'class' => true ),
+				'div'  => array( 'class' => true ),
+				'span' => array( 'class' => true ),
+				'a'    => array(
+					'href'            => true,
+					'class'           => true,
+					'data-bp-tooltip' => true,
+				),
+				'img'  => array(
+					'src'     => true,
+					'class'   => true,
+					'loading' => true,
+				),
+			)
+		);
+
+		return bp_core_replace_tokens_in_text( $template, $tokens );
+	}
+
+	return $template;
+}
+
+/**
+ * Registers a specific globals to be used by Groups Blocks.
+ *
+ * @since 8.0.0
+ */
+function bp_groups_register_block_globals() {
+	buddypress()->groups->blocks = array(
+		'bp/dynamic-groups' => array(),
+	);
+}
+add_action( 'bp_groups_setup_globals', __NAMESPACE__ . '\bp_groups_register_block_globals' );
+
+/**
+ * Adds specific script data for the BP Groups blocks.
+ *
+ * Only used for the BP Dynamic Groups block.
+ *
+ * @since 8.0.0
+ */
+function bp_groups_blocks_add_script_data() {
+	$dynamic_groups_blocks = array_filter( buddypress()->groups->blocks['bp/dynamic-groups'] );
+
+	if ( ! $dynamic_groups_blocks ) {
+		return;
+	}
+
+	// Include the common JS template.
+	echo bp_groups_get_dynamic_groups_template(); // phpcs:ignore
+
+	// List the block specific props.
+	wp_add_inline_script(
+		'bp-dynamic-groups-script',
+		sprintf( 'var bpDynamicGroupsBlocks = %s;', wp_json_encode( array_values( $dynamic_groups_blocks ) ) ),
+		'before'
+	);
+}
+
+/**
+ * Callback function to render the Dynamic Groups Block.
+ *
+ * @since 8.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
+	$block_args = wp_parse_args(
+		$attributes,
+		array(
+			'title'        => __( 'Groups', 'buddypress' ),
+			'maxGroups'    => 5,
+			'groupDefault' => 'active',
+			'linkTitle'    => false,
+		)
+	);
+
+	$classnames         = 'widget_bp_groups_widget buddypress widget';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
+	$max_groups = (int) $block_args['maxGroups'];
+	$no_groups  = __( 'There are no groups to display.', 'buddypress' );
+
+	/** This filter is documented in buddypress/src/bp-groups/classes/class-bp-groups-widget.php */
+	$separator = apply_filters( 'bp_groups_widget_separator', '|' );
+
+	// Make sure the widget ID is unique.
+	$widget_id             = uniqid( 'groups-list-' );
+	$groups_directory_link = bp_get_groups_directory_permalink();
+
+	// Set the Block's title.
+	if ( true === $block_args['linkTitle'] ) {
+		$widget_content = sprintf(
+			'<h2 class="widget-title"><a href="%1$s">%2$s</a></h2>',
+			esc_url( $groups_directory_link ),
+			esc_html( $block_args['title'] )
+		);
+	} else {
+		$widget_content = sprintf( '<h2 class="widget-title">%s</h2>', esc_html( $block_args['title'] ) );
+	}
+
+	$item_options = array(
+		'newest'       => array(
+			'class' => '',
+			'label' => __( 'Newest', 'buddypress' ),
+		),
+		'active'       => array(
+			'class' => '',
+			'label' => __( 'Active', 'buddypress' ),
+		),
+		'popular'      => array(
+			'class' => '',
+			'label' => __( 'Popular', 'buddypress' ),
+		),
+		'alphabetical' => array(
+			'class' => '',
+			'label' => __( 'Alphabetical', 'buddypress' ),
+		),
+	);
+
+	$item_options_output = array();
+	$separator_output    = sprintf( ' <span class="bp-separator" role="separator">%s</span> ', esc_html( $separator ) );
+
+	foreach ( $item_options as $item_type => $item_attr ) {
+		if ( $block_args['groupDefault'] === $item_type ) {
+			$item_attr['class'] = ' class="selected"';
+		}
+
+		$item_options_output[] = sprintf(
+			'<a href="%1$s" data-bp-sort="%2$s"%3$s>%4$s</a>',
+			esc_url( $groups_directory_link ),
+			esc_attr( $item_type ),
+			$item_attr['class'],
+			esc_html( $item_attr['label'] )
+		);
+	}
+
+	$preview      = '';
+	$default_args = array(
+		'type'            => $block_args['groupDefault'],
+		'per_page'        => $max_groups,
+		'populate_extras' => true,
+	);
+
+	// Previewing the Block inside the editor.
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		$bp_query = groups_get_groups( $default_args );
+		$preview  = sprintf( '<div class="widget-error">%s</div>', $no_groups );
+
+		if ( is_array( $bp_query['groups'] ) && 0 < count( $bp_query['groups'] ) ) {
+			$preview = '';
+			foreach ( $bp_query['groups'] as $group ) {
+				if ( 'newest' === $block_args['groupDefault'] ) {
+					/* translators: %s is time elapsed since the group was created */
+					$extra = sprintf( __( 'created %s', 'buddypress' ), bp_get_group_date_created( $group ) );
+				} elseif ( 'popular' === $block_args['groupDefault'] ) {
+					$extra = bp_get_group_member_count( $group );
+				} else {
+					/* translators: %s is time elapsed since the last activity happened */
+					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) );
+				}
+
+				$preview .= bp_groups_get_dynamic_groups_template(
+					'php',
+					array(
+						'data.link'              => bp_get_group_permalink( $group ),
+						'data.name'              => bp_get_group_name( $group ),
+						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
+							array(
+								'item_id' => $group->id,
+								'html'    => false,
+								'object'  => 'group',
+							)
+						),
+						'data.id'                => $group->id,
+						'data.extra'             => $extra,
+					)
+				);
+			}
+		}
+	} else {
+		// Get corresponding members.
+		$path = sprintf(
+			'/%1$s/%2$s/%3$s',
+			bp_rest_namespace(),
+			bp_rest_version(),
+			buddypress()->groups->id,
+		);
+
+		$default_path = add_query_arg(
+			$default_args,
+			$path
+		);
+
+		$preloaded_groups = array();
+		if ( bp_is_running_wp( '5.0.0' ) ) {
+			$preloaded_groups = rest_preload_api_request( '', $default_path );
+		}
+
+		buddypress()->groups->blocks['bp/dynamic-groups'][ $widget_id ] = (object) array(
+			'selector'   => $widget_id,
+			'query_args' => $default_args,
+			'preloaded'  => reset( $preloaded_groups ),
+		);
+
+		// Only enqueue common/specific scripts and data once per page load.
+		if ( ! has_action( 'wp_footer', __NAMESPACE__ . '\bp_groups_blocks_add_script_data', 1 ) ) {
+			wp_enqueue_script( 'bp-dynamic-groups-script' );
+			wp_localize_script(
+				'bp-dynamic-groups-script',
+				'bpDynamicGroupsSettings',
+				array(
+					'path'    => ltrim( $path, '/' ),
+					'root'    => esc_url_raw( get_rest_url() ),
+					'nonce'   => wp_create_nonce( 'wp_rest' ),
+					'strings' => array(
+						'noGroupsFound' => $no_groups,
+					),
+				)
+			);
+
+			add_action( 'wp_footer', __NAMESPACE__ . '\bp_groups_blocks_add_script_data', 1 );
+		}
+	}
+
+	$widget_content .= sprintf(
+		'<div class="item-options">
+			%1$s
+		</div>
+		<ul id="%2$s" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
+			%3$s
+		</ul>',
+		implode( $separator_output, $item_options_output ),
+		esc_attr( $widget_id ),
+		$preview
+	);
+
+	// Only add a block wrapper if not loaded into a Widgets sidebar.
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
+}
+
+/**
+ * Make sure the BP Classnames are included into Widget Blocks.
+ *
+ * @since 8.0.0
+ *
+ * @param string $classname The classname to be used in the block widget's container HTML.
+ * @param string $block_name The name of the block.
+ * @return string The classname to be used in the block widget's container HTML.
+ */
+function bp_groups_get_widget_block_dynamic_classname( $classname, $block_name ) {
+	if ( 'bp/dynamic-groups' === $block_name ) {
+		$classname .= ' widget_bp_groups_widget buddypress';
+	}
+
+	return $classname;
+}
+add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_groups_get_widget_block_dynamic_classname', 10, 2 );
