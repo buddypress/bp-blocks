@@ -764,7 +764,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 			'/%1$s/%2$s/%3$s',
 			bp_rest_namespace(),
 			bp_rest_version(),
-			buddypress()->groups->id,
+			buddypress()->groups->id
 		);
 
 		$default_path = add_query_arg(

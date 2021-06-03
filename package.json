@@ -15,7 +15,8 @@
     "build:components": "parcel build src/bp-core/js/block-components/block-components.js --out-dir build/bp-core/js --out-file block-components.js --global bp",
     "build-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps",
     "dev-scripts": "parcel build src/bp-*/*s/* --out-dir build --no-source-maps --no-minify",
-    "wpcs": "./vendor/bin/phpcs class-bp-blocks.php inc/*.php build/*/*.php --standard=WordPress",
+    "wpcs": "composer run do:wpcs",
+    "phpcompat": "composer run phpcompat",
     "pot": "npm run dev && wp i18n make-pot . languages/buddypress.pot --domain='buddypress' --include=\"build/*/js/blocks\" --exclude=\".git,src,node_modules,languages,vendor,.cache\" --headers='{\"Project-Id-Version\": \"BP Blocks 1.0.0\", \"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-blocks/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\"}'",
     "po2json": "wp i18n make-json languages"
   },

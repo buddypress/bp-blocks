@@ -826,7 +826,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 			'/%1$s/%2$s/%3$s',
 			bp_rest_namespace(),
 			bp_rest_version(),
-			buddypress()->members->id,
+			buddypress()->members->id
 		);
 
 		$default_path = add_query_arg(
