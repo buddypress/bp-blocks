@@ -11,7 +11,7 @@ const DEFAULT_STATE = {
 };
 
 /**
- * Reducer for the BuddyPress block editor.
+ * Reducer for the BuddyPress data store.
  *
  * @param   {Object}  state   The current state in the store.
  * @param   {Object}  action  Action object.
