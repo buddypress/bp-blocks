@@ -13,12 +13,6 @@
 		TextControl,
 		ToggleControl,
 	},
-	compose: {
-		compose,
-	},
-	data: {
-		withSelect,
-	},
 	editor: {
 		ServerSideRender,
 	},
@@ -32,14 +26,22 @@
 } = wp;
 
 /**
+ * BuddyPress dependencies.
+ */
+const {
+	blockData: {
+		isComponentActive,
+	}
+} = bp;
+
+/**
  * Internal dependencies.
  */
 import { TYPES } from './constants';
 
-const editDynamicMembers = ( { attributes, setAttributes, bpSettings } ) => {
+const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 	const { title, maxMembers, memberDefault, linkTitle } = attributes;
-	const { isFriendsActive } = bpSettings;
-	const sortTypes = !! isFriendsActive ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
+	const sortTypes = !! isComponentActive( 'friends' ) ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
 
 	return (
 		<Fragment>
@@ -85,16 +87,5 @@ const editDynamicMembers = ( { attributes, setAttributes, bpSettings } ) => {
 		</Fragment>
 	);
 };
-
-const editDynamicMembersBlock = compose( [
-	withSelect( ( select ) => {
-		const editorSettings = select( 'core/editor' ).getEditorSettings();
-		const blockEditorSettings = select( 'core/block-editor' ).getSettings();
-
-		return {
-			bpSettings: editorSettings?.bp?.members || blockEditorSettings?.bp?.members,
-		};
-	} ),
-] )( editDynamicMembers );
 
 export default editDynamicMembersBlock;
