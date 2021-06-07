@@ -30,7 +30,7 @@
  */
 const {
 	blockData: {
-		isComponentActive,
+		isActive,
 	}
 } = bp;
 
@@ -41,7 +41,7 @@ import { TYPES } from './constants';
 
 const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 	const { title, maxMembers, memberDefault, linkTitle } = attributes;
-	const sortTypes = !! isComponentActive( 'friends' ) ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
+	const sortTypes = !! isActive( 'friends' ) ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
 
 	return (
 		<Fragment>

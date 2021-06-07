@@ -15,12 +15,6 @@ const {
 		Toolbar,
 		ToolbarButton,
 	},
-	compose: {
-		compose,
-	},
-	data: {
-		withSelect,
-	},
 	editor: {
 		ServerSideRender,
 	},
@@ -36,7 +30,14 @@ const {
 /**
  * BuddyPress dependencies.
  */
-const { AutoCompleter } = bp.blockComponents;
+const {
+	blockComponents: {
+		AutoCompleter,
+	},
+	blockData: {
+		isActive,
+	}
+} = bp;
 
 /**
  * Internal dependencies.
@@ -51,8 +52,10 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editMember = ( { attributes, setAttributes, bpSettings } ) => {
-	const { isAvatarEnabled, isMentionEnabled, isCoverImageEnabled } = bpSettings;
+const editMemberBlock = ( { attributes, setAttributes } ) => {
+	const isAvatarEnabled = isActive( 'members', 'avatar' );
+	const isMentionEnabled = isActive( 'activity', 'mentions' );
+	const isCoverImageEnabled = isActive( 'members', 'cover' );
 	const { avatarSize, displayMentionSlug, displayActionButton, displayCoverImage } = attributes;
 
 	if ( ! attributes.itemID ) {
@@ -151,14 +154,5 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 		</Fragment>
 	);
 };
-
-const editMemberBlock = compose( [
-	withSelect( ( select ) => {
-		const editorSettings = select( 'core/editor' ).getEditorSettings();
-		return {
-			bpSettings: editorSettings.bp.members || {},
-		};
-	} ),
-] )( editMember );
 
 export default editMemberBlock;

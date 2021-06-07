@@ -1,6 +1,6 @@
 // Data.
-import isComponentActive from './utils';
+import isActive from './utils';
 
 export default {
-	isComponentActive,
+	isActive,
 };
