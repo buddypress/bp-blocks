@@ -1,6 +1,7 @@
 // Data.
-import isActive from './utils';
+import isActive, { loggedInUser } from './utils';
 
 export default {
 	isActive,
+	loggedInUser,
 };
