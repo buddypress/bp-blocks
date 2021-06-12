@@ -80,7 +80,7 @@ const editMemberBlock = ( { attributes, setAttributes } ) => {
 	return (
 		<Fragment>
 			<BlockControls>
-				<Toolbar>
+				<Toolbar label={ __( 'Block toolbar', 'buddypress' ) }>
 					<ToolbarButton
 						icon="edit"
 						title={ __( 'Select another member', 'buddypress' ) }
