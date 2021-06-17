@@ -52,10 +52,62 @@ export function isActive( component, feature = '' ) {
  */
 export function loggedInUser() {
 	const loggedInUser = useSelect( ( select ) => {
-		return select( 'core' ).getCurrentUser();
+		const store = select( 'core' );
+
+		if ( store ) {
+			return select( 'core' ).getCurrentUser();
+		}
+
+		return {};
 	}, [] );
 
 	return loggedInUser;
+}
+
+/**
+ * Returns the post author user object.
+ *
+ * @since 8.0.0
+ *
+ * @return {Object} The post author user object.
+ */
+export function postAuhor() {
+	const postAuhor = useSelect( ( select ) => {
+		const editorStore = select( 'core/editor' );
+		const coreStore = select( 'core' );
+
+		if ( editorStore && coreStore ) {
+			const postAuthorId = editorStore.getCurrentPostAttribute( 'author' );
+			const authorsList = coreStore.getAuthors();
+
+			return find( authorsList, ['id', postAuthorId] );
+		}
+
+		return {};
+	}, [] );
+
+	return postAuhor;
+}
+
+/**
+ * Returns the current post ID.
+ *
+ * @since 8.0.0
+ *
+ * @return {integer} The current post ID.
+ */
+export function currentPostId() {
+	const currentPostId = useSelect( ( select ) => {
+		const store = select( 'core/editor' );
+
+		if ( store ) {
+			return store.getCurrentPostId();
+		}
+
+		return 0;
+	}, [] );
+
+	return currentPostId;
 }
 
 export default isActive;

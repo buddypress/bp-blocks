@@ -90,7 +90,7 @@ function bp_blocks_get_rest_component_features( $data, $property, $request ) {
 				'avatar' => $bp->avatar && $bp->avatar->show_avatars,
 				'cover'  => bp_is_active( 'members', 'cover_image' ),
 			);
-		} elseif ( bp_is_active( 'activity' ) && $bp->activity->id ===  $data['name'] ) {
+		} elseif ( bp_is_active( 'activity' ) && $bp->activity->id === $data['name'] ) {
 			$features = array(
 				'mentions' => bp_activity_do_mentions(),
 			);
