@@ -44,6 +44,39 @@ export function isActive( component, feature = '' ) {
 }
 
 /**
+ * Checks whether a component or the feature of an active component is enabled.
+ *
+ * @since 8.0.0
+ *
+ * @return {array} An array of objects keyed by activity types.
+ */
+ export function activityTypes() {
+	const components = useSelect( ( select ) => {
+		return select( BP_CORE_STORE_KEY ).getActiveComponents();
+	}, [] );
+
+	const activityComponent = find( components, ['name', 'activity'] );
+
+	if ( ! activityComponent ) {
+		return [];
+	}
+
+	const activityTypes = get( activityComponent, [ 'features', 'types' ] );
+	let activityTypesList = [];
+
+	Object.entries( activityTypes ).forEach( ( [ type, label ] ) => {
+		activityTypesList.push(
+			{
+				label: label,
+				value: type,
+			}
+		)
+	} );
+
+	return activityTypesList;
+}
+
+/**
  * Returns the logged in user object.
  *
  * @since 8.0.0

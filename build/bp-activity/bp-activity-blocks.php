@@ -515,7 +515,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
  */
 function register_activity_blocks() {
 	return array(
-		'bp/share-activity' => array(
+		'bp/share-activity'    => array(
 			'name'               => 'bp/share-activity',
 			'editor_script'      => 'bp-share-activity-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/share-activity.js', __FILE__ ),
@@ -552,7 +552,7 @@ function register_activity_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_share_activity_block',
 		),
-		'bp/embed-activity' => array(
+		'bp/embed-activity'    => array(
 			'name'               => 'bp/embed-activity',
 			'editor_script'      => 'bp-embed-activity-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', __FILE__ ),
@@ -565,6 +565,41 @@ function register_activity_blocks() {
 				'wp-data',
 				'wp-compose',
 			),
+		),
+		'bp/latest-activities' => array(
+			'name'               => 'bp/latest-activities',
+			'editor_script'      => 'bp-latest-activities-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/latest-activities.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-i18n',
+				'wp-editor',
+				'wp-block-editor',
+				'bp-block-data',
+			),
+			'style'              => 'bp-latest-activities-block',
+			'style_url'          => plugins_url( 'css/blocks/latest-activities.css', __FILE__ ),
+			'attributes'         => array(
+				'title'         => array(
+					'type'    => 'string',
+					'default' => __( 'Latest updates', 'buddypress' ),
+				),
+				'maxActivities' => array(
+					'type'    => 'number',
+					'default' => 5,
+				),
+				'type'          => array(
+					'type'    => 'array',
+					'default' => array( 'activity_update' ),
+				),
+				'postId'        => array(
+					'type'    => 'number',
+					'default' => 0,
+				),
+			),
+			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_latest_activities_block',
 		),
 	);
 }
@@ -589,3 +624,146 @@ function bp_activity_editor_settings( $bp_editor_settings = array() ) {
 	);
 }
 add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_activity_editor_settings' );
+
+/**
+ * Callback function to render the Latest Activities Block.
+ *
+ * @since 8.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_activity_render_latest_activities_block( $attributes = array() ) {
+	$block_args = wp_parse_args(
+		$attributes,
+		array(
+			'title'         => __( 'Latest updates', 'buddypress' ),
+			'maxActivities' => 5,
+			'type'          => array( 'activity_update' ),
+			'postId'        => 0,
+		)
+	);
+
+	$max_activities = (int) $block_args['maxActivities'];
+
+	// Should we get a specific member's activities?
+	$member_id = 0;
+	if ( $block_args['postId'] ) {
+		$member_id = (int) get_post_field( 'post_author', $block_args['postId'] );
+	} else {
+		$member_id = bp_displayed_user_id();
+	}
+
+	// Set the widget's wrapper attributes.
+	$types              = (array) $block_args['type'];
+	$classnames         = array_map( 'sanitize_html_class', array_merge( $types, array( 'bp-latest-activities', 'buddypress', 'widget' ) ) );
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classnames ) ) );
+
+	// Set the Block's title.
+	$widget_content = sprintf( '<h2 class="widget-title">%s</h2>', esc_html( $block_args['title'] ) );
+
+	// Avoid conflicts with other activity loops.
+	$reset_activities_template = null;
+	if ( ! empty( $GLOBALS['activities_template'] ) ) {
+		$reset_activities_template = $GLOBALS['activities_template'];
+	}
+
+	$widget_args = array(
+		'max'          => $max_activities,
+		'scope'        => 'all',
+		'user_id'      => $member_id,
+		'object'       => false,
+		'action'       => implode( ',', $types ),
+		'primary_id'   => 0,
+		'secondary_id' => 0,
+	);
+
+	// Build the activity loop.
+	if ( 'nouveau' === bp_get_theme_compat_id() ) {
+		$bp_nouveau = bp_nouveau();
+
+		// Globalize the activity widget arguments.
+		$bp_nouveau->activity->widget_args = $widget_args;
+
+		ob_start();
+		bp_get_template_part( 'activity/widget' );
+		$widget_content .= ob_get_clean();
+
+		// Reset the global.
+		$bp_nouveau->activity->widget_args = array();
+	} else {
+		$activity_loop = sprintf( '<div class="widget-error"><p>%s</p></div>', esc_html__( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ) );
+
+		if ( bp_has_activities( $widget_args ) ) {
+			$activity_loop = '';
+
+			while ( bp_activities() ) {
+				bp_the_activity();
+
+				$activity_loop .= sprintf(
+					'<blockquote>
+						<div class="activity-content">%1$s</div>
+						<footer>
+							<cite>
+								<a href="%2$s" class="bp-tooltip" data-bp-tooltip="%3$s">
+									%4$s
+								</a>
+							</cite>
+							%5$s
+						</footer>
+					</blockquote>',
+					bp_get_activity_content_body(),
+					bp_get_activity_user_link(),
+					bp_get_activity_member_display_name(),
+					bp_get_activity_avatar(
+						array(
+							'type'   => 'thumb',
+							'width'  => '40',
+							'height' => '40',
+						)
+					),
+					bp_insert_activity_meta()
+				);
+			}
+		}
+
+		$widget_content .= sprintf(
+			'<div class="activity-list item-list">
+				%1$s
+			</div>',
+			$activity_loop
+		);
+	}
+
+	// Reset the global template loop.
+	$GLOBALS['activities_template'] = $reset_activities_template;
+
+	// Only add a block wrapper if not loaded into a Widgets sidebar.
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
+}
+
+/**
+ * Make sure the BP Classnames are included into Widget Blocks.
+ *
+ * @since 8.0.0
+ *
+ * @param string $classname The classname to be used in the block widget's container HTML.
+ * @param string $block_name The name of the block.
+ * @return string The classname to be used in the block widget's container HTML.
+ */
+function bp_activity_get_widget_block_classname( $classname, $block_name ) {
+	if ( 'bp/latest-activities' === $block_name ) {
+		$classname .= ' wp-block-bp-latest-activities buddypress';
+	}
+
+	return $classname;
+}
+add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_activity_get_widget_block_classname', 10, 2 );
