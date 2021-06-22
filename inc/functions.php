@@ -33,6 +33,7 @@ function inc() {
 
 		if ( 'activity' === $component ) {
 			require $build_dir . '/bp-' . $component . '/bp-' . $component . '-filters.php';
+			require $build_dir . '/bp-' . $component . '/bp-' . $component . '-functions.php';
 		}
 	}
 }
