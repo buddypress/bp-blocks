@@ -700,29 +700,43 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 			while ( bp_activities() ) {
 				bp_the_activity();
 
-				$activity_loop .= sprintf(
-					'<blockquote>
-						<div class="activity-content">%1$s</div>
-						<footer>
+				$activity_footer  = '';
+				$activity_classes = 'activity-item';
+				if ( bp_activity_has_content() ) {
+					$activity_content = bp_get_activity_content_body();
+					$activity_footer  = sprintf(
+						'<footer>
 							<cite>
-								<a href="%2$s" class="bp-tooltip" data-bp-tooltip="%3$s">
-									%4$s
+								<a href="%1$s" class="bp-tooltip" data-bp-tooltip="%2$s">
+									%3$s
 								</a>
 							</cite>
-							%5$s
-						</footer>
+							%4$s
+						</footer>',
+						bp_get_activity_user_link(),
+						bp_get_activity_member_display_name(),
+						bp_get_activity_avatar(
+							array(
+								'type'   => 'thumb',
+								'width'  => '40',
+								'height' => '40',
+							)
+						),
+						bp_insert_activity_meta()
+					);
+				} else {
+					$activity_classes .= ' mini';
+					$activity_content  = bp_get_activity_action();
+				}
+
+				$activity_loop .= sprintf(
+					'<blockquote>
+						<div class="%1$s">%2$s</div>
+						%3$s
 					</blockquote>',
-					bp_get_activity_content_body(),
-					bp_get_activity_user_link(),
-					bp_get_activity_member_display_name(),
-					bp_get_activity_avatar(
-						array(
-							'type'   => 'thumb',
-							'width'  => '40',
-							'height' => '40',
-						)
-					),
-					bp_insert_activity_meta()
+					$activity_classes,
+					$activity_content,
+					$activity_footer,
 				);
 			}
 		}

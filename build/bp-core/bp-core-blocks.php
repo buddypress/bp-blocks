@@ -93,7 +93,7 @@ function bp_blocks_get_rest_component_features( $data, $property, $request ) {
 		} elseif ( bp_is_active( 'activity' ) && $bp->activity->id === $data['name'] ) {
 			$features = array(
 				'mentions' => bp_activity_do_mentions(),
-				'types'    => bp_activity_get_types(),
+				'types'    => bp_activity_get_types_list(),
 			);
 		}
 	}

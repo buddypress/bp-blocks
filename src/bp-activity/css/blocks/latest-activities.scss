@@ -27,34 +27,48 @@
 			padding: 0;
 			border: none;
 
-			.activity-content {
-				position: relative;
-				box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
-				padding: 0 1em;
+			.activity-item {
 
-				&:after,
-				&:before {
-					position: absolute;
-					left: 15px;
-					display: block;
-					width: 0;
-					height: 0;
-					border-style: solid;
-					border-color: transparent;
-					content: "";
+				&:not(.mini) {
+					position: relative;
+					box-shadow: 1px 0 4px rgba( 0, 0, 0, 0.15 );
+					padding: 0 1em;
+
+					&:after,
+					&:before {
+						position: absolute;
+						left: 15px;
+						display: block;
+						width: 0;
+						height: 0;
+						border-style: solid;
+						border-color: transparent;
+						content: "";
+					}
+
+					&:before {
+						bottom: -18px;
+						border-top-color: rgba( 0, 0, 0, 0.15 );
+						border-width: 9px;
+						left: 14px;
+					}
+
+					&:after {
+						bottom: -16px;
+						border-top-color: #fff;
+						border-width: 8px;
+					}
 				}
 
-				&:before {
-					bottom: -18px;
-					border-top-color: rgba( 0, 0, 0, 0.15 );
-					border-width: 9px;
-					left: 14px;
-				}
+				&.mini {
 
-				&:after {
-					bottom: -16px;
-					border-top-color: #fff;
-					border-width: 8px;
+					.avatar {
+						display: inline-block;
+						width: 20px;
+						height: 20px;
+						vertical-align: middle;
+						margin-right: 2px;
+					}
 				}
 			}
 		}
