@@ -26,7 +26,6 @@ const transforms = {
 			},
 			transform: ( { instance } ) => {
 				return createBlock( 'bp/friends', {
-					title: instance.raw.title,
 					maxFriends: instance.raw.max_friends,
 					friendDefault: instance.raw.friend_default,
 					linkTitle: instance.raw.link_title,

@@ -10,7 +10,6 @@
 		PanelBody,
 		RangeControl,
 		SelectControl,
-		TextControl,
 		ToggleControl,
 	},
 	editor: {
