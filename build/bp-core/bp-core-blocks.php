@@ -74,23 +74,24 @@ add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1
  * @return array The information about active features for BP Components.
  */
 function bp_blocks_get_rest_component_features( $data, $property, $request ) {
-	$features = array();
+	$features     = array();
+	$component_id = '';
 
 	if ( 'features' === $property && isset( $data['name'] ) ) {
 		$component_id = $data['name'];
 		$bp           = buddypress();
 
-		if ( bp_is_active( 'groups' ) && $bp->groups->id === $data['name'] ) {
+		if ( bp_is_active( 'groups' ) && $bp->groups->id === $component_id ) {
 			$features = array(
 				'avatar' => $bp->avatar && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads(),
 				'cover'  => bp_is_active( 'groups', 'cover_image' ),
 			);
-		} elseif ( bp_is_active( 'members' ) && $bp->members->id === $data['name'] ) {
+		} elseif ( bp_is_active( 'members' ) && $bp->members->id === $component_id ) {
 			$features = array(
 				'avatar' => $bp->avatar && $bp->avatar->show_avatars,
 				'cover'  => bp_is_active( 'members', 'cover_image' ),
 			);
-		} elseif ( bp_is_active( 'activity' ) && $bp->activity->id === $data['name'] ) {
+		} elseif ( bp_is_active( 'activity' ) && $bp->activity->id === $component_id ) {
 			$features = array(
 				'mentions' => bp_activity_do_mentions(),
 				'types'    => bp_activity_get_types_list(),
@@ -98,7 +99,18 @@ function bp_blocks_get_rest_component_features( $data, $property, $request ) {
 		}
 	}
 
-	return apply_filters( 'bp_blocks_rest_component_features', $features, $data, $property, $request );
+	/**
+	 * Filer here to edit components' available features into the REST context.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param array           $features     The available component's features.
+	 * @param array           $data         The list of properties of the BuddyPress component's object.
+	 * @param string          $component_id The component's ID.
+	 * @param string          $property     The schema property being filtered.
+	 * @param WP_REST_Request $request      Full details about the request.
+	 */
+	return apply_filters( 'bp_blocks_rest_component_features', $features, $data, $component_id, $property, $request );
 }
 
 /**

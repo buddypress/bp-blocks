@@ -58,5 +58,5 @@ function bp_activity_get_types_list() {
 	 *
 	 * @param array $types An array of activity type labels keyed by type names.
 	 */
-	return apply_filters( 'bp_activity_get_rest_types', $types );
+	return apply_filters( 'bp_activity_get_types_list', $types );
 }
