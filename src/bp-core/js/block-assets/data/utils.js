@@ -23,7 +23,7 @@ import BP_CORE_STORE_KEY from './register';
 /**
  * Checks whether a component or the feature of an active component is enabled.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param {string} component (required) The component to check.
  * @param {string} feature (optional) The feature to check.
@@ -46,7 +46,7 @@ export function isActive( component, feature = '' ) {
 /**
  * Checks whether a component or the feature of an active component is enabled.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @return {array} An array of objects keyed by activity types.
  */
@@ -79,7 +79,7 @@ export function isActive( component, feature = '' ) {
 /**
  * Returns the logged in user object.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @return {Object} The logged in user object.
  */
@@ -100,7 +100,7 @@ export function loggedInUser() {
 /**
  * Returns the post author user object.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @return {Object} The post author user object.
  */
@@ -125,7 +125,7 @@ export function postAuhor() {
 /**
  * Returns the current post ID.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @return {integer} The current post ID.
  */

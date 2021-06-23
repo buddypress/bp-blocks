@@ -628,7 +628,7 @@ add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_activity_editor_se
 /**
  * Callback function to render the Latest Activities Block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array $attributes The block attributes.
  * @return string           HTML output.
@@ -767,7 +767,7 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 /**
  * Make sure the BP Classnames are included into Widget Blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string $classname The classname to be used in the block widget's container HTML.
  * @param string $block_name The name of the block.

@@ -66,7 +66,7 @@ add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1
 /**
  * Gets information about active features for BP Components.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array           $data     The list of properties of the BuddyPress component's object.
  * @param string          $property The custom property being requested.
@@ -102,7 +102,7 @@ function bp_blocks_get_rest_component_features( $data, $property, $request ) {
 	/**
 	 * Filer here to edit components' available features into the REST context.
 	 *
-	 * @since 8.0.0
+	 * @since 9.0.0
 	 *
 	 * @param array           $features     The available component's features.
 	 * @param array           $data         The list of properties of the BuddyPress component's object.
@@ -116,7 +116,7 @@ function bp_blocks_get_rest_component_features( $data, $property, $request ) {
 /**
  * Adds a new rest field to fetch features information about the BP Components.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_blocks_register_components_rest_field() {
 	/**
@@ -141,7 +141,7 @@ add_action( 'bp_rest_api_init', __NAMESPACE__ . '\bp_blocks_register_components_
 /**
  * Preload the Active BuddyPress Components.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string[] $paths The Block Editors preload paths.
  * @return string[] The Block Editors preload paths.

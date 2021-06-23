@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Register the friends blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function register_friends_blocks() {
 	$blocks = array(
@@ -66,7 +66,7 @@ add_action( 'bp_friends_blocks_init', __NAMESPACE__ . '\register_friends_blocks'
 /**
  * Registers a new script to manage the dynamic part of the Friends widget/block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.
@@ -88,7 +88,7 @@ add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_friends_regi
 /**
  * Returns the template to use for the Friends block items.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string $type   Whether to use the template for JavaScript or PHP.
  * @param array  $tokens The data to use to customize the template (Needed for the PHP template).
@@ -149,7 +149,7 @@ function bp_friends_get_friends_block_template( $type = 'js', $tokens = array() 
 /**
  * Registers a specific globals to be used by Friends Blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_friends_register_block_globals() {
 	buddypress()->friends->blocks = array(
@@ -163,7 +163,7 @@ add_action( 'bp_friends_setup_globals', __NAMESPACE__ . '\bp_friends_register_bl
  *
  * Only used for the BP Friends block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_friends_blocks_add_script_data() {
 	$friends_blocks = array_filter( buddypress()->friends->blocks['bp/friends'] );
@@ -186,7 +186,7 @@ function bp_friends_blocks_add_script_data() {
 /**
  * Callback function to render the BP Friends Block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array $attributes The block attributes.
  * @return string           HTML output.
@@ -232,7 +232,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 	/**
 	 * Filters the separator of the friends block nav links.
 	 *
-	 * @since 8.0.0
+	 * @since 9.0.0
 	 *
 	 * @param string $separator Separator string. Default '|'.
 	 */
@@ -412,7 +412,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 /**
  * Make sure the BP Classnames are included into Widget Blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string $classname The classname to be used in the block widget's container HTML.
  * @param string $block_name The name of the block.

@@ -155,7 +155,7 @@ add_filter( 'bp_groups_register_blocks', __NAMESPACE__ . '\register_group_blocks
  *
  * This is used by the Dynamic groups widget/block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_groups_register_widgets_rest_field() {
 	bp_rest_register_field(
@@ -176,7 +176,7 @@ add_action( 'bp_rest_api_init', __NAMESPACE__ . '\bp_groups_register_widgets_res
 /**
  * Gets the extra information about the user used by the dynamic groups widget.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array           $data     The list of properties of the BuddyPress group's object.
  * @param string          $property The custom property being requested.
@@ -218,7 +218,7 @@ function bp_groups_widgets_get_rest_extra_field( $data, $property, $request ) {
 /**
  * Registers a new script to manage the dynamic part of the Dynamic groups widget/block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.
@@ -539,7 +539,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 /**
  * Returns the template to use for the Dynamic Groups block items.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string $type   Whether to use the template for JavaScript or PHP.
  * @param array  $tokens The data to use to customize the template (Needed for the PHP template).
@@ -600,7 +600,7 @@ function bp_groups_get_dynamic_groups_template( $type = 'js', $tokens = array() 
 /**
  * Registers a specific globals to be used by Groups Blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_groups_register_block_globals() {
 	buddypress()->groups->blocks = array(
@@ -614,7 +614,7 @@ add_action( 'bp_groups_setup_globals', __NAMESPACE__ . '\bp_groups_register_bloc
  *
  * Only used for the BP Dynamic Groups block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  */
 function bp_groups_blocks_add_script_data() {
 	$dynamic_groups_blocks = array_filter( buddypress()->groups->blocks['bp/dynamic-groups'] );
@@ -637,7 +637,7 @@ function bp_groups_blocks_add_script_data() {
 /**
  * Callback function to render the Dynamic Groups Block.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param array $attributes The block attributes.
  * @return string           HTML output.
@@ -828,7 +828,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 /**
  * Make sure the BP Classnames are included into Widget Blocks.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param string $classname The classname to be used in the block widget's container HTML.
  * @param string $block_name The name of the block.

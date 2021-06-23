@@ -46,7 +46,7 @@ remove_filter( 'bp_blocks_editor_settings', 'bp_members_editor_settings' );
 /**
  * Allow listing the active BP components using the REST API.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @param boolean         $retval Whether items can be fetched or not.
  * @param WP_REST_Request $request Full data about the request.

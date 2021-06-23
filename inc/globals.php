@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function globals() {
 	$bpb = bp_blocks();
 
-	$bpb->version = '8.0.0';
+	$bpb->version = '9.0.0';
 
 	// Path.
 	$bpb->dir = plugin_dir_path( dirname( __FILE__ ) );

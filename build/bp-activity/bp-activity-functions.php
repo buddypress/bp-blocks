@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Returns the list of available BuddyPress activity types.
  *
- * @since 8.0.0
+ * @since 9.0.0
  *
  * @return array An array of activity type labels keyed by type names.
  */
@@ -54,7 +54,7 @@ function bp_activity_get_types_list() {
 	/**
 	 * Filter here to edit the activity types list.
 	 *
-	 * @since 8.0.0
+	 * @since 9.0.0
 	 *
 	 * @param array $types An array of activity type labels keyed by type names.
 	 */
