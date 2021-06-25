@@ -736,7 +736,7 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 					</blockquote>',
 					$activity_classes,
 					$activity_content,
-					$activity_footer,
+					$activity_footer
 				);
 			}
 		}
