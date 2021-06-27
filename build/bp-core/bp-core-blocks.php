@@ -105,7 +105,7 @@ function register_core_blocks() {
 		);
 	}
 
-	/** The dynamic version of this filter is documented in in bp-core/classes/class-bp-component.php. */
+	/** The dynamic version of this filter is documented in bp-core/classes/class-bp-component.php. */
 	$blocks = (array) apply_filters( 'bp_core_register_blocks', $blocks );
 
 	if ( $blocks ) {
