@@ -1,5 +1,5 @@
 // Data.
-import isActive, { activityTypes, loggedInUser, postAuhor, currentPostId } from './utils';
+import isActive, { activityTypes, loggedInUser, postAuhor, currentPostId, getCurrentWidgetsSidebar } from './utils';
 
 export default {
 	isActive,
@@ -7,4 +7,5 @@ export default {
 	loggedInUser,
 	postAuhor,
 	currentPostId,
+	getCurrentWidgetsSidebar,
 };

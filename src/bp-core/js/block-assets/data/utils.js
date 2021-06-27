@@ -43,6 +43,8 @@ export function isActive( component, feature = '' ) {
 	return get( activeComponent, [ 'features', feature ] );
 }
 
+export default isActive;
+
 /**
  * Checks whether a component or the feature of an active component is enabled.
  *
@@ -143,4 +145,36 @@ export function currentPostId() {
 	return currentPostId;
 }
 
-export default isActive;
+/**
+ * Get the current sidebar of a Widget Block.
+ *
+ * @since 9.0.0
+ *
+ * @param {string} widgetClientId clientId of the sidebar widget.
+ * @return {object} An object containing the sidebar Id.
+ */
+export function getCurrentWidgetsSidebar( widgetClientId = '' ) {
+	const currentWidgetsSidebar = useSelect( ( select ) => {
+		const blockEditorStore = select( 'core/block-editor' );
+		const widgetsStore = select( 'core/edit-widgets' );
+
+		if ( widgetClientId && widgetsStore && blockEditorStore ) {
+			const areas = blockEditorStore.getBlocks();
+			const parents = blockEditorStore.getBlockParents( widgetClientId );
+			let sidebars = [];
+
+			areas.forEach( ( { clientId, attributes } ) => {
+				sidebars.push( {
+					id: attributes.id,
+					isCurrent: -1 !== parents.indexOf( clientId ),
+				} );
+			} );
+
+			return find( sidebars, ['isCurrent', true ] );
+		}
+
+		return {};
+	}, [] );
+
+	return currentWidgetsSidebar;
+}
