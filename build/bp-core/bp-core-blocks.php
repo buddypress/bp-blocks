@@ -125,7 +125,7 @@ function register_core_blocks() {
 				'default' => '',
 			),
 		),
-		'render_callback'    => __NAMESPACE__ . '\render_login_form_block',
+		'render_callback'    => __NAMESPACE__ . '\bp_block_render_login_form_block',
 	);
 
 	/** The dynamic version of this filter is documented in bp-core/classes/class-bp-component.php. */
@@ -362,6 +362,10 @@ function bp_nouveau_get_widget_block_classname( $classname, $block_name ) {
 		$classname .= ' widget_nav_menu buddypress_object_nav buddypress';
 	}
 
+	if ( 'bp/login-form' === $block_name ) {
+		$classname .= ' widget_bp_core_login_widget buddypress widget';
+	}
+
 	return $classname;
 }
 add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_nouveau_get_widget_block_classname', 10, 2 );
@@ -403,13 +407,12 @@ function bp_nouveau_is_primary_nav_widget_block_active() {
  * @param array $attributes The block attributes.
  * @return string           HTML output.
  */
-function render_login_form_block( $attributes = array() ) {
-	$block_args = bp_parse_args(
+function bp_block_render_login_form_block( $attributes = array() ) {
+	$block_args = wp_parse_args(
 		$attributes,
 		array(
 			'title' => '',
-		),
-		'widget_object_login_form'
+		)
 	);
 
 	$title = $block_args['title'];
@@ -417,106 +420,168 @@ function render_login_form_block( $attributes = array() ) {
 	$classnames         = 'widget_bp_core_login_widget buddypress widget';
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 
-	ob_start();
+	$widget_content = '';
 
-	if ( $title ) :
-		?>
-		<h2 class="widget-title"><?php echo esc_html( $title ); ?></h2>
-		<?php
-	endif;
+	if ( $title ) {
+		$widget_content .= sprintf(
+			'<h2 class="widget-title">$1%s</h2>',
+			esc_html( $title )
+		);
+	}
 
 	if ( is_user_logged_in() ) : ?>
 
 		<?php
+		ob_start();
 		/**
 		 * Fires before the display of widget content if logged in.
 		 *
 		 * @since 1.9.0
 		 */
-		do_action( 'bp_before_login_widget_loggedin' );	?>
+		do_action( 'bp_before_login_widget_loggedin' );
+		$action_output = ob_get_clean();
 
-		<div class="bp-login-widget-user-avatar">
-			<a href="<?php echo bp_loggedin_user_domain(); ?>">
-				<?php bp_loggedin_user_avatar(
-					array(
-						'type'   => 'thumb',
-						'width'  => 50,
-						'height' => 50
-					)
-				); ?>
-			</a>
-		</div>
+		if ( $action_output ) {
+			$widget_content .= $action_output;
+		}
 
-		<div class="bp-login-widget-user-links">
-			<div class="bp-login-widget-user-link"><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></div>
-			<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( bp_get_requested_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
-		</div>
+		$widget_content .= sprintf(
+			'<div class="bp-login-widget-user-avatar">
+				<a href="%1$s">
+					%2$s
+				</a>
+			</div>',
+			bp_loggedin_user_domain(),
+			bp_get_loggedin_user_avatar(
+				array(
+					'type'   => 'thumb',
+					'width'  => 50,
+					'height' => 50
+				)
+			)
+		);
 
-		<?php
+		$widget_content .= sprintf(
+			'<div class="bp-login-widget-user-links">
+				<div class="bp-login-widget-user-link">%1$s</div>
+				<div class="bp-login-widget-user-logout"><a class="logout" href="%2$s">%3$s</a></div>
+			</div>',
+			bp_core_get_userlink( bp_loggedin_user_id() ),
+			wp_logout_url( bp_get_requested_url() ),
+			__( 'Log Out', 'buddypress' )
 
+		);
+
+
+		ob_start();
 		/**
 		 * Fires after the display of widget content if logged in.
 		 *
 		 * @since 1.9.0
 		 */
-		do_action( 'bp_after_login_widget_loggedin' ); ?>
+		do_action( 'bp_after_login_widget_loggedin' );
+		$action_output = ob_get_clean();
+
+		if ( $action_output ) {
+			$widget_content .= $action_output;
+		}
+
+		?>
 
 	<?php else : ?>
 
 		<?php
 
+		ob_start();
 		/**
 		 * Fires before the display of widget content if logged out.
 		 *
 		 * @since 1.9.0
 		 */
-		do_action( 'bp_before_login_widget_loggedout' ); ?>
+		do_action( 'bp_before_login_widget_loggedout' );
+		$action_output = ob_get_clean();
 
-		<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
-			<label for="bp-login-widget-user-login"><?php _e( 'Username', 'buddypress' ); ?></label>
-			<input type="text" name="log" id="bp-login-widget-user-login" class="input" value="" />
+		if ( $action_output ) {
+			$widget_content .= $action_output;
+		}
 
-			<label for="bp-login-widget-user-pass"><?php _e( 'Password', 'buddypress' ); ?></label>
-			<input type="password" name="pwd" id="bp-login-widget-user-pass" class="input" value="" <?php bp_form_field_attributes( 'password' ) ?> />
 
-			<div class="forgetmenot"><label for="bp-login-widget-rememberme"><input name="rememberme" type="checkbox" id="bp-login-widget-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ); ?></label></div>
+		add_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
 
-			<input type="submit" name="wp-submit" id="bp-login-widget-submit" value="<?php esc_attr_e( 'Log In', 'buddypress' ); ?>" />
+		$widget_content .= wp_login_form(
+			array(
+				'echo'            => false,
+				'form_id'        => 'bp-login-widget-form',
+				'id_username'    => 'bp-login-widget-user-login',
+				'label_username' => __( 'Username', 'buddypress' ),
+				'id_password'    => 'bp-login-widget-user-pass',
+				'label_password' => __( 'Password', 'buddypress' ),
+				'id_remember'    => 'bp-login-widget-rememberme',
+				'id_submit'      => 'bp-login-widget-submit',
+			)
+		);
 
-			<?php if ( bp_get_signup_allowed() ) : ?>
+		remove_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
 
-				<span class="bp-login-widget-register-link"><a href="<?php echo esc_url( bp_get_signup_page() ); ?>"><?php _e( 'Register', 'buddypress' ); ?></a></span>
-
-			<?php endif; ?>
-
-			<?php
-
-			/**
-			 * Fires inside the display of the login widget form.
-			 *
-			 * @since 2.4.0
-			 */
-			do_action( 'bp_login_widget_form' ); ?>
-
-		</form>
-
-		<?php
-
+		ob_start();
 		/**
 		 * Fires after the display of widget content if logged out.
 		 *
 		 * @since 1.9.0
 		 */
-		do_action( 'bp_after_login_widget_loggedout' ); ?>
+		do_action( 'bp_after_login_widget_loggedout' );
+		$action_output = ob_get_clean();
 
-	<?php endif;
+		if ( $action_output ) {
+			$widget_content .= $action_output;
+		}
 
-	$output = ob_get_clean();
+	endif;
 
-	return sprintf(
-		'<div %1$s>%2$s</div>',
-		$wrapper_attributes,
-		$output
-	);
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
 
 }
+
+/**
+ * Create a link to the registration form
+ * for use on the bottom of the login form widget.
+ *
+ * @since 9.0.0
+ *
+ * @param string $content Content to display. Default empty.
+ * @param array  $args    Array of login form arguments.
+ * @return string           HTML output.
+ */
+function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
+	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] && bp_get_signup_allowed() ) {
+		$content .= sprintf(
+			'<p class="bp-login-widget-register-link"><a href="%1$s">%2$s</a></p>',
+			esc_url( bp_get_signup_page() ),
+			esc_html__( 'Register', 'buddypress' )
+		);
+	}
+
+	ob_start();
+	/**
+	 * Fires inside the display of the login widget form.
+	 *
+	 * @since 2.4.0
+	 */
+	do_action( 'bp_login_widget_form' );
+	$action_output = ob_get_clean();
+
+	if ( $action_output ) {
+		$content .= $action_output;
+	}
+
+	return $content;
+}
+
