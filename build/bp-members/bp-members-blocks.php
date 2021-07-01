@@ -151,7 +151,7 @@ function register_member_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_members_render_dynamic_members_block',
 		),
-		'bp/online-members' => array(
+		'bp/online-members'  => array(
 			'name'               => 'bp/online-members',
 			'editor_script'      => 'bp-online-members-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/online-members.js', __FILE__ ),
@@ -163,14 +163,14 @@ function register_member_blocks() {
 				'wp-editor',
 				'wp-block-editor',
 			),
-			'editor_style'              => 'bp-online-members-block',
-			'editor_style_url'          => plugins_url( 'css/blocks/online-members.css', __FILE__ ),
+			'editor_style'       => 'bp-online-members-block',
+			'editor_style_url'   => plugins_url( 'css/blocks/online-members.css', __FILE__ ),
 			'attributes'         => array(
-				'title'         => array(
+				'title'      => array(
 					'type'    => 'string',
 					'default' => __( 'Who\'s Online', 'buddypress' ),
 				),
-				'maxMembers'    => array(
+				'maxMembers' => array(
 					'type'    => 'number',
 					'default' => 15,
 				),
@@ -924,7 +924,7 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title' 	  => __( 'Who\'s Online', 'buddypress' ),
+			'title'      => __( 'Who\'s Online', 'buddypress' ),
 			'maxMembers' => 15,
 		),
 		'members_widget_settings'
@@ -976,7 +976,13 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 					)
 				),
 				esc_attr( $member->ID ),
-				esc_html( sprintf( __( 'Profile Picture of %s', 'buddypress' ), $member->display_name ) )
+				esc_html(
+					sprintf(
+						/* translators: %s: member name */
+						__( 'Profile picture of %s', 'buddypress' ),
+						$member->display_name
+					)
+				)
 			);
 		}
 
