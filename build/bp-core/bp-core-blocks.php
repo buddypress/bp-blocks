@@ -105,6 +105,29 @@ function register_core_blocks() {
 		);
 	}
 
+	$blocks['bp/login-form'] = array(
+		'name'               => 'bp/login-form',
+		'editor_script'      => 'bp-login-form-block',
+		'editor_script_url'  => plugins_url( 'js/blocks/login-form.js', __FILE__ ),
+		'editor_script_deps' => array(
+			'wp-blocks',
+			'wp-element',
+			'wp-components',
+			'wp-i18n',
+			'wp-editor',
+			'wp-block-editor',
+		),
+		'editor_style'       => 'bp-login-form-block',
+		'editor_style_url'   => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
+		'attributes'         => array(
+			'title' => array(
+				'type'    => 'string',
+				'default' => '',
+			),
+		),
+		'render_callback'    => __NAMESPACE__ . '\render_login_form_block',
+	);
+
 	/** The dynamic version of this filter is documented in bp-core/classes/class-bp-component.php. */
 	$blocks = (array) apply_filters( 'bp_core_register_blocks', $blocks );
 
@@ -370,4 +393,130 @@ function bp_nouveau_is_primary_nav_widget_block_active() {
 	}
 
 	return has_block( 'bp/primary-nav', $widgets_content );
+}
+
+/**
+ * Callback function to render the BP Login Form.
+ *
+ * @since 9.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function render_login_form_block( $attributes = array() ) {
+	$block_args = bp_parse_args(
+		$attributes,
+		array(
+			'title' => '',
+		),
+		'widget_object_login_form'
+	);
+
+	$title = $block_args['title'];
+
+	$classnames         = 'widget_bp_core_login_widget buddypress widget';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
+	ob_start();
+
+	if ( $title ) :
+		?>
+		<h2 class="widget-title"><?php echo esc_html( $title ); ?></h2>
+		<?php
+	endif;
+
+	if ( is_user_logged_in() ) : ?>
+
+		<?php
+		/**
+		 * Fires before the display of widget content if logged in.
+		 *
+		 * @since 1.9.0
+		 */
+		do_action( 'bp_before_login_widget_loggedin' );	?>
+
+		<div class="bp-login-widget-user-avatar">
+			<a href="<?php echo bp_loggedin_user_domain(); ?>">
+				<?php bp_loggedin_user_avatar(
+					array(
+						'type'   => 'thumb',
+						'width'  => 50,
+						'height' => 50
+					)
+				); ?>
+			</a>
+		</div>
+
+		<div class="bp-login-widget-user-links">
+			<div class="bp-login-widget-user-link"><?php echo bp_core_get_userlink( bp_loggedin_user_id() ); ?></div>
+			<div class="bp-login-widget-user-logout"><a class="logout" href="<?php echo wp_logout_url( bp_get_requested_url() ); ?>"><?php _e( 'Log Out', 'buddypress' ); ?></a></div>
+		</div>
+
+		<?php
+
+		/**
+		 * Fires after the display of widget content if logged in.
+		 *
+		 * @since 1.9.0
+		 */
+		do_action( 'bp_after_login_widget_loggedin' ); ?>
+
+	<?php else : ?>
+
+		<?php
+
+		/**
+		 * Fires before the display of widget content if logged out.
+		 *
+		 * @since 1.9.0
+		 */
+		do_action( 'bp_before_login_widget_loggedout' ); ?>
+
+		<form name="bp-login-form" id="bp-login-widget-form" class="standard-form" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
+			<label for="bp-login-widget-user-login"><?php _e( 'Username', 'buddypress' ); ?></label>
+			<input type="text" name="log" id="bp-login-widget-user-login" class="input" value="" />
+
+			<label for="bp-login-widget-user-pass"><?php _e( 'Password', 'buddypress' ); ?></label>
+			<input type="password" name="pwd" id="bp-login-widget-user-pass" class="input" value="" <?php bp_form_field_attributes( 'password' ) ?> />
+
+			<div class="forgetmenot"><label for="bp-login-widget-rememberme"><input name="rememberme" type="checkbox" id="bp-login-widget-rememberme" value="forever" /> <?php _e( 'Remember Me', 'buddypress' ); ?></label></div>
+
+			<input type="submit" name="wp-submit" id="bp-login-widget-submit" value="<?php esc_attr_e( 'Log In', 'buddypress' ); ?>" />
+
+			<?php if ( bp_get_signup_allowed() ) : ?>
+
+				<span class="bp-login-widget-register-link"><a href="<?php echo esc_url( bp_get_signup_page() ); ?>"><?php _e( 'Register', 'buddypress' ); ?></a></span>
+
+			<?php endif; ?>
+
+			<?php
+
+			/**
+			 * Fires inside the display of the login widget form.
+			 *
+			 * @since 2.4.0
+			 */
+			do_action( 'bp_login_widget_form' ); ?>
+
+		</form>
+
+		<?php
+
+		/**
+		 * Fires after the display of widget content if logged out.
+		 *
+		 * @since 1.9.0
+		 */
+		do_action( 'bp_after_login_widget_loggedout' ); ?>
+
+	<?php endif;
+
+	$output = ob_get_clean();
+
+	return sprintf(
+		'<div %1$s>%2$s</div>',
+		$wrapper_attributes,
+		$output
+	);
+
 }
