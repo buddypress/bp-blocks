@@ -28,7 +28,7 @@ registerBlockType( 'bp/login-form', {
 	attributes: {
 		title: {
 			type: 'string',
-			default: __( '', 'buddypress' ),
+			default: '',
 		},
 	},
 	edit: editLoginForm,
