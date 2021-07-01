@@ -151,6 +151,32 @@ function register_member_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_members_render_dynamic_members_block',
 		),
+		'bp/online-members' => array(
+			'name'               => 'bp/online-members',
+			'editor_script'      => 'bp-online-members-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/online-members.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-i18n',
+				'wp-editor',
+				'wp-block-editor',
+			),
+			'editor_style'              => 'bp-online-members-block',
+			'editor_style_url'          => plugins_url( 'css/blocks/online-members.css', __FILE__ ),
+			'attributes'         => array(
+				'title'         => array(
+					'type'    => 'string',
+					'default' => __( 'Who\'s Online', 'buddypress' ),
+				),
+				'maxMembers'    => array(
+					'type'    => 'number',
+					'default' => 15,
+				),
+			),
+			'render_callback'    => __NAMESPACE__ . '\bp_members_render_online_members_block',
+		),
 	);
 }
 add_filter( 'bp_members_register_blocks', __NAMESPACE__ . '\register_member_blocks', 10, 0 );
@@ -887,6 +913,101 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 }
 
 /**
+ * Callback function to render the Online Members Block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_members_render_online_members_block( $attributes = array() ) {
+	$block_args = bp_parse_args(
+		$attributes,
+		array(
+			'title' 	  => __( 'Who\'s Online', 'buddypress' ),
+			'maxMembers' => 15,
+		),
+		'members_widget_settings'
+	);
+
+	$no_members  = __( 'There are no users currently online', 'buddypress' );
+	$title       = $block_args['title'];
+	$max_members = (int) $block_args['maxMembers'];
+
+	$classnames         = 'widget_bp_core_whos_online_widget buddypress widget';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
+	if ( $title ) {
+		$widget_content = sprintf( '<h2 class="widget-title">%s</h2>', esc_html( $title ) );
+	} else {
+		$widget_content = '';
+	}
+
+	// Query Online users.
+	$query = bp_core_get_users(
+		array(
+			'user_id'         => 0,
+			'type'            => 'online',
+			'per_page'        => $max_members,
+			'max'             => $max_members,
+			'populate_extras' => true,
+			'search_terms'    => false,
+		)
+	);
+
+	// Build the output for online members.
+	if ( isset( $query['total'] ) && 1 <= (int) $query['total'] ) {
+		$members        = $query['users'];
+		$online_members = array();
+
+		foreach ( $members as $member ) {
+			$online_members[] = sprintf(
+				'<div class="item-avatar">
+					<a href="%1$s" class="bp-tooltip" data-bp-tooltip="%2$s">
+						<img loading="lazy" src="%3$s" class="avatar user-%4$s-avatar avatar-50 photo" width="50" height="50" alt="%5$s">
+					</a>
+				</div>',
+				esc_url( bp_core_get_user_domain( $member->ID, $member->user_nicename, $member->user_login ) ),
+				esc_html( $member->display_name ),
+				bp_core_fetch_avatar(
+					array(
+						'item_id' => $member->ID,
+						'html'    => false,
+					)
+				),
+				esc_attr( $member->ID ),
+				esc_html( sprintf( __( 'Profile Picture of %s', 'buddypress' ), $member->display_name ) )
+			);
+		}
+
+		$widget_content .= sprintf(
+			'<div class="avatar-block">
+				%s
+			</div>',
+			implode( "\n", $online_members )
+		);
+	} else {
+		$widget_content .= sprintf(
+			'<div class="widget-error">
+				%s
+			</div>',
+			esc_html( $no_members )
+		);
+	}
+
+	// Only add a block wrapper if not loaded into a Widgets sidebar.
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
+}
+
+/**
  * Make sure the BP Classnames are included into Widget Blocks.
  *
  * @since 9.0.0
@@ -898,6 +1019,8 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 function bp_members_get_widget_block_dynamic_classname( $classname, $block_name ) {
 	if ( 'bp/dynamic-members' === $block_name ) {
 		$classname .= ' widget_bp_core_members_widget buddypress';
+	} elseif ( 'bp/online-members' === $block_name ) {
+		$classname .= ' widget_bp_core_whos_online_widget buddypress';
 	}
 
 	return $classname;
