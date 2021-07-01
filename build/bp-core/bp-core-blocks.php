@@ -124,11 +124,10 @@ add_action( 'bp_core_blocks_init', __NAMESPACE__ . '\register_core_blocks', 10, 
  * @since 9.0.0
  */
 function bp_nouveau_unregister_blocks_for_post_context() {
-
 	$blocks_to_unregister = array();
 
 	if ( 'nouveau' === bp_get_theme_compat_id() ) {
-		$blocks_to_unregister[] = 'bp/primary-nav', // This Block is restricted to the Widget Block Editor.
+		$blocks_to_unregister[] = 'bp/primary-nav'; // This Block is restricted to the Widget Block Editor.
 	}
 
 	/**
