@@ -749,6 +749,9 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 		);
 	}
 
+	// Adds a container to make sure the block is styled even when used into the Columns parent block.
+	$widget_content = sprintf( '<div class="bp-latest-activities-block">%s</div>', "\n" . $widget_content . "\n" );
+
 	// Reset the global template loop.
 	$GLOBALS['activities_template'] = $reset_activities_template;
 

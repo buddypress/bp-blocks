@@ -96,7 +96,7 @@ const {
 		this.blocks.forEach( ( block, i ) => {
 			const { selector } = block;
 			const { type } = block.query_args;
-			const list = document.querySelector( '#' + selector ).closest( '.widget_bp_core_members_widget' );
+			const list = document.querySelector( '#' + selector ).closest( '.bp-dynamic-block-container' );
 
 			// Get default Block's type members.
 			this.getMembers( type, i );

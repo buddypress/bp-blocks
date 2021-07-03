@@ -397,6 +397,9 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 		$preview
 	);
 
+	// Adds a container to make sure the block is styled even when used into the Columns parent block.
+	$widget_content = sprintf( '<div class="bp-dynamic-block-container">%s</div>', "\n" . $widget_content . "\n" );
+
 	// Only add a block wrapper if not loaded into a Widgets sidebar.
 	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
 		return sprintf(
