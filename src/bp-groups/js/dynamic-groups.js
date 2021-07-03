@@ -97,7 +97,7 @@ const {
 		this.blocks.forEach( ( block, i ) => {
 			const { selector } = block;
 			const { type } = block.query_args;
-			const list = document.querySelector( '#' + selector ).closest( '.widget_bp_groups_widget' );
+			const list = document.querySelector( '#' + selector ).closest( '.bp-dynamic-block-container' );
 
 			// Get default Block's type groups.
 			this.getGroups( type, i );
