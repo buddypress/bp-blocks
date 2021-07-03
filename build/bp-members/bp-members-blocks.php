@@ -177,6 +177,32 @@ function register_member_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_members_render_online_members_block',
 		),
+		'bp/active-members'  => array(
+			'name'               => 'bp/active-members',
+			'editor_script'      => 'bp-active-members-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/active-members.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-components',
+				'wp-i18n',
+				'wp-editor',
+				'wp-block-editor',
+			),
+			'editor_style'       => 'bp-active-members-block',
+			'editor_style_url'   => plugins_url( 'css/blocks/active-members.css', __FILE__ ),
+			'attributes'         => array(
+				'title'      => array(
+					'type'    => 'string',
+					'default' => __( 'Recently Active Members', 'buddypress' ),
+				),
+				'maxMembers' => array(
+					'type'    => 'number',
+					'default' => 15,
+				),
+			),
+			'render_callback'    => __NAMESPACE__ . '\bp_members_render_active_members_block',
+		),
 	);
 }
 add_filter( 'bp_members_register_blocks', __NAMESPACE__ . '\register_member_blocks', 10, 0 );
@@ -913,29 +939,45 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 }
 
 /**
- * Callback function to render the Online Members Block.
+ * Common function to render the Recently Active & Online Members Blocks.
  *
  * @since 9.0.0
  *
- * @param array $attributes The block attributes.
- * @return string           HTML output.
+ * @param array $block_args {
+ *    Optional. An array of Block arguments.
+ *
+ *    @type string $title      The title of the Block.
+ *    @type int    $maxMembers The maximum number of members to show. Defaults to `0`.
+ *    @type string $noMembers  The string to output when there are no members to show.
+ *    @type string $classname  The name of the CSS class to use.
+ *    @type string $type       The type of filter to perform. Possible values are `online`, `active`,
+ *                             `newest`, `alphabetical`, `random` or `popular`.
+ * }
+ * @return string HTML output.
  */
-function bp_members_render_online_members_block( $attributes = array() ) {
-	$block_args = bp_parse_args(
-		$attributes,
+function bp_members_render_members_avatars_block( $block_args = array() ) {
+	$args = bp_parse_args(
+		$block_args,
 		array(
-			'title'      => __( 'Who\'s Online', 'buddypress' ),
-			'maxMembers' => 15,
+			'title'      => '',
+			'maxMembers' => 0,
+			'noMembers'  => '',
+			'classname'  => '',
+			'type'       => 'active',
 		),
-		'members_widget_settings'
+		''
 	);
 
-	$no_members  = __( 'There are no users currently online', 'buddypress' );
-	$title       = $block_args['title'];
-	$max_members = (int) $block_args['maxMembers'];
-
-	$classnames         = 'widget_bp_core_whos_online_widget buddypress widget';
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+	$title              = $args['title'];
+	$max_members        = (int) $args['maxMembers'];
+	$no_members         = $args['noMembers'];
+	$classname          = sanitize_key( $args['classname'] );
+	$wrapper_attributes = get_block_wrapper_attributes(
+		array(
+			'class' => sprintf( '%s buddypress widget', $classname ),
+		)
+	);
+	$type               = sanitize_key( $args['type'] );
 
 	if ( $title ) {
 		$widget_content = sprintf( '<h2 class="widget-title">%s</h2>', esc_html( $title ) );
@@ -943,11 +985,11 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 		$widget_content = '';
 	}
 
-	// Query Online users.
+	// Query Users.
 	$query = bp_core_get_users(
 		array(
 			'user_id'         => 0,
-			'type'            => 'online',
+			'type'            => $type,
 			'per_page'        => $max_members,
 			'max'             => $max_members,
 			'populate_extras' => true,
@@ -958,10 +1000,10 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 	// Build the output for online members.
 	if ( isset( $query['total'] ) && 1 <= (int) $query['total'] ) {
 		$members        = $query['users'];
-		$online_members = array();
+		$member_avatars = array();
 
 		foreach ( $members as $member ) {
-			$online_members[] = sprintf(
+			$member_avatars[] = sprintf(
 				'<div class="item-avatar">
 					<a href="%1$s" class="bp-tooltip" data-bp-tooltip="%2$s">
 						<img loading="lazy" src="%3$s" class="avatar user-%4$s-avatar avatar-50 photo" width="50" height="50" alt="%5$s">
@@ -990,7 +1032,7 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 			'<div class="avatar-block">
 				%s
 			</div>',
-			implode( "\n", $online_members )
+			implode( "\n", $member_avatars )
 		);
 	} else {
 		$widget_content .= sprintf(
@@ -1014,6 +1056,56 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 }
 
 /**
+ * Callback function to render the Online Members Block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_members_render_online_members_block( $attributes = array() ) {
+	$block_args = bp_parse_args(
+		$attributes,
+		array(
+			'title'      => __( 'Who\'s Online', 'buddypress' ),
+			'maxMembers' => 15,
+			'noMembers'  => __( 'There are no users currently online', 'buddypress' ),
+			'classname'  => 'widget_bp_core_whos_online_widget',
+		),
+		'members_widget_settings'
+	);
+
+	$block_args['type'] = 'online';
+
+	return bp_members_render_members_avatars_block( $block_args );
+}
+
+/**
+ * Callback function to render the Recently Active Members Block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_members_render_active_members_block( $attributes = array() ) {
+	$block_args = bp_parse_args(
+		$attributes,
+		array(
+			'title'      => __( 'Recently Active Members', 'buddypress' ),
+			'maxMembers' => 15,
+			'noMembers'  => __( 'There are no recently active members', 'buddypress' ),
+			'classname'  => 'widget_bp_core_recently_active_widget',
+		),
+		'recently_active_members_widget_settings'
+	);
+
+	$block_args['type'] = 'active';
+
+	return bp_members_render_members_avatars_block( $block_args );
+}
+
+/**
  * Make sure the BP Classnames are included into Widget Blocks.
  *
  * @since 9.0.0
@@ -1027,6 +1119,8 @@ function bp_members_get_widget_block_dynamic_classname( $classname, $block_name 
 		$classname .= ' widget_bp_core_members_widget buddypress';
 	} elseif ( 'bp/online-members' === $block_name ) {
 		$classname .= ' widget_bp_core_whos_online_widget buddypress';
+	} elseif ( 'bp/active-members' === $block_name ) {
+		$classname .= ' widget_bp_core_recently_active_widget buddypress';
 	}
 
 	return $classname;
