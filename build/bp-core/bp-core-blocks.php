@@ -117,8 +117,8 @@ function register_core_blocks() {
 			'wp-editor',
 			'wp-block-editor',
 		),
-		'editor_style'       => 'bp-login-form-block',
-		'editor_style_url'   => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
+		'style'              => 'bp-login-form-block',
+		'style_url'          => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
 		'attributes'         => array(
 			'title' => array(
 				'type'    => 'string',
@@ -424,22 +424,23 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 	if ( $title ) {
 		$widget_content .= sprintf(
-			'<h2 class="widget-title">$1%s</h2>',
+			'<h2 class="widget-title">%s</h2>',
 			esc_html( $title )
 		);
 	}
 
-	if ( is_user_logged_in() ) : ?>
-
-		<?php
-		ob_start();
-		/**
-		 * Fires before the display of widget content if logged in.
-		 *
-		 * @since 1.9.0
-		 */
-		do_action( 'bp_before_login_widget_loggedin' );
-		$action_output = ob_get_clean();
+	if ( is_user_logged_in() ) {
+		$action_output = '';
+		if ( has_action( 'bp_before_login_widget_loggedin' ) ) {
+			ob_start();
+			/**
+			 * Fires before the display of widget content if logged in.
+			 *
+			 * @since 1.9.0
+			 */
+			do_action( 'bp_before_login_widget_loggedin' );
+			$action_output = ob_get_clean();
+		}
 
 		if ( $action_output ) {
 			$widget_content .= $action_output;
@@ -456,7 +457,7 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 				array(
 					'type'   => 'thumb',
 					'width'  => 50,
-					'height' => 50
+					'height' => 50,
 				)
 			)
 		);
@@ -469,48 +470,45 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 			bp_core_get_userlink( bp_loggedin_user_id() ),
 			wp_logout_url( bp_get_requested_url() ),
 			__( 'Log Out', 'buddypress' )
-
 		);
 
-
-		ob_start();
-		/**
-		 * Fires after the display of widget content if logged in.
-		 *
-		 * @since 1.9.0
-		 */
-		do_action( 'bp_after_login_widget_loggedin' );
-		$action_output = ob_get_clean();
+		$action_output = '';
+		if ( has_action( 'bp_after_login_widget_loggedin' ) ) {
+			ob_start();
+			/**
+			 * Fires after the display of widget content if logged in.
+			 *
+			 * @since 1.9.0
+			 */
+			do_action( 'bp_after_login_widget_loggedin' );
+			$action_output = ob_get_clean();
+		}
 
 		if ( $action_output ) {
 			$widget_content .= $action_output;
 		}
-
-		?>
-
-	<?php else : ?>
-
-		<?php
-
-		ob_start();
-		/**
-		 * Fires before the display of widget content if logged out.
-		 *
-		 * @since 1.9.0
-		 */
-		do_action( 'bp_before_login_widget_loggedout' );
-		$action_output = ob_get_clean();
+	} else {
+		$action_output = '';
+		if ( has_action( 'bp_before_login_widget_loggedout' ) ) {
+			ob_start();
+			/**
+			 * Fires before the display of widget content if logged out.
+			 *
+			 * @since 1.9.0
+			 */
+			do_action( 'bp_before_login_widget_loggedout' );
+			$action_output = ob_get_clean();
+		}
 
 		if ( $action_output ) {
 			$widget_content .= $action_output;
 		}
-
 
 		add_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
 
 		$widget_content .= wp_login_form(
 			array(
-				'echo'            => false,
+				'echo'           => false,
 				'form_id'        => 'bp-login-widget-form',
 				'id_username'    => 'bp-login-widget-user-login',
 				'label_username' => __( 'Username', 'buddypress' ),
@@ -523,20 +521,22 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 		remove_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
 
-		ob_start();
-		/**
-		 * Fires after the display of widget content if logged out.
-		 *
-		 * @since 1.9.0
-		 */
-		do_action( 'bp_after_login_widget_loggedout' );
-		$action_output = ob_get_clean();
+		$action_output = '';
+		if ( has_action( 'bp_after_login_widget_loggedout' ) ) {
+			ob_start();
+			/**
+			 * Fires after the display of widget content if logged out.
+			 *
+			 * @since 1.9.0
+			 */
+			do_action( 'bp_after_login_widget_loggedout' );
+			$action_output = ob_get_clean();
+		}
 
 		if ( $action_output ) {
 			$widget_content .= $action_output;
 		}
-
-	endif;
+	}
 
 	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
 		return sprintf(
@@ -547,7 +547,6 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 	}
 
 	return $widget_content;
-
 }
 
 /**
@@ -569,14 +568,17 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
 		);
 	}
 
-	ob_start();
-	/**
-	 * Fires inside the display of the login widget form.
-	 *
-	 * @since 2.4.0
-	 */
-	do_action( 'bp_login_widget_form' );
-	$action_output = ob_get_clean();
+	$action_output = '';
+	if ( has_action( 'bp_login_widget_form' ) ) {
+		ob_start();
+		/**
+		 * Fires inside the display of the login widget form.
+		 *
+		 * @since 2.4.0
+		 */
+		do_action( 'bp_login_widget_form' );
+		$action_output = ob_get_clean();
+	}
 
 	if ( $action_output ) {
 		$content .= $action_output;

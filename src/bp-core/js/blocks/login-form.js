@@ -18,7 +18,7 @@ import transforms from './login-form/transforms';
 
 registerBlockType( 'bp/login-form', {
 	title: __( 'Login Form', 'buddypress' ),
-	description: __( 'Adds a login form when a user is not logged in; shows a user profile link and a logout link when the user is logged in.', 'buddypress' ),
+	description: __( 'Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.', 'buddypress' ),
 	icon: {
 		background: '#fff',
 		foreground: '#d84800',
