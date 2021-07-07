@@ -78,13 +78,9 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 		return;
 	}
 
-	$closed_notices = bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
+	$closed_notices = (array) bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
 
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
-	}
-
-	if ( is_array( $closed_notices ) && in_array( $notice->id, $closed_notices )  ) {
+	if ( in_array( $notice->id, $closed_notices ) ) {
 		return;
 	}
 
