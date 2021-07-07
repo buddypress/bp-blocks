@@ -26,7 +26,7 @@ registerBlockType( 'bp/sitewide-notices', {
 	},
 	category: 'buddypress',
 	attributes: {
-	title: {
+		title: {
 			type: 'string',
 			default: '',
 		},
