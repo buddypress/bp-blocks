@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function register_messages_blocks() {
 	$blocks = array(
-		'bp/messages' => array(
+		'bp/sitewide-notices' => array(
 			'name'               => 'bp/sitewide-notices',
 			'editor_script'      => 'bp-sitewide-notices-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/sitewide-notices.js', __FILE__ ),
