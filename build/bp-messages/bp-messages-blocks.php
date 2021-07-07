@@ -115,7 +115,7 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 		bp_get_message_notice_subject( $notice ),
 		esc_attr__( 'Dismiss this notice', 'buddypress' ),
 		esc_attr( $notice->id ),
-		__( 'Dismiss this notice', 'buddypress' ),
+		esc_html__( 'Dismiss this notice', 'buddypress' ),
 		bp_get_message_notice_text( $notice )
 	);
 
