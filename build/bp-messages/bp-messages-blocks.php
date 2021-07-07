@@ -1,9 +1,9 @@
 <?php
 /**
- * BP Friends Blocks Functions.
+ * BP Messages Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-friends\bp-friends-blocks
+ * @subpackage \build\bp-messages\bp-messages-blocks
  */
 
 namespace BP\Blocks;
@@ -14,13 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register the friends blocks.
+ * Register the messages component blocks.
  *
  * @since 9.0.0
  */
 function register_messages_blocks() {
 	$blocks = array(
-		'bp/friends' => array(
+		'bp/messages' => array(
 			'name'               => 'bp/sitewide-notices',
 			'editor_script'      => 'bp-sitewide-notices-block',
 			'editor_script_url'  => plugins_url( 'js/blocks/sitewide-notices.js', __FILE__ ),
@@ -52,7 +52,7 @@ function register_messages_blocks() {
 add_action( 'bp_messages_blocks_init', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
 
 /**
- * Callback function to render the BP Friends Block.
+ * Callback function to render the BP Sitewide Notices Block.
  *
  * @since 9.0.0
  *
