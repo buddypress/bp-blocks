@@ -52,6 +52,25 @@ function register_messages_blocks() {
 add_action( 'bp_messages_blocks_init', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
 
 /**
+ * Registers a new script to manage the dismissal action for the Sitewide notice widget/block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $scripts Data about the scripts to register.
+ * @return array Data about the scripts to register.
+ */
+function bp_messages_register_scripts( $scripts = array() ) {
+	$scripts['bp-sitewide-notices-script'] = array(
+		'file'         => esc_url( plugins_url( 'js/sitewide-notices.js', __FILE__ ) ),
+		'dependencies' => array(),
+		'footer'       => true,
+	);
+
+	return $scripts;
+}
+add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_messages_register_scripts', 10, 1 );
+
+/**
  * Callback function to render the BP Sitewide Notices Block.
  *
  * @since 9.0.0
@@ -78,6 +97,26 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 		return;
 	}
 
+	// Only enqueue common/specific scripts and data once per page load.
+	if ( ! wp_script_is( 'bp-sitewide-notices-script', 'enqueued' ) ) {
+		$path = sprintf(
+			'/%1$s/%2$s/sitewide-notices/',
+			bp_rest_namespace(),
+			bp_rest_version(),
+		);
+		wp_enqueue_script( 'bp-sitewide-notices-script' );
+		wp_localize_script(
+			'bp-sitewide-notices-script',
+			'bpSitewideNoticeBlockSettings',
+			array(
+				'path'        => ltrim( $path, '/' ),
+				'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
+				'root'        => esc_url_raw( get_rest_url() ),
+				'nonce'       => wp_create_nonce( 'wp_rest' ),
+			)
+		);
+	}
+
 	$closed_notices = (array) bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
 
 	if ( in_array( $notice->id, $closed_notices ) ) {
@@ -90,7 +129,7 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 	$classnames         = 'widget_bp_core_sitewide_messages buddypress widget';
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 
-	$widget_content = '';
+	$widget_content = '<div class="bp-sitewide-notice-block">';
 
 	if ( $title ) {
 		$widget_content .= sprintf(
@@ -100,20 +139,23 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 	}
 
 	$widget_content .= sprintf(
-		'<div class="bp-sitewide-notice">
+		'<div>
 			<div id="message" class="info notice" rel="n-%1$d">
 				<strong>%2$s</strong>
-				<button type="button" id="close-notice" class="bp-tooltip" data-bp-tooltip="%3$s" data-bp-sitewide-notice-id="%4$d"><span class="bp-screen-reader-text">%5$s</span> <span aria-hidden="true">&Chi;</span></button>
-				%6$s
+				<a href="%3$s" id="close-notice" class="bp-tooltip button dismiss-notice" data-bp-tooltip="%4$s" data-bp-sitewide-notice-id="%5$d"><span class="bp-screen-reader-text">%6$s</span> <span aria-hidden="true">&Chi;</span></a>
+				%7$s
 			</div>
 		</div>',
 		esc_attr( $notice->id ),
 		bp_get_message_notice_subject( $notice ),
+		esc_url( bp_get_message_notice_dismiss_link() ),
 		esc_attr__( 'Dismiss this notice', 'buddypress' ),
 		esc_attr( $notice->id ),
 		esc_html__( 'Dismiss this notice', 'buddypress' ),
 		bp_get_message_notice_text( $notice )
 	);
+
+	$widget_content .= '</div>';
 
 	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
 		return sprintf(
