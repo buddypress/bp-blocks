@@ -5,3 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"ygAa":[function(require,module,exports) {
 "use strict";var r=i(require("./primary-nav/edit")),e=i(require("./primary-nav/transforms"));function i(r){return r&&r.__esModule?r:{default:r}}var t=wp,s=t.blocks.registerBlockType,a=t.i18n.__;s("bp/primary-nav",{title:a("Primary navigation","buddypress"),description:a("Displays BuddyPress primary nav in the sidebar of your site. Make sure to use it as the first widget of the sidebar and only once.","buddypress"),icon:{background:"#fff",foreground:"#d84800",src:"buddicons-community"},category:"buddypress",attributes:{displayTitle:{type:"boolean",default:!0}},edit:r.default,transforms:e.default});
 },{"./primary-nav/edit":"Sw79","./primary-nav/transforms":"uKqo"}]},{},["ygAa"], null)
+//# sourceMappingURL=/bp-core/js/blocks/primary-nav.js.map

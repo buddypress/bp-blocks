@@ -17,3 +17,4 @@ var e=require("./arrayWithHoles.js"),r=require("./iterableToArrayLimit.js"),o=re
 },{}],"hBDw":[function(require,module,exports) {
 "use strict";var t=i(require("./embed-activity/edit")),e=i(require("./embed-activity/save"));function i(t){return t&&t.__esModule?t:{default:t}}var s=wp,r=s.i18n.__,d=s.blocks.registerBlockType;d("bp/embed-activity",{title:r("Embed an activity","buddypress"),description:r("Add a block that displays the activity content pulled from this or other community sites.","buddypress"),icon:"buddicons-activity",category:"buddypress",attributes:{url:{type:"string"},caption:{type:"string",source:"html",selector:"figcaption"}},supports:{align:!0},edit:t.default,save:e.default});
 },{"./embed-activity/edit":"Sjre","./embed-activity/save":"zmBI"}]},{},["hBDw"], null)
+//# sourceMappingURL=/bp-activity/js/blocks/embed-activity.js.map

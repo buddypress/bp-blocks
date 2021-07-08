@@ -234,75 +234,6 @@ function bp_members_editor_settings( $bp_editor_settings = array() ) {
 add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_members_editor_settings' );
 
 /**
- * Adds a new rest field to fetch extra information about the user.
- *
- * This is used by the Dynamic members widget/block.
- *
- * @since 9.0.0
- */
-function bp_members_register_widgets_rest_field() {
-	bp_rest_register_field(
-		'members',
-		'extra',
-		array(
-			'get_callback' => __NAMESPACE__ . '\bp_members_widgets_get_rest_extra_field',
-			'schema'       => array(
-				'description' => __( 'Extra information about the member to be used by the Members dynamic widget.', 'buddypress' ),
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		)
-	);
-}
-add_action( 'bp_rest_api_init', __NAMESPACE__ . '\bp_members_register_widgets_rest_field' );
-
-/**
- * Gets the extra information about the user used by the dynamic members widget.
- *
- * @since 9.0.0
- *
- * @param array           $data     The list of properties of the BuddyPress member's object.
- * @param string          $property The custom property being requested.
- * @param WP_REST_Request $request  Full details about the request.
- * @return string The extra information about the user used by the dynamic members widget.
- */
-function bp_members_widgets_get_rest_extra_field( $data, $property, $request ) {
-	$value = null;
-	if ( 'extra' === $property ) {
-		$type    = $request->get_param( 'type' );
-		$user_id = (int) $data['id'];
-
-		// Registration date (human time diff).
-		if ( 'newest' === $type ) {
-			$user  = bp_core_get_core_userdata( $user_id );
-			$value = bp_core_get_last_activity(
-				$user->user_registered,
-				/* translators: %s is time elapsed since the registration date happened */
-				_x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' )
-			);
-
-			// Amount of friends.
-		} elseif ( bp_is_active( 'friends' ) && 'popular' === $type ) {
-			$total_friend_count = friends_get_total_friend_count( $user_id );
-
-			/** This filter is documented in buddypress/src/bp-friends/bp-friends-template.php */
-			$value = apply_filters(
-				'bp_get_member_total_friend_count',
-				/* translators: %d: total friend count */
-				sprintf( _n( '%s friend', '%s friends', $total_friend_count, 'buddypress' ), number_format_i18n( $total_friend_count ) )
-			);
-
-			// Last activity date (human time diff).
-		} else {
-			/* translators: %s is time elapsed since the last activity happened */
-			$value = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( bp_get_user_last_activity( $user_id ) ) );
-		}
-	}
-
-	return $value;
-}
-
-/**
  * Registers a new script to manage the dynamic part of the Dynamic members widget/block.
  *
  * @since 9.0.0
@@ -316,6 +247,7 @@ function bp_members_register_scripts( $scripts = array() ) {
 		'dependencies' => array(
 			'lodash',
 			'wp-url',
+			'wp-i18n',
 		),
 		'footer'       => true,
 	);
@@ -765,7 +697,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 
 	$max_members = (int) $block_args['maxMembers'];
-	$no_members  = __( 'No one has signed up yet!', 'buddypress' );
+	$no_members  = __( 'No members found.', 'buddypress' );
 
 	/** This filter is documented in buddypress/src/bp-members/classes/class-bp-core-members-widget.php */
 	$separator = apply_filters( 'bp_members_widget_separator', '|' );
@@ -822,8 +754,9 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 
 	$preview      = '';
 	$default_args = array(
-		'type'     => $block_args['memberDefault'],
-		'per_page' => $max_members,
+		'type'            => $block_args['memberDefault'],
+		'per_page'        => $max_members,
+		'populate_extras' => true,
 	);
 
 	// Previewing the Block inside the editor.
@@ -896,6 +829,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 
 		// Only enqueue common/specific scripts and data once per page load.
 		if ( ! has_action( 'wp_footer', __NAMESPACE__ . '\bp_members_blocks_add_script_data', 1 ) ) {
+			wp_set_script_translations( 'bp-dynamic-members-script', 'buddypress' );
 			wp_enqueue_script( 'bp-dynamic-members-script' );
 			wp_localize_script(
 				'bp-dynamic-members-script',
@@ -904,9 +838,6 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 					'path'    => ltrim( $path, '/' ),
 					'root'    => esc_url_raw( get_rest_url() ),
 					'nonce'   => wp_create_nonce( 'wp_rest' ),
-					'strings' => array(
-						'noMembersFound' => $no_members,
-					),
 				)
 			);
 

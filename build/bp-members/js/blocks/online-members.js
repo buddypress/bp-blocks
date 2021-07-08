@@ -5,3 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"to6R":[function(require,module,exports) {
 "use strict";var e=s(require("./online-members/edit")),r=s(require("./online-members/transforms"));function s(e){return e&&e.__esModule?e:{default:e}}var t=wp,n=t.blocks.registerBlockType,i=t.i18n.__;n("bp/online-members",{title:i("Online Members","buddypress"),description:i("Profile photos of online users.","buddypress"),icon:{background:"#fff",foreground:"#d84800",src:"groups"},category:"buddypress",attributes:{title:{type:"string",default:i("Who's Online","buddypress")},maxMembers:{type:"number",default:15}},edit:e.default,transforms:r.default});
 },{"./online-members/edit":"l6vy","./online-members/transforms":"VbKe"}]},{},["to6R"], null)
+//# sourceMappingURL=/bp-members/js/blocks/online-members.js.map

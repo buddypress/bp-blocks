@@ -7,3 +7,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"lVvR":[function(require,module,exports) {
 "use strict";var e=t(require("./dynamic-groups/edit")),r=t(require("./dynamic-groups/transforms"));function t(e){return e&&e.__esModule?e:{default:e}}var s=wp,u=s.blocks.registerBlockType,i=s.i18n.__;u("bp/dynamic-groups",{title:i("Dynamic Groups List","buddypress"),description:i("A dynamic list of recently active, popular, newest, or alphabetical groups.","buddypress"),icon:{background:"#fff",foreground:"#d84800",src:"buddicons-groups"},category:"buddypress",attributes:{title:{type:"string",default:i("Groups","buddypress")},maxGroups:{type:"number",default:5},groupDefault:{type:"string",default:"active"},linkTitle:{type:"boolean",default:!1}},edit:e.default,transforms:r.default});
 },{"./dynamic-groups/edit":"l8fw","./dynamic-groups/transforms":"SJlW"}]},{},["lVvR"], null)
+//# sourceMappingURL=/bp-groups/js/blocks/dynamic-groups.js.map

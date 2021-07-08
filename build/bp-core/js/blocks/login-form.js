@@ -5,3 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"A1QM":[function(require,module,exports) {
 "use strict";var r=o(require("./login-form/edit")),e=o(require("./login-form/transforms"));function o(r){return r&&r.__esModule?r:{default:r}}var t=wp,i=t.blocks.registerBlockType,s=t.i18n.__;i("bp/login-form",{title:s("Login Form","buddypress"),description:s("Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.","buddypress"),icon:{background:"#fff",foreground:"#d84800",src:"admin-users"},category:"buddypress",attributes:{title:{type:"string",default:""}},edit:r.default,transforms:e.default});
 },{"./login-form/edit":"ploe","./login-form/transforms":"RDNZ"}]},{},["A1QM"], null)
+//# sourceMappingURL=/bp-core/js/blocks/login-form.js.map

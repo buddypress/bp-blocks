@@ -25,3 +25,4 @@ var e=require("./arrayWithHoles.js"),r=require("./iterableToArrayLimit.js"),o=re
 },{"@babel/runtime/helpers/toConsumableArray":"Fhqp","@babel/runtime/helpers/slicedToArray":"HETk","./constants":"jS06"}],"jcTh":[function(require,module,exports) {
 "use strict";var e=t(require("./groups/edit"));function t(e){return e&&e.__esModule?e:{default:e}}var r=wp,s=r.blocks.registerBlockType,u=r.i18n.__;s("bp/groups",{title:u("Groups","buddypress"),description:u("BuddyPress Groups.","buddypress"),icon:"buddicons-groups",category:"buddypress",attributes:{itemIDs:{type:"array",items:{type:"integer"},default:[]},avatarSize:{type:"string",default:"full"},displayGroupName:{type:"boolean",default:!0},extraInfo:{type:"string",default:"none"},layoutPreference:{type:"string",default:"list"},columns:{type:"number",default:2}},edit:e.default});
 },{"./groups/edit":"Ccmh"}]},{},["jcTh"], null)
+//# sourceMappingURL=/bp-groups/js/blocks/groups.js.map

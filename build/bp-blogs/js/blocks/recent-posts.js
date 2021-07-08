@@ -5,3 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"PMBS":[function(require,module,exports) {
 "use strict";var e=s(require("./recent-posts/edit")),t=s(require("./recent-posts/transforms"));function s(e){return e&&e.__esModule?e:{default:e}}var r=wp,o=r.blocks.registerBlockType,d=r.i18n.__;o("bp/recent-posts",{title:d("Recent Networkwide Posts","buddypress"),description:d("A list of recently published posts from across your network.","buddypress"),icon:{background:"#fff",foreground:"#d84800",src:"wordpress"},category:"buddypress",attributes:{title:{type:"string",default:d("Recent Networkwide Posts","buddypress")},maxPosts:{type:"number",default:10},linkTitle:{type:"boolean",default:!1}},edit:e.default,transforms:t.default});
 },{"./recent-posts/edit":"Pfcj","./recent-posts/transforms":"D8sC"}]},{},["PMBS"], null)
+//# sourceMappingURL=/bp-blogs/js/blocks/recent-posts.js.map
