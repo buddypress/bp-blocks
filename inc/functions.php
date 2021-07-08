@@ -41,20 +41,3 @@ add_action( 'bp_include', __NAMESPACE__ . '\inc', 20 );
 // Remove some BP Hooks.
 remove_action( 'bp_blocks_init', 'bp_register_block_components', 1 );
 remove_filter( 'bp_blocks_editor_settings', 'bp_members_editor_settings' );
-
-/**
- * Allow listing the active BP components using the REST API.
- *
- * @since 9.0.0
- *
- * @param boolean         $retval Whether items can be fetched or not.
- * @param WP_REST_Request $request Full data about the request.
- */
-function bp_blocks_rest_allow_get_active_components( $retval, $request ) {
-	if ( true === $retval ) {
-		return $retval;
-	}
-
-	return 'active' === $request->get_param( 'status' ) && current_user_can( 'publish_posts' );
-}
-add_filter( 'bp_rest_components_get_items_permissions_check', __NAMESPACE__ . '\bp_blocks_rest_allow_get_active_components', 10, 2 );
