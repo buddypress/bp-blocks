@@ -406,8 +406,8 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $group_link ),
-				/* translators: %s: the group's name */
-				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $group->display_name ),
+				/* Translators: %s is the group's name. */
+				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(
@@ -673,7 +673,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 					/* translators: %s is the number of Group members */
 					$extra = sprintf( _n( '%s member', '%s members', $count, 'buddypress' ), bp_core_number_format( $count ) );
 				} else {
-					/* translators: %s is time elapsed since the last activity happened */
+					/* translators: %s: a human time diff. */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) );
 				}
 

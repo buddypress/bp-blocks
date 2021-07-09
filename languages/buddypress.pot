@@ -1,5 +1,5 @@
 # Copyright (C) 2021 The BuddyPress Community
-# This file is distributed under the same license as the BP Blocks plugin.
+# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
 "Project-Id-Version: BP Blocks 1.0.0\n"
@@ -9,9 +9,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-07-08T22:18:37+02:00\n"
+"POT-Creation-Date: 2021-07-09T20:05:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: buddypress\n"
 
 #. Plugin Name of the plugin
@@ -45,6 +45,7 @@ msgstr ""
 
 #: build/bp-activity/bp-activity-blocks.php:587
 #: build/bp-activity/bp-activity-blocks.php:640
+#: build/bp-activity/js/blocks/latest-activities.js:156
 msgid "Latest updates"
 msgstr ""
 
@@ -54,6 +55,8 @@ msgstr ""
 
 #: build/bp-blogs/bp-blogs-blocks.php:45
 #: build/bp-blogs/bp-blogs-blocks.php:83
+#: build/bp-blogs/js/blocks/recent-posts.js:127
+#: build/bp-blogs/js/blocks/recent-posts.js:138
 msgid "Recent Networkwide Posts"
 msgstr ""
 
@@ -77,169 +80,172 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: build/bp-friends/bp-friends-blocks.php:103
-#: build/bp-groups/bp-groups-blocks.php:554
-#: build/bp-members/bp-members-blocks.php:663
+#: build/bp-friends/bp-friends-blocks.php:104
+#: build/bp-groups/bp-groups-blocks.php:490
+#: build/bp-members/bp-members-blocks.php:594
 msgid "Profile Photo"
 msgstr ""
 
-#: build/bp-friends/bp-friends-blocks.php:230
+#: build/bp-friends/bp-friends-blocks.php:231
+#: build/bp-friends/js/friends.js:88
 msgid "Sorry, no members were found."
 msgstr ""
 
 #. translators: %s is the member's display name
-#: build/bp-friends/bp-friends-blocks.php:247
+#: build/bp-friends/bp-friends-blocks.php:248
 msgid "%s's Friends"
 msgstr ""
 
-#: build/bp-friends/bp-friends-blocks.php:263
-#: build/bp-groups/bp-groups-blocks.php:683
-#: build/bp-members/bp-members-blocks.php:792
+#: build/bp-friends/bp-friends-blocks.php:264
+#: build/bp-groups/bp-groups-blocks.php:619
+#: build/bp-members/bp-members-blocks.php:723
+#: build/bp-friends/js/blocks/friends.js:17
+#: build/bp-groups/js/blocks/dynamic-groups.js:17
+#: build/bp-members/js/blocks/dynamic-members.js:17
 msgid "Newest"
 msgstr ""
 
-#: build/bp-friends/bp-friends-blocks.php:267
-#: build/bp-groups/bp-groups-blocks.php:687
-#: build/bp-members/bp-members-blocks.php:796
+#: build/bp-friends/bp-friends-blocks.php:268
+#: build/bp-groups/bp-groups-blocks.php:623
+#: build/bp-members/bp-members-blocks.php:727
+#: build/bp-friends/js/blocks/friends.js:21
+#: build/bp-groups/js/blocks/dynamic-groups.js:21
+#: build/bp-members/js/blocks/dynamic-members.js:21
 msgid "Active"
 msgstr ""
 
-#: build/bp-friends/bp-friends-blocks.php:271
-#: build/bp-groups/bp-groups-blocks.php:691
-#: build/bp-members/bp-members-blocks.php:803
+#: build/bp-friends/bp-friends-blocks.php:272
+#: build/bp-groups/bp-groups-blocks.php:627
+#: build/bp-members/bp-members-blocks.php:734
+#: build/bp-friends/js/blocks/friends.js:25
+#: build/bp-groups/js/blocks/dynamic-groups.js:25
+#: build/bp-members/js/blocks/dynamic-members.js:25
 msgid "Popular"
 msgstr ""
 
 #. translators: %s is time elapsed since the registration date happened
-#: build/bp-friends/bp-friends-blocks.php:312
-#: build/bp-members/bp-members-blocks.php:281
-#: build/bp-members/bp-members-blocks.php:842
-msgctxt "Records the timestamp that the user registered into the activity stream"
-msgid "registered %s"
+#: build/bp-friends/bp-friends-blocks.php:311
+#: build/bp-members/bp-members-blocks.php:772
+msgctxt "The timestamp when the user registered"
+msgid "Registered %s"
 msgstr ""
 
 #. translators: %s: total friend count
-#. translators: %d: total friend count
-#: build/bp-friends/bp-friends-blocks.php:319
-#: build/bp-members/bp-members-blocks.php:292
-#: build/bp-members/bp-members-blocks.php:849
+#: build/bp-friends/bp-friends-blocks.php:314
+#: build/bp-members/bp-members-blocks.php:775
 msgid "%s friend"
 msgid_plural "%s friends"
 msgstr[0] ""
 msgstr[1] ""
 
-#. translators: %s is time elapsed since the last activity happened
 #. translators: %s: a human time diff.
-#. translators: %s: a human time diff
-#: build/bp-friends/bp-friends-blocks.php:323
-#: build/bp-groups/bp-groups-blocks.php:211
-#: build/bp-groups/bp-groups-blocks.php:509
-#: build/bp-groups/bp-groups-blocks.php:738
-#: build/bp-members/bp-members-blocks.php:298
-#: build/bp-members/bp-members-blocks.php:625
-#: build/bp-members/bp-members-blocks.php:853
+#: build/bp-friends/bp-friends-blocks.php:317
+#: build/bp-groups/bp-groups-blocks.php:445
+#: build/bp-groups/bp-groups-blocks.php:677
+#: build/bp-members/bp-members-blocks.php:556
+#: build/bp-members/bp-members-blocks.php:778
+#: build/bp-friends/js/friends.js:68
 #: build/bp-groups/js/blocks/groups.js:367
+#: build/bp-groups/js/dynamic-groups.js:83
 #: build/bp-members/js/blocks/members.js:371
-#: build/bp-members/js/dynamic-members.js:108
+#: build/bp-members/js/dynamic-members.js:68
 msgid "Active %s"
 msgstr ""
 
 #: build/bp-groups/bp-groups-blocks.php:132
-#: build/bp-groups/bp-groups-blocks.php:649
+#: build/bp-groups/bp-groups-blocks.php:585
+#: build/bp-groups/js/blocks/dynamic-groups.js:186
 #: build/bp-groups/js/blocks/groups.js:497
 msgid "Groups"
 msgstr ""
 
-#: build/bp-groups/bp-groups-blocks.php:167
-msgid "Extra information about the group to be used by the Groups dynamic widget."
-msgstr ""
-
-#. translators: %s is time elapsed since the group was created
-#: build/bp-groups/bp-groups-blocks.php:195
-#: build/bp-groups/bp-groups-blocks.php:733
-msgid "created %s"
-msgstr ""
-
-#. translators: %s: total member count
-#: build/bp-groups/bp-groups-blocks.php:205
-msgid "%s member"
-msgid_plural "%s members"
-msgstr[0] ""
-msgstr[1] ""
-
 #. Translators: %s is the group's name.
-#: build/bp-groups/bp-groups-blocks.php:321
+#: build/bp-groups/bp-groups-blocks.php:257
+#: build/bp-groups/bp-groups-blocks.php:410
 msgid "Group Profile photo of %s"
 msgstr ""
 
-#: build/bp-groups/bp-groups-blocks.php:367
+#: build/bp-groups/bp-groups-blocks.php:303
 msgid "Visit Group"
 msgstr ""
 
-#. translators: %s: the group's name
-#. translators: %s: member name
-#. translators: %s: the member display name
-#: build/bp-groups/bp-groups-blocks.php:474
-#: build/bp-members/bp-members-blocks.php:404
-#: build/bp-members/bp-members-blocks.php:557
-#: build/bp-groups/js/blocks/groups.js:346
-#: build/bp-members/js/blocks/members.js:332
-msgid "Profile photo of %s"
-msgstr ""
-
 #. translators: %d: the number of group members.
-#: build/bp-groups/bp-groups-blocks.php:517
+#: build/bp-groups/bp-groups-blocks.php:453
 msgid "%d member"
 msgid_plural "%d members"
 msgstr[0] ""
 msgstr[1] ""
 
-#: build/bp-groups/bp-groups-blocks.php:660
+#: build/bp-groups/bp-groups-blocks.php:596
+#: build/bp-groups/js/dynamic-groups.js:89
 msgid "There are no groups to display."
 msgstr ""
 
-#: build/bp-groups/bp-groups-blocks.php:695
+#: build/bp-groups/bp-groups-blocks.php:631
+#: build/bp-groups/js/blocks/dynamic-groups.js:29
 msgid "Alphabetical"
 msgstr ""
 
+#. translators: %s is time elapsed since the group was created
+#: build/bp-groups/bp-groups-blocks.php:669
+#: build/bp-groups/js/dynamic-groups.js:69
+msgid "Created %s"
+msgstr ""
+
+#. translators: %s is the number of Group members
+#: build/bp-groups/bp-groups-blocks.php:674
+msgid "%s member"
+msgid_plural "%s members"
+msgstr[0] ""
+msgstr[1] ""
+
 #: build/bp-members/bp-members-blocks.php:137
-#: build/bp-members/bp-members-blocks.php:758
+#: build/bp-members/bp-members-blocks.php:689
+#: build/bp-members/js/blocks/dynamic-members.js:210
 #: build/bp-members/js/blocks/members.js:501
 msgid "Members"
 msgstr ""
 
 #: build/bp-members/bp-members-blocks.php:171
-#: build/bp-members/bp-members-blocks.php:1075
+#: build/bp-members/bp-members-blocks.php:997
+#: build/bp-members/js/blocks/online-members.js:129
 msgid "Who's Online"
 msgstr ""
 
 #: build/bp-members/bp-members-blocks.php:197
-#: build/bp-members/bp-members-blocks.php:1100
+#: build/bp-members/bp-members-blocks.php:1022
+#: build/bp-members/js/blocks/active-members.js:118
+#: build/bp-members/js/blocks/active-members.js:129
 msgid "Recently Active Members"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:250
-msgid "Extra information about the member to be used by the Members dynamic widget."
+#. translators: %s: the member display name.
+#: build/bp-members/bp-members-blocks.php:335
+#: build/bp-members/bp-members-blocks.php:488
+#: build/bp-groups/js/blocks/groups.js:346
+#: build/bp-members/js/blocks/members.js:332
+msgid "Profile photo of %s"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:446
+#: build/bp-members/bp-members-blocks.php:377
 msgid "View Profile"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:769
-msgid "No one has signed up yet!"
+#: build/bp-members/bp-members-blocks.php:700
+#: build/bp-members/js/dynamic-members.js:88
+msgid "No members found."
 msgstr ""
 
 #. translators: %s: member name
-#: build/bp-members/bp-members-blocks.php:1029
+#: build/bp-members/bp-members-blocks.php:951
 msgid "Profile picture of %s"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:1077
+#: build/bp-members/bp-members-blocks.php:999
 msgid "There are no users currently online"
 msgstr ""
 
-#: build/bp-members/bp-members-blocks.php:1102
+#: build/bp-members/bp-members-blocks.php:1024
 msgid "There are no recently active members"
 msgstr ""
 
@@ -491,6 +497,48 @@ msgstr ""
 msgid "Add a block that displays the activity content pulled from this or other community sites."
 msgstr ""
 
+#: build/bp-activity/js/blocks/latest-activities.js:49
+#: build/bp-blogs/js/blocks/recent-posts.js:33
+#: build/bp-core/js/blocks/login-form.js:31
+#: build/bp-core/js/blocks/primary-nav.js:53
+#: build/bp-friends/js/blocks/friends.js:81
+#: build/bp-groups/js/blocks/dynamic-groups.js:72
+#: build/bp-groups/js/blocks/group.js:134
+#: build/bp-groups/js/blocks/groups.js:394
+#: build/bp-members/js/blocks/active-members.js:32
+#: build/bp-members/js/blocks/dynamic-members.js:78
+#: build/bp-members/js/blocks/member.js:123
+#: build/bp-members/js/blocks/members.js:383
+#: build/bp-members/js/blocks/online-members.js:32
+msgid "Settings"
+msgstr ""
+
+#: build/bp-activity/js/blocks/latest-activities.js:51
+#: build/bp-blogs/js/blocks/recent-posts.js:35
+#: build/bp-core/js/blocks/login-form.js:33
+#: build/bp-groups/js/blocks/dynamic-groups.js:74
+#: build/bp-members/js/blocks/active-members.js:34
+#: build/bp-members/js/blocks/dynamic-members.js:80
+#: build/bp-members/js/blocks/online-members.js:34
+msgid "Title"
+msgstr ""
+
+#: build/bp-activity/js/blocks/latest-activities.js:58
+msgid "Maximum amount to display"
+msgstr ""
+
+#: build/bp-activity/js/blocks/latest-activities.js:69
+msgid "Type"
+msgstr ""
+
+#: build/bp-activity/js/blocks/latest-activities.js:145
+msgid "Latest Activities"
+msgstr ""
+
+#: build/bp-activity/js/blocks/latest-activities.js:146
+msgid "Display the latest updates of the post author (when used into a page or post), of the displayed user (when viewing their profile) or of your community."
+msgstr ""
+
 #: build/bp-activity/js/blocks/share-activity.js:168
 msgid "Add text"
 msgstr ""
@@ -539,12 +587,111 @@ msgstr ""
 msgid "Action button to share the displayed post/page into user’s activity stream."
 msgstr ""
 
+#: build/bp-blogs/js/blocks/recent-posts.js:42
+msgid "Max posts to show"
+msgstr ""
+
+#: build/bp-blogs/js/blocks/recent-posts.js:52
+msgid "Link block title to Blogs directory"
+msgstr ""
+
+#: build/bp-blogs/js/blocks/recent-posts.js:128
+msgid "A list of recently published posts from across your network."
+msgstr ""
+
 #: build/bp-core/js/block-components.js:195
 msgid "Item's name"
 msgstr ""
 
 #: build/bp-core/js/block-components.js:199
 msgid "Enter Item's name here…"
+msgstr ""
+
+#: build/bp-core/js/blocks/login-form.js:106
+msgid "Login Form"
+msgstr ""
+
+#: build/bp-core/js/blocks/login-form.js:107
+msgid "Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in."
+msgstr ""
+
+#: build/bp-core/js/blocks/primary-nav.js:44
+msgid "The BuddyPress Primary Navigation block shouldn't be used into this widget area. Please remove it."
+msgstr ""
+
+#: build/bp-core/js/blocks/primary-nav.js:55
+msgid "Include navigation title"
+msgstr ""
+
+#: build/bp-core/js/blocks/primary-nav.js:128
+msgid "Primary navigation"
+msgstr ""
+
+#: build/bp-core/js/blocks/primary-nav.js:129
+msgid "Displays BuddyPress primary nav in the sidebar of your site. Make sure to use it as the first widget of the sidebar and only once."
+msgstr ""
+
+#: build/bp-friends/js/blocks/friends.js:83
+msgid "Max friends to show"
+msgstr ""
+
+#: build/bp-friends/js/blocks/friends.js:93
+#: build/bp-members/js/blocks/dynamic-members.js:97
+msgid "Default members to show"
+msgstr ""
+
+#: build/bp-friends/js/blocks/friends.js:101
+msgid "Link block title to Member's profile friends page"
+msgstr ""
+
+#: build/bp-friends/js/blocks/friends.js:176
+msgid "Friends List"
+msgstr ""
+
+#: build/bp-friends/js/blocks/friends.js:177
+msgid "A dynamic list of recently active, popular, and newest friends of the post author (when used into a page or post) or of the displayed member (when used in a widgetized area). If author/member data is not available the block is not displayed."
+msgstr ""
+
+#: build/bp-friends/js/friends.js:73
+#: build/bp-members/js/dynamic-members.js:73
+msgid "No friends"
+msgstr ""
+
+#: build/bp-friends/js/friends.js:75
+#: build/bp-members/js/dynamic-members.js:75
+msgid "1 friend"
+msgstr ""
+
+#. translators: %s: total friend count (more than 1).
+#: build/bp-friends/js/friends.js:78
+#: build/bp-members/js/dynamic-members.js:78
+msgid "%s friends"
+msgstr ""
+
+#. translators: %s is time elapsed since the registration date happened
+#: build/bp-friends/js/friends.js:82
+#: build/bp-members/js/dynamic-members.js:82
+msgid "Registered %s"
+msgstr ""
+
+#: build/bp-groups/js/blocks/dynamic-groups.js:81
+msgid "Max groups to show"
+msgstr ""
+
+#: build/bp-groups/js/blocks/dynamic-groups.js:91
+msgid "Default groups to show"
+msgstr ""
+
+#: build/bp-groups/js/blocks/dynamic-groups.js:99
+msgid "Link block title to Groups directory"
+msgstr ""
+
+#: build/bp-groups/js/blocks/dynamic-groups.js:175
+msgid "Dynamic Groups List"
+msgstr ""
+
+#: build/bp-groups/js/blocks/dynamic-groups.js:176
+msgid "A dynamic list of recently active, popular, newest, or alphabetical groups."
 msgstr ""
 
 #: build/bp-groups/js/blocks/group.js:17
@@ -585,13 +732,6 @@ msgstr ""
 
 #: build/bp-groups/js/blocks/group.js:126
 msgid "Select another group"
-msgstr ""
-
-#: build/bp-groups/js/blocks/group.js:134
-#: build/bp-groups/js/blocks/groups.js:394
-#: build/bp-members/js/blocks/member.js:123
-#: build/bp-members/js/blocks/members.js:383
-msgid "Settings"
 msgstr ""
 
 #: build/bp-groups/js/blocks/group.js:136
@@ -718,6 +858,41 @@ msgstr ""
 msgid "BuddyPress Groups."
 msgstr ""
 
+#: build/bp-groups/js/dynamic-groups.js:74
+msgid "No members"
+msgstr ""
+
+#: build/bp-groups/js/dynamic-groups.js:76
+msgid "1 member"
+msgstr ""
+
+#. translators: %s is the number of Group members (more than 1).
+#: build/bp-groups/js/dynamic-groups.js:79
+msgid "%s members"
+msgstr ""
+
+#: build/bp-members/js/blocks/active-members.js:41
+#: build/bp-members/js/blocks/dynamic-members.js:87
+#: build/bp-members/js/blocks/online-members.js:41
+msgid "Max members to show"
+msgstr ""
+
+#: build/bp-members/js/blocks/active-members.js:119
+msgid "Profile photos of recently active members."
+msgstr ""
+
+#: build/bp-members/js/blocks/dynamic-members.js:105
+msgid "Link block title to Members directory"
+msgstr ""
+
+#: build/bp-members/js/blocks/dynamic-members.js:199
+msgid "Dynamic Members List"
+msgstr ""
+
+#: build/bp-members/js/blocks/dynamic-members.js:200
+msgid "A dynamic list of recently active, popular, and newest members."
+msgstr ""
+
 #: build/bp-members/js/blocks/member.js:94
 msgid "BuddyPress Member"
 msgstr ""
@@ -824,6 +999,10 @@ msgstr ""
 msgid "BuddyPress Members."
 msgstr ""
 
-#: build/bp-members/js/dynamic-members.js:108
-msgid "one day ago"
+#: build/bp-members/js/blocks/online-members.js:118
+msgid "Online Members"
+msgstr ""
+
+#: build/bp-members/js/blocks/online-members.js:119
+msgid "Profile photos of online users."
 msgstr ""

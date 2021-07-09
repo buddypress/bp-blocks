@@ -7,7 +7,6 @@ const {
 	},
 	i18n: {
 		__,
-		_n,
 		sprintf,
 	},
 } = wp;
@@ -69,13 +68,18 @@ const {
 					/* translators: %s is time elapsed since the group was created */
 					group.extra = sprintf( __( 'Created %s', 'buddypress' ), group.created_since );
 				} else if ( 'popular' === type && group.total_member_count ) {
-					group.extra = sprintf(
-						/* translators: %s is the number of Group members */
-						_n( '%s member', '%s members', group.total_member_count, 'buddypress' ),
-						group.total_member_count
-					);
+					const membersCount = parseInt( group.total_member_count, 10 );
+
+					if ( 0 === membersCount ) {
+						group.extra = __( 'No members', 'buddypress' );
+					} else if ( 1 === membersCount ) {
+						group.extra = __( '1 member', 'buddypress' );
+					} else {
+						/* translators: %s is the number of Group members (more than 1). */
+						group.extra = sprintf( __( '%s members', 'buddypress' ), group.total_member_count );
+					}
 				} else {
-					/* translators: %s is time elapsed since the last activity happened */
+					/* translators: %s: a human time diff. */
 					group.extra = sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff );
 				}
 
