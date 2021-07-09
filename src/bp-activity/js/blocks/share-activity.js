@@ -19,7 +19,11 @@ import { INITIAL_BORDER_RADIUS_POSITION } from './share-activity/constants';
 registerBlockType( 'bp/share-activity', {
 	title: __( 'Share into activities', 'buddypress' ),
 	description: __( 'Action button to share the displayed post/page into user’s activity stream.', 'buddypress' ),
-	icon: 'buddicons-activity',
+	icon: {
+		background: '#fff',
+		foreground: '#d84800',
+		src: 'buddicons-activity',
+	},
 	category: 'buddypress',
 	attributes: {
 		text: {
