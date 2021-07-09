@@ -331,7 +331,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 			</div>',
 			esc_url( $member_link ),
 			esc_url( $avatar ),
-			/* translators: %s: member name */
+			/* translators: %s: the member display name. */
 			sprintf( esc_html__( 'Profile photo of %s', 'buddypress' ), $display_name )
 		);
 	}
@@ -484,7 +484,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $member_link ),
-				/* translators: %s: the member display name */
+				/* translators: %s: the member display name. */
 				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $member->display_name ),
 				esc_url(
 					bp_core_fetch_avatar(
@@ -552,7 +552,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 				$output .= sprintf(
 					'<time datetime="%1$s">%2$s</time>',
 					esc_attr( bp_core_get_iso8601_date( $member->last_activity ) ),
-					/* translators: %s: a human time diff */
+					/* translators: %s: a human time diff. */
 					sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_core_time_since( $member->last_activity ) )
 				);
 			}
@@ -774,7 +774,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 					/* translators: %s: total friend count */
 					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
 				} else {
-					/* translators: %s is time elapsed since the last activity happened */
+					/* translators: %s: a human time diff. */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
 				}
 

@@ -313,7 +313,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					/* translators: %s: total friend count */
 					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
 				} else {
-					/* translators: %s is time elapsed since the last activity happened */
+					/* translators: %s: a human time diff. */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
 				}
 

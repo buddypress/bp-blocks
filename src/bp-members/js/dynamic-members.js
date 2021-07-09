@@ -7,7 +7,6 @@ const {
 	},
 	i18n: {
 		__,
-		_n,
 		sprintf,
 	},
 } = wp;
@@ -65,16 +64,21 @@ const {
 		if ( members && members.length ) {
 			members.forEach( ( member ) => {
 				if ( 'active' === type && member.last_activity ) {
-					/* translators: %s is time elapsed since the registration date happened */
+					/* translators: %s: a human time diff. */
 					member.extra = sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff );
 				} else if ( 'popular' === type && member.total_friend_count ) {
-					member.extra = sprintf(
-						/* translators: %s: total friend count */
-						_n( '%s friend', '%s friends', member.total_friend_count, 'buddypress' ),
-						member.total_friend_count
-					);
+					const friendsCount = parseInt( member.total_friend_count, 10 );
+
+					if ( 0 === friendsCount ) {
+						member.extra = __( 'No friends', 'buddypress' );
+					} else if ( 1 === friendsCount ) {
+						member.extra = __( '1 friend', 'buddypress' );
+					} else {
+						/* translators: %s: total friend count (more than 1). */
+						member.extra = sprintf( __( '%s friends', 'buddypress' ), member.total_friend_count );
+					}
 				} else if ( 'newest' === type && member.registered_since ) {
-					/* translators: %s is time elapsed since the last activity happened */
+					/* translators: %s is time elapsed since the registration date happened */
 					member.extra = sprintf( __( 'Registered %s', 'buddypress' ), member.registered_since );
 				}
 
