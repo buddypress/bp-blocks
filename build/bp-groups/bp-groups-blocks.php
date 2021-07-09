@@ -151,71 +151,6 @@ function register_group_blocks() {
 add_filter( 'bp_groups_register_blocks', __NAMESPACE__ . '\register_group_blocks', 10, 0 );
 
 /**
- * Adds a new rest field to fetch extra information about the group.
- *
- * This is used by the Dynamic groups widget/block.
- *
- * @since 9.0.0
- */
-function bp_groups_register_widgets_rest_field() {
-	bp_rest_register_field(
-		'groups',
-		'extra',
-		array(
-			'get_callback' => __NAMESPACE__ . '\bp_groups_widgets_get_rest_extra_field',
-			'schema'       => array(
-				'description' => __( 'Extra information about the group to be used by the Groups dynamic widget.', 'buddypress' ),
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		)
-	);
-}
-add_action( 'bp_rest_api_init', __NAMESPACE__ . '\bp_groups_register_widgets_rest_field' );
-
-/**
- * Gets the extra information about the user used by the dynamic groups widget.
- *
- * @since 9.0.0
- *
- * @param array           $data     The list of properties of the BuddyPress group's object.
- * @param string          $property The custom property being requested.
- * @param WP_REST_Request $request  Full details about the request.
- * @return string The extra information about the user used by the dynamic groups widget.
- */
-function bp_groups_widgets_get_rest_extra_field( $data, $property, $request ) {
-	$value = null;
-	if ( 'extra' === $property ) {
-		$type     = $request->get_param( 'type' );
-		$group_id = (int) $data['id'];
-
-		// Registration date (human time diff).
-		if ( 'newest' === $type ) {
-			/* translators: %s is time elapsed since the group was created */
-			$value = sprintf( __( 'created %s', 'buddypress' ), bp_core_time_since( str_replace( 'T', ' ', $data['date_created'] ) ) );
-
-			// Amount of members.
-		} elseif ( 'popular' === $type ) {
-			$total_member_count = (int) $data['total_member_count'];
-
-			/** This filter is documented in buddypress/src/bp-groups/bp-groups-template.php */
-			$value = apply_filters(
-				'bp_get_group_member_count',
-				/* translators: %s: total member count */
-				sprintf( _n( '%s member', '%s members', $total_member_count, 'buddypress' ), bp_core_number_format( $total_member_count ) )
-			);
-
-			// Last activity date (human time diff).
-		} else {
-			/* translators: %s is time elapsed since the last activity happened */
-			$value = sprintf( __( 'Active %s', 'buddypress' ), $data['last_activity_diff'] );
-		}
-	}
-
-	return $value;
-}
-
-/**
  * Registers a new script to manage the dynamic part of the Dynamic groups widget/block.
  *
  * @since 9.0.0
@@ -229,6 +164,7 @@ function bp_groups_register_scripts( $scripts = array() ) {
 		'dependencies' => array(
 			'lodash',
 			'wp-url',
+			'wp-i18n',
 		),
 		'footer'       => true,
 	);
@@ -730,9 +666,12 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 			foreach ( $bp_query['groups'] as $group ) {
 				if ( 'newest' === $block_args['groupDefault'] ) {
 					/* translators: %s is time elapsed since the group was created */
-					$extra = sprintf( __( 'created %s', 'buddypress' ), bp_get_group_date_created( $group ) );
+					$extra = sprintf( __( 'Created %s', 'buddypress' ), bp_get_group_date_created( $group ) );
 				} elseif ( 'popular' === $block_args['groupDefault'] ) {
-					$extra = bp_get_group_member_count( $group );
+					$count = (int) $group->total_member_count;
+
+					/* translators: %s is the number of Group members */
+					$extra = sprintf( _n( '%s member', '%s members', $count, 'buddypress' ), bp_core_number_format( $count ) );
 				} else {
 					/* translators: %s is time elapsed since the last activity happened */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) );
@@ -783,6 +722,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 
 		// Only enqueue common/specific scripts and data once per page load.
 		if ( ! has_action( 'wp_footer', __NAMESPACE__ . '\bp_groups_blocks_add_script_data', 1 ) ) {
+			wp_set_script_translations( 'bp-dynamic-groups-script', 'buddypress' );
 			wp_enqueue_script( 'bp-dynamic-groups-script' );
 			wp_localize_script(
 				'bp-dynamic-groups-script',
@@ -791,9 +731,6 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 					'path'    => ltrim( $path, '/' ),
 					'root'    => esc_url_raw( get_rest_url() ),
 					'nonce'   => wp_create_nonce( 'wp_rest' ),
-					'strings' => array(
-						'noGroupsFound' => $no_groups,
-					),
 				)
 			);
 

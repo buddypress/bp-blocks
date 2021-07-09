@@ -768,18 +768,11 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 			$preview = '';
 			foreach ( $bp_query['users'] as $user ) {
 				if ( 'newest' === $block_args['memberDefault'] ) {
-					$extra = bp_core_get_last_activity(
-						$user->user_registered,
-						/* translators: %s is time elapsed since the registration date happened */
-						_x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' )
-					);
+					/* translators: %s is time elapsed since the registration date happened */
+					$extra = sprintf( _x( 'Registered %s', 'The timestamp when the user registered', 'buddypress' ), bp_core_time_since( $user->user_registered ) );
 				} elseif ( 'popular' === $block_args['memberDefault'] && isset( $item_options['popular'] ) && isset( $user->total_friend_count ) ) {
-					/** This filter is documented in buddypress/src/bp-friends/bp-friends-template.php */
-					$extra = apply_filters(
-						'bp_get_member_total_friend_count',
-						/* translators: %s: total friend count */
-						sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) )
-					);
+					/* translators: %s: total friend count */
+					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
 				} else {
 					/* translators: %s is time elapsed since the last activity happened */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
