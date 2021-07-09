@@ -77,6 +77,7 @@ function bp_friends_register_scripts( $scripts = array() ) {
 		'dependencies' => array(
 			'lodash',
 			'wp-url',
+			'wp-i18n',
 		),
 		'footer'       => true,
 	);
@@ -306,18 +307,11 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 			$preview = '';
 			foreach ( $bp_query['users'] as $user ) {
 				if ( 'newest' === $block_args['friendDefault'] ) {
-					$extra = bp_core_get_last_activity(
-						$user->user_registered,
-						/* translators: %s is time elapsed since the registration date happened */
-						_x( 'registered %s', 'Records the timestamp that the user registered into the activity stream', 'buddypress' )
-					);
+					/* translators: %s is time elapsed since the registration date happened */
+					$extra = sprintf( _x( 'Registered %s', 'The timestamp when the user registered', 'buddypress' ), bp_core_time_since( $user->user_registered ) );
 				} elseif ( 'popular' === $block_args['friendDefault'] && isset( $item_options['popular'] ) && isset( $user->total_friend_count ) ) {
-					/** This filter is documented in buddypress/src/bp-friends/bp-friends-template.php */
-					$extra = apply_filters(
-						'bp_get_member_total_friend_count',
-						/* translators: %s: total friend count */
-						sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) )
-					);
+					/* translators: %s: total friend count */
+					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
 				} else {
 					/* translators: %s is time elapsed since the last activity happened */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
@@ -367,6 +361,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 
 		// Only enqueue common/specific scripts and data once per page load.
 		if ( ! has_action( 'wp_footer', __NAMESPACE__ . '\bp_friends_blocks_add_script_data', 1 ) ) {
+			wp_set_script_translations( 'bp-friends-script', 'buddypress' );
 			wp_enqueue_script( 'bp-friends-script' );
 			wp_localize_script(
 				'bp-friends-script',
@@ -375,9 +370,6 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					'path'    => ltrim( $path, '/' ),
 					'root'    => esc_url_raw( get_rest_url() ),
 					'nonce'   => wp_create_nonce( 'wp_rest' ),
-					'strings' => array(
-						'noFriendsFound' => $no_friends,
-					),
 				)
 			);
 

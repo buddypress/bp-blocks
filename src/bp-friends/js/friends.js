@@ -5,6 +5,11 @@ const {
 	url: {
 		addQueryArgs,
 	},
+	i18n: {
+		__,
+		_n,
+		sprintf,
+	},
 } = wp;
 
 /**
@@ -19,12 +24,11 @@ const {
  */
  class bpFriendsBlock {
 	constructor( settings, blocks ) {
-		const { path, root, nonce, strings } = settings;
+		const { path, root, nonce } = settings;
 		this.path = path;
 		this.root = root;
 		this.nonce = nonce,
 		this.blocks = blocks;
-		this.strings = strings;
 
 		this.blocks.forEach( ( block, i ) => {
 			const { type } = block.query_args || 'active';
@@ -53,18 +57,31 @@ const {
 		return template( document.querySelector( '#tmpl-' + tmpl ).innerHTML, options );
 	}
 
-	loop( friends = [], container = '' ) {
+	loop( friends = [], container = '', type = 'active' ) {
 		const tmpl = this.useTemplate( 'bp-friends-item' );
 		const selector = document.querySelector( '#' + container );
-		const { noFriendsFound } = this.strings;
 		let output = '';
 
 		if ( friends && friends.length ) {
 			friends.forEach( ( friend ) => {
+				if ( 'active' === type && friend.last_activity ) {
+					/* translators: %s is time elapsed since the registration date happened */
+					friend.extra = sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff );
+				} else if ( 'popular' === type && friend.total_friend_count ) {
+					friend.extra = sprintf(
+						/* translators: %s: total friend count */
+						_n( '%s friend', '%s friends', friend.total_friend_count, 'buddypress' ),
+						friend.total_friend_count
+					);
+				} else if ( 'newest' === type && friend.registered_since ) {
+					/* translators: %s is time elapsed since the last activity happened */
+					friend.extra = sprintf( __( 'Registered %s', 'buddypress' ), friend.registered_since );
+				}
+
 				output += tmpl( friend);
 			} );
 		} else {
-			output = '<div class="widget-error">' + noFriendsFound + '</div>';
+			output = '<div class="widget-error">' + __( 'Sorry, no members were found.', 'buddypress' ) + '</div>';
 		}
 
 		selector.innerHTML = output;
@@ -74,7 +91,7 @@ const {
 		this.blocks[ blockIndex ].query_args.type = type;
 
 		if ( this.blocks[ blockIndex ].friends[ type ].length ) {
-			this.loop( this.blocks[ blockIndex ].friends[ type ], this.blocks[ blockIndex ].selector );
+			this.loop( this.blocks[ blockIndex ].friends[ type ], this.blocks[ blockIndex ].selector, type );
 		} else {
 			fetch( addQueryArgs( this.root + this.path, this.blocks[ blockIndex ].query_args ), {
 				method: 'GET',
@@ -86,7 +103,7 @@ const {
 			).then(
 				( data ) => {
 					this.blocks[ blockIndex ].friends[ type ] = data;
-					this.loop( this.blocks[ blockIndex ].friends[ type ], this.blocks[ blockIndex ].selector );
+					this.loop( this.blocks[ blockIndex ].friends[ type ], this.blocks[ blockIndex ].selector, type );
 				}
 			);
 		}

@@ -1,9 +1,14 @@
 /**
  * WordPress dependencies
  */
- const {
+const {
 	url: {
 		addQueryArgs,
+	},
+	i18n: {
+		__,
+		_n,
+		sprintf,
 	},
 } = wp;
 
@@ -19,12 +24,11 @@ const {
  */
  class bpDynamicGroupsBlock {
 	constructor( settings, blocks ) {
-		const { path, root, nonce, strings } = settings;
+		const { path, root, nonce } = settings;
 		this.path = path;
 		this.root = root;
 		this.nonce = nonce,
 		this.blocks = blocks;
-		this.strings = strings;
 
 		this.blocks.forEach( ( block, i ) => {
 			const { type } = block.query_args || 'active';
@@ -54,18 +58,31 @@ const {
 		return template( document.querySelector( '#tmpl-' + tmpl ).innerHTML, options );
 	}
 
-	loop( groups = [], container = '' ) {
+	loop( groups = [], container = '', type = 'active' ) {
 		const tmpl = this.useTemplate( 'bp-dynamic-groups-item' );
 		const selector = document.querySelector( '#' + container );
-		const { noGroupsFound } = this.strings;
 		let output = '';
 
 		if ( groups && groups.length ) {
 			groups.forEach( ( group ) => {
+				if ( 'newest' === type && group.created_since ) {
+					/* translators: %s is time elapsed since the group was created */
+					group.extra = sprintf( __( 'Created %s', 'buddypress' ), group.created_since );
+				} else if ( 'popular' === type && group.total_member_count ) {
+					group.extra = sprintf(
+						/* translators: %s is the number of Group members */
+						_n( '%s member', '%s members', group.total_member_count, 'buddypress' ),
+						group.total_member_count
+					);
+				} else {
+					/* translators: %s is time elapsed since the last activity happened */
+					group.extra = sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff );
+				}
+
 				output += tmpl( group );
 			} );
 		} else {
-			output = '<div class="widget-error">' + noGroupsFound + '</div>';
+			output = '<div class="widget-error">' + __( 'There are no groups to display.', 'buddypress' ) + '</div>';
 		}
 
 		selector.innerHTML = output;
@@ -75,7 +92,7 @@ const {
 		this.blocks[ blockIndex ].query_args.type = type;
 
 		if ( this.blocks[ blockIndex ].groups[ type ].length ) {
-			this.loop( this.blocks[ blockIndex ].groups[ type ], this.blocks[ blockIndex ].selector );
+			this.loop( this.blocks[ blockIndex ].groups[ type ], this.blocks[ blockIndex ].selector, type );
 		} else {
 			fetch( addQueryArgs( this.root + this.path, this.blocks[ blockIndex ].query_args ), {
 				method: 'GET',
@@ -87,7 +104,7 @@ const {
 			).then(
 				( data ) => {
 					this.blocks[ blockIndex ].groups[ type ] = data;
-					this.loop( this.blocks[ blockIndex ].groups[ type ], this.blocks[ blockIndex ].selector );
+					this.loop( this.blocks[ blockIndex ].groups[ type ], this.blocks[ blockIndex ].selector, type );
 				}
 			);
 		}
