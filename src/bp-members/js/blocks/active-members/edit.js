@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	blockEditor: {
 		InspectorControls,
 	},
@@ -11,9 +11,6 @@
 		RangeControl,
 		TextControl,
 	},
-	editor: {
-		ServerSideRender,
-	},
 	element: {
 		Fragment,
 		createElement,
@@ -22,6 +19,15 @@
 		__,
 	},
 } = wp;
+
+/**
+ * BuddyPress dependencies.
+ */
+const {
+	blockComponents: {
+		ServerSideRender,
+	},
+} = bp;
 
 const editActiveMembersBlock = ( { attributes, setAttributes } ) => {
 	const { title, maxMembers } = attributes;

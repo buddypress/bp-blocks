@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	blockEditor: {
 		InspectorControls,
 	},
@@ -12,9 +12,6 @@
 		SelectControl,
 		TextControl,
 		ToggleControl,
-	},
-	editor: {
-		ServerSideRender,
 	},
 	element: {
 		Fragment,
@@ -29,6 +26,9 @@
  * BuddyPress dependencies.
  */
 const {
+	blockComponents: {
+		ServerSideRender,
+	},
 	blockData: {
 		isActive,
 	}

@@ -15,9 +15,6 @@ const {
 		Toolbar,
 		ToolbarButton,
 	},
-	editor: {
-		ServerSideRender,
-	},
 	element: {
 		Fragment,
 		createElement,
@@ -33,6 +30,7 @@ const {
 const {
 	blockComponents: {
 		AutoCompleter,
+		ServerSideRender,
 	},
 	blockData: {
 		isActive,

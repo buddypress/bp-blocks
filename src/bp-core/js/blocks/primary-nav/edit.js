@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	blockEditor: {
 		InspectorControls,
 	},
@@ -10,9 +10,6 @@
 		Notice,
 		PanelBody,
 		ToggleControl,
-	},
-	editor: {
-		ServerSideRender,
 	},
 	element: {
 		Fragment,
@@ -26,7 +23,10 @@
 /**
  * BuddyPress dependencies.
  */
- const {
+const {
+	blockComponents: {
+		ServerSideRender,
+	},
 	blockData: {
 		getCurrentWidgetsSidebar,
 	}
