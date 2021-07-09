@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	blockEditor: {
 		InspectorControls,
 	},
@@ -13,9 +13,6 @@
 		TextControl,
 		ToggleControl,
 	},
-	editor: {
-		ServerSideRender,
-	},
 	element: {
 		Fragment,
 		createElement,
@@ -24,6 +21,15 @@
 		__,
 	},
 } = wp;
+
+/**
+ * BuddyPress dependencies.
+ */
+const {
+	blockComponents: {
+		ServerSideRender,
+	},
+} = bp;
 
 /**
  * Internal dependencies.

@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	i18n: {
 		__,
 	},

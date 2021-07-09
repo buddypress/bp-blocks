@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
- const {
+const {
 	blockEditor: {
 		InspectorControls,
 	},
@@ -9,9 +9,6 @@
 		Disabled,
 		PanelBody,
 		TextControl,
-	},
-	editor: {
-		ServerSideRender,
 	},
 	element: {
 		Fragment,
@@ -21,6 +18,15 @@
 		__,
 	},
 } = wp;
+
+/**
+ * BuddyPress dependencies.
+ */
+const {
+	blockComponents: {
+		ServerSideRender,
+	},
+} = bp;
 
 const editLoginForm = ( { attributes, setAttributes } ) => {
 	const { title } = attributes;
