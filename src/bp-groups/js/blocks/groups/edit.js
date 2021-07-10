@@ -67,7 +67,7 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editGroupsBlock = ( { attributes, setAttributes, isSelected, bpSettings } ) => {
+const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
 	const isAvatarEnabled = isActive( 'groups', 'avatar' );
 	const {
 		itemIDs,
