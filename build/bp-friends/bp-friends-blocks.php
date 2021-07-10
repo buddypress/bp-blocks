@@ -75,8 +75,7 @@ function bp_friends_register_scripts( $scripts = array() ) {
 	$scripts['bp-friends-script'] = array(
 		'file'         => esc_url( plugins_url( 'js/friends.js', __FILE__ ) ),
 		'dependencies' => array(
-			'lodash',
-			'wp-url',
+			'bp-dynamic-widget-block-script',
 			'wp-i18n',
 		),
 		'footer'       => true,

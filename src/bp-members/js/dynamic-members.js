@@ -1,10 +1,7 @@
 /**
- * WordPress dependencies
+ * WordPress dependencies.
  */
 const {
-	url: {
-		addQueryArgs,
-	},
 	i18n: {
 		__,
 		sprintf,
@@ -12,52 +9,20 @@ const {
 } = wp;
 
 /**
- * External dependencies.
+ * BuddyPress dependencies.
  */
 const {
-	template,
-} = lodash;
+	dynamicWidgetBlock,
+} = bp;
 
 /**
- * Front-end Dynamic Members block class.
+ * Front-end Dynamic Members Widget Block class.
+ *
+ * @since 9.0.0
  */
- class bpDynamicMembersBlock {
-	constructor( settings, blocks ) {
-		const { path, root, nonce } = settings;
-		this.path = path;
-		this.root = root;
-		this.nonce = nonce,
-		this.blocks = blocks;
-
-		this.blocks.forEach( ( block, i ) => {
-			const { type } = block.query_args || 'active';
-			const { body } = block.preloaded || [];
-
-			this.blocks[ i ].members = {
-				'active': [],
-				'newest': [],
-				'popular': [],
-			}
-
-			if ( ! this.blocks[ i ].members[ type ].length && body && body.length ) {
-				this.blocks[ i ].members[ type ] = body;
-			}
-		} );
-	}
-
-	useTemplate( tmpl ) {
-		const options = {
-			evaluate:    /<#([\s\S]+?)#>/g,
-			interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
-			escape:      /\{\{([^\}]+?)\}\}(?!\})/g,
-			variable:    'data'
-		};
-
-		return template( document.querySelector( '#tmpl-' + tmpl ).innerHTML, options );
-	}
-
+class bpMembersWidgetBlock extends dynamicWidgetBlock {
 	loop( members = [], container = '', type = 'active' ) {
-		const tmpl = this.useTemplate( 'bp-dynamic-members-item' );
+		const tmpl = super.useTemplate( 'bp-dynamic-members-item' );
 		const selector = document.querySelector( '#' + container );
 		let output = '';
 
@@ -91,28 +56,6 @@ const {
 		selector.innerHTML = output;
 	}
 
-	getMembers( type = 'active', blockIndex = 0 ) {
-		this.blocks[ blockIndex ].query_args.type = type;
-
-		if ( this.blocks[ blockIndex ].members[ type ].length ) {
-			this.loop( this.blocks[ blockIndex ].members[ type ], this.blocks[ blockIndex ].selector, type );
-		} else {
-			fetch( addQueryArgs( this.root + this.path, this.blocks[ blockIndex ].query_args ), {
-				method: 'GET',
-				headers: {
-					'X-WP-Nonce' : this.nonce,
-				}
-			} ).then(
-				( response ) => response.json()
-			).then(
-				( data ) => {
-					this.blocks[ blockIndex ].members[ type ] = data;
-					this.loop( this.blocks[ blockIndex ].members[ type ], this.blocks[ blockIndex ].selector, type );
-				}
-			);
-		}
-	}
-
 	start() {
 		this.blocks.forEach( ( block, i ) => {
 			const { selector } = block;
@@ -120,7 +63,7 @@ const {
 			const list = document.querySelector( '#' + selector ).closest( '.bp-dynamic-block-container' );
 
 			// Get default Block's type members.
-			this.getMembers( type, i );
+			super.getItems( type, i );
 
 			// Listen to Block's Nav item clics
 			list.querySelectorAll( '.item-options a' ).forEach( ( navItem ) => {
@@ -134,7 +77,7 @@ const {
 					const newType = event.target.getAttribute( 'data-bp-sort' );
 
 					if ( newType !== this.blocks[ i ].query_args.type ) {
-						this.getMembers( newType, i );
+						super.getItems( newType, i );
 					}
 				} );
 			} );
@@ -144,7 +87,7 @@ const {
 
 const settings = window.bpDynamicMembersSettings || {};
 const blocks = window.bpDynamicMembersBlocks || {};
-const bpDynamicMembers = new bpDynamicMembersBlock( settings, blocks );
+const bpDynamicMembers = new bpMembersWidgetBlock( settings, blocks );
 
 if ( 'loading' === document.readyState ) {
 	document.addEventListener( 'DOMContentLoaded', bpDynamicMembers.start() );

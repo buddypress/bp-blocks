@@ -74,6 +74,28 @@ function bp_register_block_components() {
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );
 
 /**
+ * Registers a new script to manage dynamic Widget Blocks.
+ *
+ * @since 9.0.0
+ *
+ * @param array $scripts Data about the scripts to register.
+ * @return array Data about the scripts to register.
+ */
+function bp_core_register_scripts( $scripts = array() ) {
+	$scripts['bp-dynamic-widget-block-script'] = array(
+		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
+		'dependencies' => array(
+			'lodash',
+			'wp-url',
+		),
+		'footer'       => true,
+	);
+
+	return $scripts;
+}
+add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_core_register_scripts', 1, 1 );
+
+/**
  * Register the Core blocks.
  *
  * @todo Update `BP_Core` component to include a `BP_Core::blocks_init` method to register
