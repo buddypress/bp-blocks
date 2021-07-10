@@ -207,32 +207,6 @@ function register_member_blocks() {
 add_filter( 'bp_members_register_blocks', __NAMESPACE__ . '\register_member_blocks', 10, 0 );
 
 /**
- * Add BP Members blocks specific settings to the BP Blocks Editor ones.
- *
- * @since 6.0.0
- * @since 9.0.0 Adds a check for the friends component.
- *
- * @param array $bp_editor_settings BP blocks editor settings.
- * @return array BP Members blocks editor settings.
- */
-function bp_members_editor_settings( $bp_editor_settings = array() ) {
-	$bp = buddypress();
-
-	return array_merge(
-		$bp_editor_settings,
-		array(
-			'members' => array(
-				'isMentionEnabled'    => bp_is_active( 'activity' ) && bp_activity_do_mentions(),
-				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars,
-				'isCoverImageEnabled' => bp_is_active( 'members', 'cover_image' ),
-				'isFriendsActive'     => bp_is_active( 'friends' ),
-			),
-		)
-	);
-}
-add_filter( 'bp_blocks_editor_settings', __NAMESPACE__ . '\bp_members_editor_settings' );
-
-/**
  * Registers a new script to manage the dynamic part of the Dynamic members widget/block.
  *
  * @since 9.0.0
@@ -827,9 +801,9 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 				'bp-dynamic-members-script',
 				'bpDynamicMembersSettings',
 				array(
-					'path'    => ltrim( $path, '/' ),
-					'root'    => esc_url_raw( get_rest_url() ),
-					'nonce'   => wp_create_nonce( 'wp_rest' ),
+					'path'  => ltrim( $path, '/' ),
+					'root'  => esc_url_raw( get_rest_url() ),
+					'nonce' => wp_create_nonce( 'wp_rest' ),
 				)
 			);
 

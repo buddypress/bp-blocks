@@ -727,9 +727,9 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 				'bp-dynamic-groups-script',
 				'bpDynamicGroupsSettings',
 				array(
-					'path'    => ltrim( $path, '/' ),
-					'root'    => esc_url_raw( get_rest_url() ),
-					'nonce'   => wp_create_nonce( 'wp_rest' ),
+					'path'  => ltrim( $path, '/' ),
+					'root'  => esc_url_raw( get_rest_url() ),
+					'nonce' => wp_create_nonce( 'wp_rest' ),
 				)
 			);
 

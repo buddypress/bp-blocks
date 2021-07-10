@@ -367,9 +367,9 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 				'bp-friends-script',
 				'bpFriendsSettings',
 				array(
-					'path'    => ltrim( $path, '/' ),
-					'root'    => esc_url_raw( get_rest_url() ),
-					'nonce'   => wp_create_nonce( 'wp_rest' ),
+					'path'  => ltrim( $path, '/' ),
+					'root'  => esc_url_raw( get_rest_url() ),
+					'nonce' => wp_create_nonce( 'wp_rest' ),
 				)
 			);
 

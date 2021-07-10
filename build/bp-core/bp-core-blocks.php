@@ -61,9 +61,13 @@ function bp_register_block_components() {
 
 	wp_add_inline_script(
 		'bp-block-data',
-		'window.bp = window.bp || {};
-		bp.blockData = bpBlock.blockData;
-		delete bpBlock;',
+		sprintf(
+			'window.bp = window.bp || {};
+			bp.blockData = bpBlock.blockData;
+			bp.blockData.embedScriptURL = \'%s\';
+			delete bpBlock;',
+			esc_url_raw( includes_url( 'js/wp-embed.min.js' ) )
+		),
 		'after'
 	);
 }
