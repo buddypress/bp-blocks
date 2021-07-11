@@ -50,3 +50,31 @@
 		transform: translate(-50%, 0);
 	}
 }
+
+.bp-sitewide-notice-block {
+    position: relative;
+    padding-left: 1em;
+    border-left: solid 4px #ff853c;
+
+	h2:before {
+		border: none;
+		background: none;
+	}
+
+	.dismiss-notice {
+		display: block;
+		background-color: transparent;
+		border: solid 1px #ff853c;
+		color: #ff853c;
+		padding: 0.2em 0.5em;
+		width: fit-content;
+		position: absolute;
+		top: 0.5em;
+		right: 0.5em;
+
+		&:hover {
+			background-color: #ff853c;
+			color: #fff;
+		}
+	}
+}

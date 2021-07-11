@@ -10,9 +10,6 @@
 		PanelBody,
 		TextControl,
 	},
-	editor: {
-		ServerSideRender,
-	},
 	element: {
 		Fragment,
 		createElement,
@@ -21,6 +18,15 @@
 		__,
 	},
 } = wp;
+
+/**
+ * BuddyPress dependencies.
+ */
+ const {
+	blockComponents: {
+		ServerSideRender,
+	},
+} = bp;
 
 const editSitewideNoticesBlock = ( { attributes, setAttributes } ) => {
 	const { title } = attributes;

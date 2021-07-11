@@ -29,9 +29,9 @@ function register_messages_blocks() {
 				'wp-element',
 				'wp-components',
 				'wp-i18n',
-				'wp-editor',
 				'wp-block-editor',
 				'bp-block-data',
+				'bp-block-components',
 			),
 			'style'              => 'bp-sitewide-notices-block',
 			'style_url'          => plugins_url( 'css/blocks/sitewide-notices.css', __FILE__ ),
@@ -91,9 +91,23 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 		return;
 	}
 
+	$feedback_tpl  = '<div class="components-placeholder">' . "\n";
+	$feedback_tpl .= '<div class="components-placeholder__label">%1$s</div>' . "\n";
+	$feedback_tpl .= '<div class="components-placeholder__fieldset">%2$s</div>' . "\n";
+	$feedback_tpl .= '</div>';
+
 	// Don't display the block if there are no Notices to show.
 	$notice = \BP_Messages_Notice::get_active();
-	if ( empty( $notice ) ) {
+	if ( empty( $notice->id ) ) {
+		// Previewing the Block inside the editor.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return sprintf(
+				$feedback_tpl,
+				esc_html__( 'Preview unavailable', 'buddypress' ),
+				esc_html__( 'No active sitewide notices.', 'buddypress' )
+			);
+		}
+
 		return;
 	}
 
@@ -119,7 +133,16 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 
 	$closed_notices = (array) bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
 
-	if ( in_array( $notice->id, $closed_notices ) ) {
+	if ( in_array( $notice->id, $closed_notices, true ) ) {
+		// Previewing the Block inside the editor.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return sprintf(
+				$feedback_tpl,
+				esc_html__( 'Preview unavailable', 'buddypress' ),
+				esc_html__( 'You dismissed the sitewide notice.', 'buddypress' )
+			);
+		}
+
 		return;
 	}
 
@@ -139,12 +162,10 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 	}
 
 	$widget_content .= sprintf(
-		'<div>
-			<div id="message" class="info notice" rel="n-%1$d">
-				<strong>%2$s</strong>
-				<a href="%3$s" id="close-notice" class="bp-tooltip button dismiss-notice" data-bp-tooltip="%4$s" data-bp-sitewide-notice-id="%5$d"><span class="bp-screen-reader-text">%6$s</span> <span aria-hidden="true">&Chi;</span></a>
-				%7$s
-			</div>
+		'<div class="bp-sitewide-notice-message info bp-notice" rel="n-%1$d">
+			<strong>%2$s</strong>
+			<a href="%3$s" class="bp-tooltip button dismiss-notice" data-bp-tooltip="%4$s" data-bp-sitewide-notice-id="%5$d"><span class="bp-screen-reader-text">%6$s</span> <span aria-hidden="true">&#x2716;</span></a>
+			%7$s
 		</div>',
 		esc_attr( $notice->id ),
 		bp_get_message_notice_subject( $notice ),

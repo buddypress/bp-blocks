@@ -1,7 +1,9 @@
 /**
  * Front-end Sitewide notices block class.
+ *
+ * @since 9.0.0
  */
- class bpSitewideNoticeBlock {
+class bpSitewideNoticeBlock {
 	constructor( settings ) {
 		const { path, dismissPath, root, nonce } = settings;
 		this.path = path;
@@ -26,7 +28,7 @@
 				).then(
 					( data ) => {
 						if ( 'undefined' !== typeof data && 'undefined' !== typeof data.dismissed && data.dismissed ) {
-							document.querySelectorAll( '.bp-sitewide-notice-block' ).forEach( ( elem, i ) => {
+							document.querySelectorAll( '.bp-sitewide-notice-block' ).forEach( ( elem ) => {
 								elem.remove();
 							} );
 						}
