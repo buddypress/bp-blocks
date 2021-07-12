@@ -98,9 +98,6 @@ add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_core_registe
 /**
  * Register the Core blocks.
  *
- * @todo Update `BP_Core` component to include a `BP_Core::blocks_init` method to register
- * BP Core Blocks like the Block to use to migrate the `BP_Core_Login_Widget` as a Widget Block.
- *
  * @since 9.0.0
  */
 function register_core_blocks() {
@@ -160,16 +157,9 @@ function register_core_blocks() {
 		'render_callback'    => __NAMESPACE__ . '\bp_block_render_login_form_block',
 	);
 
-	/** The dynamic version of this filter is documented in bp-core/classes/class-bp-component.php. */
-	$blocks = (array) apply_filters( 'bp_core_register_blocks', $blocks );
-
-	if ( $blocks ) {
-		foreach ( $blocks as $block ) {
-			bp_register_block( $block );
-		}
-	}
+	return $blocks;
 }
-add_action( 'bp_core_blocks_init', __NAMESPACE__ . '\register_core_blocks', 10, 0 );
+add_filter( 'bp_core_register_blocks', __NAMESPACE__ . '\register_core_blocks', 10, 0 );
 
 /**
  * Unregister Blocks from the post context.

@@ -16,9 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Register the Blogs blocks.
  *
- * @todo Update `BP_Blogs_Component` component to include a `BP_Blogs_Component::blocks_init`
- * method to register BP Blogs Blocks.
- *
  * @since 9.0.0
  */
 function register_blogs_blocks() {
@@ -57,16 +54,9 @@ function register_blogs_blocks() {
 		);
 	}
 
-	/** The dynamic version of this filter is documented in bp-core/classes/class-bp-component.php. */
-	$blocks = (array) apply_filters( 'bp_blogs_register_blocks', $blocks );
-
-	if ( $blocks ) {
-		foreach ( $blocks as $block ) {
-			bp_register_block( $block );
-		}
-	}
+	return $blocks;
 }
-add_action( 'bp_blogs_blocks_init', __NAMESPACE__ . '\register_blogs_blocks', 10, 0 );
+add_filter( 'bp_blogs_register_blocks', __NAMESPACE__ . '\register_blogs_blocks', 10, 0 );
 
 /**
  * Callback function to render the Recent Posts Block.
@@ -105,7 +95,6 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 
 	$blog_activities = bp_activity_get(
 		array(
-			'action'   => 'new_blog_post',
 			'max'      => $max_posts,
 			'per_page' => $max_posts,
 			'user_id'  => 0,
@@ -113,6 +102,7 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 			'filter'   => array(
 				'object'     => false,
 				'primary_id' => false,
+				'action'     => 'new_blog_post',
 			),
 		)
 	);

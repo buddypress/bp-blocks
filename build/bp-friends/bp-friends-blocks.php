@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 9.0.0
  */
 function register_friends_blocks() {
-	$blocks = array(
+	return array(
 		'bp/friends' => array(
 			'name'               => 'bp/friends',
 			'editor_script'      => 'bp-friends-block',
@@ -56,12 +56,8 @@ function register_friends_blocks() {
 			'render_callback'    => __NAMESPACE__ . '\bp_friends_render_friends_block',
 		),
 	);
-
-	foreach ( $blocks as $block ) {
-		bp_register_block( $block );
-	}
 }
-add_action( 'bp_friends_blocks_init', __NAMESPACE__ . '\register_friends_blocks', 10, 0 );
+add_action( 'bp_friends_register_blocks', __NAMESPACE__ . '\register_friends_blocks', 10, 0 );
 
 /**
  * Registers a new script to manage the dynamic part of the Friends widget/block.
