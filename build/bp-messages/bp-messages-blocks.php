@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 9.0.0
  */
 function register_messages_blocks() {
-	$blocks = array(
+	return array(
 		'bp/sitewide-notices' => array(
 			'name'               => 'bp/sitewide-notices',
 			'editor_script'      => 'bp-sitewide-notices-block',
@@ -44,12 +44,8 @@ function register_messages_blocks() {
 			'render_callback'    => __NAMESPACE__ . '\bp_messages_render_sitewide_notices_block',
 		),
 	);
-
-	foreach ( $blocks as $block ) {
-		bp_register_block( $block );
-	}
 }
-add_action( 'bp_messages_blocks_init', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
+add_action( 'bp_messages_register_blocks', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
 
 /**
  * Registers a new script to manage the dismissal action for the Sitewide notice widget/block.
@@ -116,7 +112,7 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 		$path = sprintf(
 			'/%1$s/%2$s/sitewide-notices/',
 			bp_rest_namespace(),
-			bp_rest_version(),
+			bp_rest_version()
 		);
 		wp_enqueue_script( 'bp-sitewide-notices-script' );
 		wp_localize_script(
