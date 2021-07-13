@@ -40,4 +40,4 @@ add_action( 'bp_include', __NAMESPACE__ . '\inc', 20 );
 
 // Remove some BP Hooks.
 remove_action( 'bp_blocks_init', 'bp_register_block_components', 1 );
-remove_filter( 'bp_blocks_editor_settings', 'bp_members_editor_settings' );
+remove_action( 'bp_blocks_init', 'bp_register_block_assets', 2 );
