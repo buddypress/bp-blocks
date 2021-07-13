@@ -246,12 +246,12 @@ function bp_groups_render_group_block( $attributes = array() ) {
 		$avatar_container = sprintf(
 			'<div class="item-header-avatar">
 				<a href="%1$s">
-					<img src="%2$s" alt="%3$s" class="avatar">
+					<img loading="lazy" src="%2$s" alt="%3$s" class="avatar">
 				</a>
 			</div>',
 			esc_url( $group_link ),
 			esc_url( $avatar ),
-			// Translators: %s is the group's name.
+			/* Translators: %s is the group's name. */
 			sprintf( esc_html__( 'Group Profile photo of %s', 'buddypress' ), $group_name )
 		);
 	}
@@ -400,7 +400,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<div class="item-header-avatar">
 					<a href="%1$s">
-						<img class="avatar" alt="%2$s" src="%3$s" />
+						<img loading="lazy" src="%2$s" alt="%3$s" class="avatar">
 					</a>
 				</div>',
 				esc_url( $group_link ),
@@ -439,7 +439,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<time datetime="%1$s">%2$s</time>',
 				esc_attr( bp_core_get_iso8601_date( $group->last_activity ) ),
-				/* translators: %s: a human time diff. */
+				/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 				sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) )
 			);
 		} elseif ( 'popular' === $block_args['extraInfo'] ) {
