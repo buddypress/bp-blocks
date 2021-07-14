@@ -157,7 +157,7 @@ add_filter( 'bp_groups_register_blocks', __NAMESPACE__ . '\register_group_blocks
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
-function bp_groups_register_scripts( $scripts = array() ) {
+function bp_groups_register_widget_block_scripts( $scripts = array() ) {
 	$scripts['bp-dynamic-groups-script'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-groups.js', __FILE__ ) ),
 		'dependencies' => array(
@@ -169,7 +169,7 @@ function bp_groups_register_scripts( $scripts = array() ) {
 
 	return $scripts;
 }
-add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_groups_register_scripts', 10, 1 );
+add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_groups_register_widget_block_scripts', 10, 1 );
 
 /**
  * Callback function to render the BP Group Block.
@@ -471,79 +471,6 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 }
 
 /**
- * Returns the template to use for the Dynamic Groups block items.
- *
- * @since 9.0.0
- *
- * @param string $type   Whether to use the template for JavaScript or PHP.
- * @param array  $tokens The data to use to customize the template (Needed for the PHP template).
- * @return string HTML/JS output.
- */
-function bp_groups_get_dynamic_groups_template( $type = 'js', $tokens = array() ) {
-	$template = '
-		<script type="html/template" id="tmpl-bp-dynamic-groups-item">
-			<li class="vcard">
-				<div class="item-avatar">
-					<a href="{{{data.link}}}" class="bp-tooltip" data-bp-tooltip="{{data.name}}">
-						<img loading="lazy" src="{{{data.avatar_urls.thumb}}}" class="avatar group-{{data.id}}-avatar avatar-50 photo" width="50" height="50" alt="' . esc_html__( 'Profile Photo', 'buddypress' ) . '">
-					</a>
-				</div>
-
-				<div class="item">
-					<div class="item-title fn"><a href="{{{data.link}}}">{{data.name}}</a></div>
-					<div class="item-meta">
-						<span class="activity">{{data.extra}}</span>
-					</div>
-				</div>
-			</li>
-		</script>
-	';
-
-	// Use BP Theme Compat API to allow template override.
-	$template_path = bp_locate_template( 'assets/widgets/dynamic-groups.php' );
-	if ( $template_path ) {
-		$template = file_get_contents( $template_path ); // phpcs:ignore
-	}
-
-	if ( 'js' !== $type ) {
-		$template = wp_kses(
-			$template,
-			array(
-				'li'   => array( 'class' => true ),
-				'div'  => array( 'class' => true ),
-				'span' => array( 'class' => true ),
-				'a'    => array(
-					'href'            => true,
-					'class'           => true,
-					'data-bp-tooltip' => true,
-				),
-				'img'  => array(
-					'src'     => true,
-					'class'   => true,
-					'loading' => true,
-				),
-			)
-		);
-
-		return bp_core_replace_tokens_in_text( $template, $tokens );
-	}
-
-	return $template;
-}
-
-/**
- * Registers a specific globals to be used by Groups Blocks.
- *
- * @since 9.0.0
- */
-function bp_groups_register_block_globals() {
-	buddypress()->groups->blocks = array(
-		'bp/dynamic-groups' => array(),
-	);
-}
-add_action( 'bp_groups_setup_globals', __NAMESPACE__ . '\bp_groups_register_block_globals' );
-
-/**
  * Adds specific script data for the BP Groups blocks.
  *
  * Only used for the BP Dynamic Groups block.
@@ -551,14 +478,14 @@ add_action( 'bp_groups_setup_globals', __NAMESPACE__ . '\bp_groups_register_bloc
  * @since 9.0.0
  */
 function bp_groups_blocks_add_script_data() {
-	$dynamic_groups_blocks = array_filter( buddypress()->groups->blocks['bp/dynamic-groups'] );
+	$dynamic_groups_blocks = array_filter( buddypress()->groups->block_globals['bp/dynamic-groups']->items );
 
 	if ( ! $dynamic_groups_blocks ) {
 		return;
 	}
 
 	// Include the common JS template.
-	echo bp_groups_get_dynamic_groups_template(); // phpcs:ignore
+	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-groups.php' ); // phpcs:ignore
 
 	// List the block specific props.
 	wp_add_inline_script(
@@ -675,7 +602,8 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) );
 				}
 
-				$preview .= bp_groups_get_dynamic_groups_template(
+				$preview .= bp_get_dynamic_template_part(
+					'assets/widgets/dynamic-groups.php',
 					'php',
 					array(
 						'data.link'              => bp_get_group_permalink( $group ),
@@ -685,6 +613,13 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 								'item_id' => $group->id,
 								'html'    => false,
 								'object'  => 'group',
+							)
+						),
+						'data.avatar_alt'        => esc_attr(
+							sprintf(
+								/* Translators: %s is the group's name. */
+								__( 'Group Profile photo of %s', 'buddypress' ),
+								$group->name
 							)
 						),
 						'data.id'                => $group->id,
@@ -712,7 +647,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 			$preloaded_groups = rest_preload_api_request( '', $default_path );
 		}
 
-		buddypress()->groups->blocks['bp/dynamic-groups'][ $widget_id ] = (object) array(
+		buddypress()->groups->block_globals['bp/dynamic-groups']->items[ $widget_id ] = (object) array(
 			'selector'   => $widget_id,
 			'query_args' => $default_args,
 			'preloaded'  => reset( $preloaded_groups ),
@@ -762,21 +697,3 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 
 	return $widget_content;
 }
-
-/**
- * Make sure the BP Classnames are included into Widget Blocks.
- *
- * @since 9.0.0
- *
- * @param string $classname The classname to be used in the block widget's container HTML.
- * @param string $block_name The name of the block.
- * @return string The classname to be used in the block widget's container HTML.
- */
-function bp_groups_get_widget_block_dynamic_classname( $classname, $block_name ) {
-	if ( 'bp/dynamic-groups' === $block_name ) {
-		$classname .= ' widget_bp_groups_widget buddypress';
-	}
-
-	return $classname;
-}
-add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_groups_get_widget_block_dynamic_classname', 10, 2 );

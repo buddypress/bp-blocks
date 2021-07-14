@@ -47,6 +47,9 @@ class bpGroupsWidgetBlock extends dynamicWidgetBlock {
 					group.extra = sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff );
 				}
 
+				/* Translators: %s is the group's name. */
+				group.avatar_alt = sprintf( __( 'Group Profile photo of %s', 'buddypress' ), group.name );
+
 				output += tmpl( group );
 			} );
 		} else {
