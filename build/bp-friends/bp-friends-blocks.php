@@ -57,7 +57,7 @@ function register_friends_blocks() {
 		),
 	);
 }
-add_action( 'bp_friends_register_blocks', __NAMESPACE__ . '\register_friends_blocks', 10, 0 );
+add_filter( 'bp_friends_register_blocks', __NAMESPACE__ . '\register_friends_blocks', 10, 0 );
 
 /**
  * Registers a new script to manage the dynamic part of the Friends widget/block.

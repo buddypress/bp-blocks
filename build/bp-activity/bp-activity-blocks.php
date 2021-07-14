@@ -514,7 +514,7 @@ function bp_activity_render_share_activity_block( $attributes = array() ) {
  * @return array The list of BP Activity blocks.
  */
 function register_activity_blocks() {
-	return array(
+	$blocks = array(
 		'bp/share-activity'    => array(
 			'name'               => 'bp/share-activity',
 			'editor_script'      => 'bp-share-activity-block',
@@ -552,21 +552,6 @@ function register_activity_blocks() {
 			),
 			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_share_activity_block',
 		),
-		'bp/embed-activity'    => array(
-			'name'               => 'bp/embed-activity',
-			'editor_script'      => 'bp-embed-activity-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-i18n',
-				'wp-components',
-				'wp-block-editor',
-				'wp-data',
-				'wp-compose',
-				'bp-block-data',
-			),
-		),
 		'bp/latest-activities' => array(
 			'name'               => 'bp/latest-activities',
 			'editor_script'      => 'bp-latest-activities-block',
@@ -603,6 +588,26 @@ function register_activity_blocks() {
 			'render_callback'    => __NAMESPACE__ . '\bp_activity_render_latest_activities_block',
 		),
 	);
+
+	if ( bp_is_active( $this->id, 'embeds' ) ) {
+		$blocks['bp/embed-activity'] = array(
+			'name'               => 'bp/embed-activity',
+			'editor_script'      => 'bp-embed-activity-block',
+			'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', __FILE__ ),
+			'editor_script_deps' => array(
+				'wp-blocks',
+				'wp-element',
+				'wp-i18n',
+				'wp-components',
+				'wp-block-editor',
+				'wp-data',
+				'wp-compose',
+				'bp-block-data',
+			),
+		);
+	}
+
+	return $blocks;
 }
 add_filter( 'bp_activity_register_blocks', __NAMESPACE__ . '\register_activity_blocks', 10, 0 );
 
@@ -747,21 +752,3 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 
 	return $widget_content;
 }
-
-/**
- * Make sure the BP Classnames are included into Widget Blocks.
- *
- * @since 9.0.0
- *
- * @param string $classname The classname to be used in the block widget's container HTML.
- * @param string $block_name The name of the block.
- * @return string The classname to be used in the block widget's container HTML.
- */
-function bp_activity_get_widget_block_classname( $classname, $block_name ) {
-	if ( 'bp/latest-activities' === $block_name ) {
-		$classname .= ' wp-block-bp-latest-activities buddypress';
-	}
-
-	return $classname;
-}
-add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_activity_get_widget_block_classname', 10, 2 );
