@@ -44,3 +44,4 @@ remove_action( 'bp_blocks_init', 'bp_register_block_assets', 2 );
 remove_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
 remove_filter( 'bp_core_register_blocks', 'bp_nouveau_register_primary_nav_widget_block', 20, 1 );
 remove_filter( 'bp_core_register_common_scripts', 'bp_friends_register_scripts', 9, 1 );
+remove_filter( 'bp_core_register_common_scripts', 'bp_members_register_scripts', 9, 1 );

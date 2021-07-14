@@ -47,6 +47,9 @@ class bpMembersWidgetBlock extends dynamicWidgetBlock {
 					member.extra = sprintf( __( 'Registered %s', 'buddypress' ), member.registered_since );
 				}
 
+				/* translators: %s: member name */
+				member.avatar_alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), member.name );
+
 				output += tmpl( member );
 			} );
 		} else {
