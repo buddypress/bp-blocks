@@ -82,79 +82,6 @@ function bp_friends_register_scripts( $scripts = array() ) {
 add_filter( 'bp_core_register_common_scripts', __NAMESPACE__ . '\bp_friends_register_scripts', 10, 1 );
 
 /**
- * Returns the template to use for the Friends block items.
- *
- * @since 9.0.0
- *
- * @param string $type   Whether to use the template for JavaScript or PHP.
- * @param array  $tokens The data to use to customize the template (Needed for the PHP template).
- * @return string HTML/JS output.
- */
-function bp_friends_get_friends_block_template( $type = 'js', $tokens = array() ) {
-	$template = '
-		<script type="html/template" id="tmpl-bp-friends-item">
-			<li class="vcard">
-				<div class="item-avatar">
-					<a href="{{{data.link}}}" class="bp-tooltip" data-bp-tooltip="{{data.name}}">
-						<img loading="lazy" src="{{{data.avatar_urls.thumb}}}" class="avatar user-{{data.id}}-avatar avatar-50 photo" width="50" height="50" alt="' . esc_html__( 'Profile Photo', 'buddypress' ) . '">
-					</a>
-				</div>
-
-				<div class="item">
-					<div class="item-title fn"><a href="{{{data.link}}}">{{data.name}}</a></div>
-					<div class="item-meta">
-						<span class="activity">{{data.extra}}</span>
-					</div>
-				</div>
-			</li>
-		</script>
-	';
-
-	// Use BP Theme Compat API to allow template override.
-	$template_path = bp_locate_template( 'assets/widgets/friends.php' );
-	if ( $template_path ) {
-		$template = file_get_contents( $template_path ); // phpcs:ignore
-	}
-
-	if ( 'js' !== $type ) {
-		$template = wp_kses(
-			$template,
-			array(
-				'li'   => array( 'class' => true ),
-				'div'  => array( 'class' => true ),
-				'span' => array( 'class' => true ),
-				'a'    => array(
-					'href'            => true,
-					'class'           => true,
-					'data-bp-tooltip' => true,
-				),
-				'img'  => array(
-					'src'     => true,
-					'class'   => true,
-					'loading' => true,
-				),
-			)
-		);
-
-		return bp_core_replace_tokens_in_text( $template, $tokens );
-	}
-
-	return $template;
-}
-
-/**
- * Registers a specific globals to be used by Friends Blocks.
- *
- * @since 9.0.0
- */
-function bp_friends_register_block_globals() {
-	buddypress()->friends->blocks = array(
-		'bp/friends' => array(),
-	);
-}
-add_action( 'bp_friends_setup_globals', __NAMESPACE__ . '\bp_friends_register_block_globals' );
-
-/**
  * Adds specific script data for the BP Friends blocks.
  *
  * Only used for the BP Friends block.
@@ -162,14 +89,14 @@ add_action( 'bp_friends_setup_globals', __NAMESPACE__ . '\bp_friends_register_bl
  * @since 9.0.0
  */
 function bp_friends_blocks_add_script_data() {
-	$friends_blocks = array_filter( buddypress()->friends->blocks['bp/friends'] );
+	$friends_blocks = array_filter( buddypress()->friends->block_globals['bp/friends']->items );
 
 	if ( ! $friends_blocks ) {
 		return;
 	}
 
 	// Include the common JS template.
-	echo bp_friends_get_friends_block_template(); // phpcs:ignore
+	echo bp_get_dynamic_template_part( 'assets/widgets/friends.php' ); // phpcs:ignore
 
 	// List the block specific props.
 	wp_add_inline_script(
@@ -312,7 +239,8 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
 				}
 
-				$preview .= bp_friends_get_friends_block_template(
+				$preview .= bp_get_dynamic_template_part(
+					'assets/widgets/friends.php',
 					'php',
 					array(
 						'data.link'              => bp_core_get_user_domain( $user->ID, $user->user_nicename, $user->user_login ),
@@ -321,6 +249,13 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 							array(
 								'item_id' => $user->ID,
 								'html'    => false,
+							)
+						),
+						'data.avatar_alt'        => esc_html(
+							sprintf(
+								/* translators: %s: member name */
+								__( 'Profile picture of %s', 'buddypress' ),
+								$user->display_name
 							)
 						),
 						'data.id'                => $user->ID,
@@ -348,7 +283,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 			$preloaded_friends = rest_preload_api_request( '', $default_path );
 		}
 
-		buddypress()->friends->blocks['bp/friends'][ $widget_id ] = (object) array(
+		buddypress()->friends->block_globals['bp/friends']->items[ $widget_id ] = (object) array(
 			'selector'   => $widget_id,
 			'query_args' => $default_args,
 			'preloaded'  => reset( $preloaded_friends ),
@@ -398,21 +333,3 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 
 	return $widget_content;
 }
-
-/**
- * Make sure the BP Classnames are included into Widget Blocks.
- *
- * @since 9.0.0
- *
- * @param string $classname The classname to be used in the block widget's container HTML.
- * @param string $block_name The name of the block.
- * @return string The classname to be used in the block widget's container HTML.
- */
-function bp_friends_get_widget_block_classname( $classname, $block_name ) {
-	if ( 'bp/friends' === $block_name ) {
-		$classname .= ' widget_bp_core_friends_widget buddypress';
-	}
-
-	return $classname;
-}
-add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_friends_get_widget_block_classname', 10, 2 );
