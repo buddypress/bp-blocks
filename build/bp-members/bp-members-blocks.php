@@ -938,23 +938,3 @@ function bp_members_render_active_members_block( $attributes = array() ) {
 
 	return bp_members_render_members_avatars_block( $block_args );
 }
-
-/**
- * Make sure the BP Classnames are included into Widget Blocks.
- *
- * @since 9.0.0
- *
- * @param string $classname The classname to be used in the block widget's container HTML.
- * @param string $block_name The name of the block.
- * @return string The classname to be used in the block widget's container HTML.
- */
-function bp_members_get_widget_block_dynamic_classname( $classname, $block_name ) {
-	if ( 'bp/online-members' === $block_name ) {
-		$classname .= ' widget_bp_core_whos_online_widget buddypress';
-	} elseif ( 'bp/active-members' === $block_name ) {
-		$classname .= ' widget_bp_core_recently_active_widget buddypress';
-	}
-
-	return $classname;
-}
-add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_members_get_widget_block_dynamic_classname', 10, 2 );
