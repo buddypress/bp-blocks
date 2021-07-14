@@ -29,7 +29,6 @@ const transforms = {
 					title: instance.raw.title,
 					maxMembers: instance.raw.max_members,
 					memberDefault: instance.raw.member_default,
-					memberDefault: instance.raw.member_default,
 					linkTitle: instance.raw.link_title,
 				} );
 			},
