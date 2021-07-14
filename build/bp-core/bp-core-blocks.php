@@ -106,8 +106,9 @@ function register_core_blocks() {
 
 	if ( 'nouveau' === bp_get_theme_compat_id() ) {
 		/**
-		 * NB: This block should be registered from the BP Nouveau template
-		 * using the `bp_core_register_blocks` filter.
+		 * NB: This block should is registered from the BP Nouveau Template Pack
+		 *
+		 * @see bp_nouveau_register_primary_nav_widget_block()
 		 */
 		$blocks['bp/primary-nav'] = array(
 			'name'               => 'bp/primary-nav',
@@ -162,39 +163,6 @@ function register_core_blocks() {
 add_filter( 'bp_core_register_blocks', __NAMESPACE__ . '\register_core_blocks', 10, 0 );
 
 /**
- * Unregister Blocks from the post context.
- *
- * @todo This function should be moved into the BP Nouveau Template Pack.
- *
- * @since 9.0.0
- */
-function bp_nouveau_unregister_blocks_for_post_context() {
-	$blocks_to_unregister = array();
-
-	if ( 'nouveau' === bp_get_theme_compat_id() ) {
-		$blocks_to_unregister[] = 'bp/primary-nav'; // This Block is restricted to the Widget Block Editor.
-	}
-
-	/**
-	 * Filter here to remove Blocks from the post context.
-	 *
-	 * @since 9.0.0
-	 *
-	 * @param array $value The list of Block names to unregister.
-	 */
-	$blocks = apply_filters(
-		'bp_blocks_post_context_unregistered_blocks',
-		$blocks_to_unregister
-	);
-
-	foreach ( $blocks as $block ) {
-		unregister_block_type( $block );
-	}
-}
-add_action( 'load-post.php', __NAMESPACE__ . '\bp_nouveau_unregister_blocks_for_post_context' );
-add_action( 'load-post-new.php', __NAMESPACE__ . '\bp_nouveau_unregister_blocks_for_post_context' );
-
-/**
  * Preload the Active BuddyPress Components.
  *
  * @since 9.0.0
@@ -215,7 +183,8 @@ add_filter( 'block_editor_rest_api_preload_paths', __NAMESPACE__ . '\bp_blocks_p
 /**
  * Callback function to render the BP Primary Nav Block.
  *
- * @todo This function should be moved into the BP Nouveau Template Pack.
+ * NB: This function is located into the BP Nouveau Template Pack.
+ * @see bp_nouveau_render_primary_nav_block()
  *
  * @since 9.0.0
  *
@@ -292,26 +261,6 @@ function bp_nouveau_render_primary_nav_block( $attributes = array() ) {
 
 	return $widget_content;
 }
-
-/**
- * Make sure the BP Classnames are included into Widget Blocks.
- *
- * @todo This function should be moved into the BP Nouveau Template Pack.
- *
- * @since 9.0.0
- *
- * @param string $classname The classname to be used in the block widget's container HTML.
- * @param string $block_name The name of the block.
- * @return string The classname to be used in the block widget's container HTML.
- */
-function bp_nouveau_get_widget_block_classname( $classname, $block_name ) {
-	if ( 'bp/primary-nav' === $block_name ) {
-		$classname .= ' widget_nav_menu buddypress_object_nav buddypress';
-	}
-
-	return $classname;
-}
-add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_nouveau_get_widget_block_classname', 10, 2 );
 
 /**
  * Callback function to render the BP Login Form.
