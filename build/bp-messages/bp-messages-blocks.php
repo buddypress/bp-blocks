@@ -45,7 +45,7 @@ function register_messages_blocks() {
 		),
 	);
 }
-add_action( 'bp_messages_register_blocks', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
+add_filter( 'bp_messages_register_blocks', __NAMESPACE__ . '\register_messages_blocks', 10, 0 );
 
 /**
  * Registers a new script to manage the dismissal action for the Sitewide notice widget/block.
