@@ -309,10 +309,6 @@ function bp_nouveau_get_widget_block_classname( $classname, $block_name ) {
 		$classname .= ' widget_nav_menu buddypress_object_nav buddypress';
 	}
 
-	if ( 'bp/login-form' === $block_name ) {
-		$classname .= ' widget_bp_core_login_widget buddypress widget';
-	}
-
 	return $classname;
 }
 add_filter( 'widget_block_dynamic_classname', __NAMESPACE__ . '\bp_nouveau_get_widget_block_classname', 10, 2 );
@@ -422,7 +418,7 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 			$widget_content .= $action_output;
 		}
 
-		add_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
+		add_filter( 'login_form_bottom', 'bp_blocks_get_login_widget_registration_link', 10, 2 );
 
 		$widget_content .= wp_login_form(
 			array(
@@ -437,7 +433,7 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 			)
 		);
 
-		remove_filter( 'login_form_bottom', __NAMESPACE__ . '\bp_blocks_get_login_widget_registration_link', 10, 2 );
+		remove_filter( 'login_form_bottom', 'bp_blocks_get_login_widget_registration_link', 10, 2 );
 
 		$action_output = '';
 		if ( has_action( 'bp_after_login_widget_loggedout' ) ) {
@@ -466,42 +462,3 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 	return $widget_content;
 }
-
-/**
- * Create a link to the registration form
- * for use on the bottom of the login form widget.
- *
- * @since 9.0.0
- *
- * @param string $content Content to display. Default empty.
- * @param array  $args    Array of login form arguments.
- * @return string           HTML output.
- */
-function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
-	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] && bp_get_signup_allowed() ) {
-		$content .= sprintf(
-			'<p class="bp-login-widget-register-link"><a href="%1$s">%2$s</a></p>',
-			esc_url( bp_get_signup_page() ),
-			esc_html__( 'Register', 'buddypress' )
-		);
-	}
-
-	$action_output = '';
-	if ( has_action( 'bp_login_widget_form' ) ) {
-		ob_start();
-		/**
-		 * Fires inside the display of the login widget form.
-		 *
-		 * @since 2.4.0
-		 */
-		do_action( 'bp_login_widget_form' );
-		$action_output = ob_get_clean();
-	}
-
-	if ( $action_output ) {
-		$content .= $action_output;
-	}
-
-	return $content;
-}
-
