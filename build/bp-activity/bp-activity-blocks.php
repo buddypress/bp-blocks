@@ -589,7 +589,7 @@ function register_activity_blocks() {
 		),
 	);
 
-	if ( bp_is_active( $this->id, 'embeds' ) ) {
+	if ( bp_is_active( 'activity', 'embeds' ) ) {
 		$blocks['bp/embed-activity'] = array(
 			'name'               => 'bp/embed-activity',
 			'editor_script'      => 'bp-embed-activity-block',
