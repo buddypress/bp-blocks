@@ -46,3 +46,4 @@ remove_filter( 'bp_core_register_blocks', 'bp_nouveau_register_primary_nav_widge
 remove_filter( 'bp_core_register_common_scripts', 'bp_friends_register_scripts', 9, 1 );
 remove_filter( 'bp_core_register_common_scripts', 'bp_members_register_scripts', 9, 1 );
 remove_filter( 'bp_core_register_common_scripts', 'bp_groups_register_widget_block_scripts', 9, 1 );
+remove_filter( 'bp_core_register_common_scripts', 'bp_messages_register_scripts', 9, 1 );
