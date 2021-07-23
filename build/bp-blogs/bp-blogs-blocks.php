@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_blogs_blocks() {
 	$blocks = array();
 
-	if ( is_multisite() ) {
+	if ( is_multisite() && bp_is_active( 'activity' ) ) {
 		$blocks['bp/recent-posts'] = array(
 			'name'               => 'bp/recent-posts',
 			'editor_script'      => 'bp-recent-posts-block',
