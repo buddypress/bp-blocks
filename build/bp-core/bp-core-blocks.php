@@ -150,9 +150,13 @@ function register_core_blocks() {
 		'style'              => 'bp-login-form-block',
 		'style_url'          => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
 		'attributes'         => array(
-			'title' => array(
+			'title'         => array(
 				'type'    => 'string',
 				'default' => '',
+			),
+			'forgotPwdLink' => array(
+				'type'    => 'boolean',
+				'default' => false,
 			),
 		),
 		'render_callback'    => __NAMESPACE__ . '\bp_block_render_login_form_block',
@@ -184,6 +188,7 @@ add_filter( 'block_editor_rest_api_preload_paths', __NAMESPACE__ . '\bp_blocks_p
  * Callback function to render the BP Primary Nav Block.
  *
  * NB: This function is located into the BP Nouveau Template Pack.
+ *
  * @see bp_nouveau_render_primary_nav_block()
  *
  * @since 9.0.0
@@ -274,7 +279,8 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 	$block_args = wp_parse_args(
 		$attributes,
 		array(
-			'title' => '',
+			'title'         => '',
+			'forgotPwdLink' => false,
 		)
 	);
 
@@ -352,6 +358,8 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 		}
 	} else {
 		$action_output = '';
+		$pwd_link      = (bool) $block_args['forgotPwdLink'];
+
 		if ( has_action( 'bp_before_login_widget_loggedout' ) ) {
 			ob_start();
 			/**
@@ -371,14 +379,15 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 		$widget_content .= wp_login_form(
 			array(
-				'echo'           => false,
-				'form_id'        => 'bp-login-widget-form',
-				'id_username'    => 'bp-login-widget-user-login',
-				'label_username' => __( 'Username', 'buddypress' ),
-				'id_password'    => 'bp-login-widget-user-pass',
-				'label_password' => __( 'Password', 'buddypress' ),
-				'id_remember'    => 'bp-login-widget-rememberme',
-				'id_submit'      => 'bp-login-widget-submit',
+				'echo'             => false,
+				'form_id'          => 'bp-login-widget-form',
+				'id_username'      => 'bp-login-widget-user-login',
+				'label_username'   => __( 'Username', 'buddypress' ),
+				'id_password'      => 'bp-login-widget-user-pass',
+				'label_password'   => __( 'Password', 'buddypress' ),
+				'id_remember'      => 'bp-login-widget-rememberme',
+				'id_submit'        => 'bp-login-widget-submit',
+				'include_pwd_link' => $pwd_link,
 			)
 		);
 
