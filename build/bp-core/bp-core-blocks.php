@@ -19,11 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function bp_register_block_components() {
-	$server_side_renderer_dep = 'wp-server-side-render';
-	if ( bp_is_running_wp( '5.3.0', '<' ) ) {
-		$server_side_renderer_dep = 'wp-editor';
-	}
-
 	wp_register_script(
 		'bp-block-components',
 		plugins_url( 'js/block-components.js', __FILE__ ),
@@ -33,7 +28,6 @@ function bp_register_block_components() {
 			'wp-i18n',
 			'wp-api-fetch',
 			'wp-url',
-			$server_side_renderer_dep,
 		),
 		defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( dirname( __FILE__ ) . '/js/block-components.js' ) : bp_get_version(),
 		false
@@ -120,8 +114,8 @@ function register_core_blocks() {
 				'wp-components',
 				'wp-i18n',
 				'wp-block-editor',
+				'wp-server-side-render',
 				'bp-block-data',
-				'bp-block-components',
 			),
 			'editor_style'       => 'bp-primary-nav-block',
 			'editor_style_url'   => plugins_url( 'css/blocks/primary-nav.css', __FILE__ ),
@@ -145,7 +139,7 @@ function register_core_blocks() {
 			'wp-components',
 			'wp-i18n',
 			'wp-block-editor',
-			'bp-block-components',
+			'wp-server-side-render',
 		),
 		'style'              => 'bp-login-form-block',
 		'style_url'          => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
