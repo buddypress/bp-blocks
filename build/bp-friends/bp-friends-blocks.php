@@ -31,7 +31,7 @@ function register_friends_blocks() {
 				'wp-i18n',
 				'wp-block-editor',
 				'bp-block-data',
-				'bp-block-components',
+				'wp-server-side-render',
 			),
 			'style'              => 'bp-friends-block',
 			'style_url'          => plugins_url( 'css/blocks/friends.css', __FILE__ ),

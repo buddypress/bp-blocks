@@ -32,7 +32,7 @@ function register_blogs_blocks() {
 				'wp-components',
 				'wp-i18n',
 				'wp-block-editor',
-				'bp-block-components',
+				'wp-server-side-render',
 			),
 			'style'              => 'bp-recent-posts-block',
 			'style_url'          => plugins_url( 'css/blocks/recent-posts.css', __FILE__ ),
