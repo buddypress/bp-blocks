@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function inc() {
+	// BuddyPress built-in blocks.
 	$build_dir = trailingslashit( bp_blocks()->dir ) . 'build';
 
 	// Include Block components.
@@ -34,6 +35,18 @@ function inc() {
 		if ( 'activity' === $component ) {
 			require $build_dir . '/bp-' . $component . '/bp-' . $component . '-filters.php';
 		}
+	}
+
+	// BuddyPress add-ons blocks.
+	$addons_dir = trailingslashit( bp_blocks()->dir ) . 'add-ons';
+	$blocks     = wp_filter_object_list( bp_attachments_list_directory_files_recursively( $addons_dir ), array( 'mime_type' => 'text/x-php' ) );
+
+	foreach ( $blocks as $block ) {
+		if ( wp_basename( $block->parent_dir_path ) !== wp_basename( $block->name, '.php' ) ) {
+			continue;
+		}
+
+		//include_once $block->path;
 	}
 }
 add_action( 'bp_include', __NAMESPACE__ . '\inc', 20 );
