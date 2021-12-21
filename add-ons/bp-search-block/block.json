@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "bp/search-block",
+	"title": "Search",
+	"category": "buddypress",
+	"icon": "star",
+	"description": "A BuddyPress Block to search for members, groups from any post, page or widget of your community site!",
+	"keywords": [ "BuddyPress", "search", "community" ],
+	"version": "1.0.0",
+	"textdomain": "bp-search-block",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"source": "html",
+			"selector": ".bp-search-label"
+		}
+	},
+	"supports": {
+		"align": true
+	},
+	"editorScript": "file:./js/index.js",
+	"editorStyle": "file:./css/index.css",
+	"style": "file:./css/style.css"
+}
