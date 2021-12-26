@@ -46,7 +46,7 @@ function inc() {
 			continue;
 		}
 
-		//include_once $block->path;
+		include_once $block->path;
 	}
 }
 add_action( 'bp_include', __NAMESPACE__ . '\inc', 20 );
