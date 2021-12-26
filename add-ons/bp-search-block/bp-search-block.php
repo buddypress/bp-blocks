@@ -33,10 +33,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-function create_outermost_icon_block_init() {
+function bp_search_block_init() {
 	register_block_type( __DIR__ );
 
 	// @todo Load available translations.
 	//wp_set_script_translations( 'bp-search-block-editor-script-js', 'bp-search-block' );
 }
-add_action( 'bp_core_blocks_init', 'create_outermost_icon_block_init' );
+add_action( 'bp_core_blocks_init', 'bp_search_block_init' );
