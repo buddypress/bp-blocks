@@ -13,7 +13,8 @@
 		"label": {
 			"type": "string",
 			"source": "html",
-			"selector": ".bp-search-label"
+			"selector": ".bp-search-label",
+			"default": "Search"
 		},
 		"placeholder": {
 			"type": "string",
