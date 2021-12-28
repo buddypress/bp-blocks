@@ -45,11 +45,11 @@ const saveSearchFormBlock = ( { attributes } ) => {
 	return (
 		<div { ...blockProps }>
 			<form action={ action } method="post">
-				<RichText.Content tagName="label" value={ label } className="wp-block-search__label bp-search-label" />
-				<div className="wp-block-search__inside-wrapper">
+				<RichText.Content tagName="label" value={ label } className="bp-search-label" />
+				<div className="bp-block-search__inside-wrapper">
 					<input
 						type="search"
-						className="wp-block-search__input"
+						className="bp-block-search__input"
 						name="search-terms"
 						placeholder={ placeholder }
 					/>

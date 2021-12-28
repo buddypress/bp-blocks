@@ -95,17 +95,17 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 				<form action={ action } method="post">
 					<RichText
 						tagname="label"
-						className="wp-block-search__label bp-search-label"
+						className="bp-search-label"
 						aria-label={ __( 'Label text', 'bp-search-block' ) }
 						placeholder={ __( 'Add label…', 'bp-search-block' ) }
 						withoutInteractiveFormatting
 						value={ label }
 						onChange={ ( html ) => setAttributes( { label: html } ) }
 					/>
-					<div className="wp-block-search__inside-wrapper">
+					<div className="bp-block-search__inside-wrapper">
 						<input
 							type="search"
-							className="wp-block-search__input"
+							className="bp-block-search__input"
 							name="search-terms"
 							placeholder={ placeholder }
 						/>
