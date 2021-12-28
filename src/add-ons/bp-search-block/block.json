@@ -5,7 +5,7 @@
 	"title": "Search",
 	"category": "buddypress",
 	"icon": "search",
-	"description": "A BuddyPress Block to search for members, groups from any post, page or widget of your community site!",
+	"description": "A Block to search for posts, sites, members, groups from any post, page or widget of your BuddyPress powered community site!",
 	"keywords": [ "BuddyPress", "search", "community" ],
 	"version": "1.0.0",
 	"textdomain": "bp-search-block",
@@ -16,7 +16,25 @@
 			"selector": ".bp-search-label",
 			"default": "Search"
 		},
+		"buttonText": {
+			"type": "string",
+			"source": "html",
+			"selector": ".bp-search-button",
+			"default": "Search"
+		},
 		"placeholder": {
+			"type": "string",
+			"default": ""
+		},
+		"activeOptions": {
+			"type": "array",
+			"default": ["posts"]
+		},
+		"defaultOption": {
+			"type": "string",
+			"default": "posts"
+		},
+		"action": {
 			"type": "string",
 			"default": ""
 		}
@@ -24,7 +42,7 @@
 	"supports": {
 		"align": true
 	},
-	"editorScript": "file:./js/index.js",
-	"editorStyle": "file:./css/index.css",
-	"style": "file:./css/style.css"
+	"editorScript": "file:js/index.js",
+	"editorStyle": "file:css/index.css",
+	"style": "file:css/style.css"
 }

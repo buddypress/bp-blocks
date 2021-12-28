@@ -5,9 +5,6 @@
 	blocks: {
 		registerBlockType,
 	},
-	blockEditor: {
-		useBlockProps,
-	},
 	element: {
 		createElement,
 	},
@@ -16,6 +13,11 @@
 	},
 } = wp;
 
+/**
+ * Internal dependencies.
+ */
+import editSearchFormBlock from './search-form/edit';
+import saveSearchFormBlock from './search-form/save';
 import metadata from '../block.json';
 
 registerBlockType( metadata, {
@@ -24,20 +26,36 @@ registerBlockType( metadata, {
 		foreground: '#d84800',
 		src: 'search',
 	},
-	edit() {
-		const blockProps = useBlockProps();
-
-		return (
-			<div>Hello World (from the editor).</div>
-		);
+	attributes: {
+		label: {
+			type: 'string',
+			source: 'html',
+			selector: '.bp-search-label',
+			default: __( 'Search', 'bp-search-block' ),
+		},
+		buttonText: {
+			type: 'string',
+			source: 'html',
+			selector: '.bp-search-button',
+			default: __( 'Search', 'bp-search-block' ),
+		},
+		placeholder: {
+			'type': 'string',
+			'default': __( 'Search posts', 'bp-search-block' ),
+		},
+		activeOptions: {
+			type: 'array',
+			default: ['posts'],
+		},
+		defaultOption: {
+			type: 'string',
+			default: 'posts',
+		},
+		action: {
+			type: 'string',
+			default: window.bpSearchFormAction || '',
+		},
 	},
-	save() {
-		const blockProps = useBlockProps.save();
-
-		return (
-			<div>
-				Hello World (from the frontend).
-			</div>
-		);
-	},
+	edit: editSearchFormBlock,
+	save: saveSearchFormBlock,
 } );

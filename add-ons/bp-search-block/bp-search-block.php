@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:       BP Search Block
  * Plugin URI:        https://github.com/buddypress/bp-blocks
- * Description:       Help the visitors or members of your BuddyPress powered community site to find the members, the groups they are looking for.
+ * Description:       Help the visitors or members of your BuddyPress powered community site to find the posts, the sites, the members or the groups they are looking for.
  * Version:           1.0.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
@@ -35,6 +35,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_search_block_init() {
 	register_block_type( __DIR__ );
+
+	// Define the search form action.
+	wp_add_inline_script(
+		'bp-search-form-editor-script',
+		sprintf( 'window.bpSearchFormAction = \'%s\';', bp_search_form_action() ),
+		'before'
+	);
 
 	// @todo Load available translations.
 	//wp_set_script_translations( 'bp-search-block-editor-script-js', 'bp-search-block' );
