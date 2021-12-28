@@ -33,11 +33,19 @@ registerBlockType( metadata, {
 			selector: '.bp-search-label',
 			default: __( 'Search', 'bp-search-block' ),
 		},
+		useLabel: {
+			type: 'boolean',
+			default: true,
+		},
 		buttonText: {
 			type: 'string',
 			source: 'html',
 			selector: '.bp-search-button',
 			default: __( 'Search', 'bp-search-block' ),
+		},
+		useIcon: {
+			type: 'boolean',
+			default: false,
 		},
 		placeholder: {
 			'type': 'string',

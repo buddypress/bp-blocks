@@ -21,7 +21,16 @@ import { SEARCH_OPTIONS } from './constants';
 
 const saveSearchFormBlock = ( { attributes } ) => {
 	const blockProps = useBlockProps.save();
-	const { label, buttonText, placeholder, activeOptions, defaultOption, action } = attributes;
+	const {
+		label,
+		useLabel,
+		buttonText,
+		useIcon,
+		placeholder,
+		activeOptions,
+		defaultOption,
+		action,
+	} = attributes;
 	const enabledSearchOptions = SEARCH_OPTIONS.filter( ( option ) => -1 !== activeOptions.indexOf( option.value ) );
 	let options = [];
 
@@ -45,7 +54,9 @@ const saveSearchFormBlock = ( { attributes } ) => {
 	return (
 		<div { ...blockProps }>
 			<form action={ action } method="post">
-				<RichText.Content tagName="label" value={ label } className="bp-search-label" />
+				{ useLabel && (
+					<RichText.Content tagName="label" value={ label } className="bp-search-label" />
+				) }
 				<div className="bp-block-search__inside-wrapper">
 					<input
 						type="search"
@@ -53,7 +64,19 @@ const saveSearchFormBlock = ( { attributes } ) => {
 						name="search-terms"
 						placeholder={ placeholder }
 					/>
-					<RichText.Content tagName="button" type="submit" value={ buttonText } className="wp-block-search__button bp-search-button" />
+
+					{ useIcon && (
+						<button
+							type="button"
+							className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
+						>
+							<div class="bp-search-block-icon" />
+						</button>
+					) }
+
+					{ ! useIcon && (
+						<RichText.Content tagName="button" type="submit" value={ buttonText } className="wp-block-search__button bp-search-button" />
+					) }
 				</div>
 				<ul>{ options }</ul>
 			</form>
