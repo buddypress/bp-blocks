@@ -25,10 +25,14 @@ class BPSearchForm {
 
 	setForHtml() {
 		this.controls.forEach( ( element ) => {
-			const uniqId = uniqueId( 'bp-search-terms-' );
+			const hasLabel = element.querySelector( '.bp-search-label' );
 
-			element.querySelector( '[name="search-terms"]' ).setAttribute( 'id', uniqId );
-			element.querySelector( '.bp-search-label' ).setAttribute( 'for', uniqId );
+			if ( !! hasLabel ) {
+				const uniqId = uniqueId( 'bp-search-terms-' );
+
+				element.querySelector( '[name="search-terms"]' ).setAttribute( 'id', uniqId );
+				element.querySelector( '.bp-search-label' ).setAttribute( 'for', uniqId );
+			}
 		} );
 	}
 

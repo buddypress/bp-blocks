@@ -5,7 +5,7 @@
 	"title": "Search",
 	"category": "buddypress",
 	"icon": "search",
-	"description": "A Block to search for posts, sites, members, groups from any post, page or widget of your BuddyPress powered community site!",
+	"description": "A Block to search for posts, sites, activities, members or groups from any post, page or widget of your BuddyPress powered community site!",
 	"keywords": [ "BuddyPress", "search", "community" ],
 	"version": "1.0.0",
 	"textdomain": "bp-search-block",
