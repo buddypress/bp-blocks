@@ -14,7 +14,7 @@
  * Version:           1.0.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
- * Requires at least: 5.6
+ * Requires at least: 5.8
  * Requires PHP:      5.6
  * Text Domain:       bp-search-block
  * License:           GPL-2.0+
