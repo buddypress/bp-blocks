@@ -21,7 +21,7 @@ import saveSearchFormBlock from './search-form/save';
 import metadata from '../block.json';
 
 registerBlockType( metadata, {
-	title: __( 'Search', 'bp-search-block' ),
+	title: __( 'Community Search', 'bp-search-block' ),
 	description: __( 'A Block to search for posts, sites, activities, members or groups from any post, page or widget of your BuddyPress powered community site!', 'bp-search-block' ),
 	icon: {
 		background: '#fff',

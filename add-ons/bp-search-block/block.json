@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "bp/search-form",
-	"title": "Search",
+	"title": "Community Search",
 	"category": "buddypress",
 	"icon": "search",
 	"description": "A Block to search for posts, sites, activities, members or groups from any post, page or widget of your BuddyPress powered community site!",
