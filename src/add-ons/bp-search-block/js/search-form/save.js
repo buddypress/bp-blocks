@@ -78,7 +78,12 @@ const saveSearchFormBlock = ( { attributes } ) => {
 						<RichText.Content tagName="button" type="submit" value={ buttonText } className="wp-block-search__button bp-search-button" />
 					) }
 				</div>
-				<ul>{ options }</ul>
+				<div className="bp-block-search-for__wrapper">
+					<strong className="bp-block-search-for__label">{ __( 'Search for:', 'bp-search-block' ) }</strong>
+					<ul className="bp-block-search-for__options">
+						{ options }
+					</ul>
+				</div>
 			</form>
 		</div>
 	);

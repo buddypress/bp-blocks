@@ -16,11 +16,19 @@
 			"selector": ".bp-search-label",
 			"default": "Search"
 		},
+		"useLabel": {
+			"type": "boolean",
+			"default": true
+		},
 		"buttonText": {
 			"type": "string",
 			"source": "html",
 			"selector": ".bp-search-button",
 			"default": "Search"
+		},
+		"useIcon": {
+			"type": "boolean",
+			"default": false
 		},
 		"placeholder": {
 			"type": "string",
@@ -43,6 +51,7 @@
 		"align": true
 	},
 	"editorScript": "file:js/index.js",
+	"viewScript": "file:js/view.js",
 	"editorStyle": "file:css/index.css",
 	"style": "file:css/style.css"
 }

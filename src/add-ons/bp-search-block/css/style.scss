@@ -24,7 +24,8 @@
 	max-width: 100%;
 }
 
-.bp-search-label {
+.bp-search-label,
+.bp-block-search-for__label {
 	width: 100%;
 }
 
@@ -71,4 +72,14 @@
 	background: url( "../assets/search.svg" );
 	width: 20px;
 	height: 20px;
+}
+
+.bp-block-search-for__wrapper {
+    margin: 0.5em 0;
+
+	.bp-block-search-for__options {
+		list-style: none;
+		padding: 0;
+		margin: 0.2em 0;
+	}
 }
