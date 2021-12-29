@@ -169,11 +169,16 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 							/>
 						) }
 					</div>
-					<SearchOptionsRadioGroup
-						selected={ defaultOption }
-						options={ enabledSearchOptions }
-						onSelected={ setDefaultOption }
-					/>
+					<div className="bp-block-search-for__wrapper">
+						<strong className="bp-block-search-for__label">{ __( 'Search for:', 'bp-search-block' ) }</strong>
+						<div className="bp-block-search-for__options">
+							<SearchOptionsRadioGroup
+								selected={ defaultOption }
+								options={ enabledSearchOptions }
+								onSelected={ setDefaultOption }
+							/>
+						</div>
+					</div>
 				</form>
 			</div>
 		</Fragment>

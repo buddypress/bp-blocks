@@ -1,4 +1,4 @@
 {
-	"ignore": ["./**/js/front*.js"],
+	"ignore": ["./bp-*/js/view.js"],
 	"presets": ["@wordpress/default"]
 }

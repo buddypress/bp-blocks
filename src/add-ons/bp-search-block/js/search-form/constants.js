@@ -17,6 +17,11 @@ const {
  */
 export const SEARCH_OPTIONS = [
 	{
+		label: _x( 'Activities', 'search form', 'bp-search-block' ),
+		value: 'activity',
+		placeholder: __( 'Search activities', 'bp-search-block' ),
+	},
+	{
 		label: _x( 'Members', 'search form', 'bp-search-block' ),
 		value: 'members',
 		placeholder: __( 'Search members', 'bp-search-block' ),
