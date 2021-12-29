@@ -67,7 +67,7 @@ const saveSearchFormBlock = ( { attributes } ) => {
 
 					{ useIcon && (
 						<button
-							type="button"
+							type="submit"
 							className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
 						>
 							<div class="bp-search-block-icon" />

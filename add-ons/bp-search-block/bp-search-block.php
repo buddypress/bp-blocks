@@ -1,6 +1,6 @@
 <?php
 /**
- * A BuddyPress Block to search for members, groups from any post, page or widget of your community site!
+ * A BuddyPress Block to search for activities, members, groups, sites, posts from any post, page or widget of your community site!
  *
  * @package   bp-search-block
  * @author    The BuddyPress Community
@@ -10,11 +10,11 @@
  * @wordpress-plugin
  * Plugin Name:       BP Search Block
  * Plugin URI:        https://github.com/buddypress/bp-blocks
- * Description:       Help the visitors or members of your BuddyPress powered community site to find the posts, the sites, the members or the groups they are looking for.
+ * Description:       Help the visitors or members of your BuddyPress powered community site to find the posts, the sites, the activities, the members or the groups they are looking for.
  * Version:           1.0.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
- * Requires at least: 5.8
+ * Requires at least: 5.6
  * Requires PHP:      5.6
  * Text Domain:       bp-search-block
  * License:           GPL-2.0+
@@ -43,7 +43,7 @@ function bp_search_block_init() {
 		'before'
 	);
 
-	// @todo Load available translations.
-	//wp_set_script_translations( 'bp-search-block-editor-script-js', 'bp-search-block' );
+	// Load available translations.
+	wp_set_script_translations( 'bp-search-form-editor-script', 'bp-search-block', plugin_dir_path( __FILE__ ) . 'languages' );
 }
 add_action( 'bp_core_blocks_init', 'bp_search_block_init' );
