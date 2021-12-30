@@ -25,7 +25,7 @@ Growing the BuddyPress community means better software for everyone!
 
 = Requirements =
 
-* WordPress 5.6.
+* WordPress 5.8.
 * BuddyPress 9.0
 
 = Automatic installation =
