@@ -1,5 +1,6 @@
 === BP Search Block ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
+Donate link: https://wordpressfoundation.org
 Tags: BuddyPress, block, search, community, members, groups, activity, posts, blogs
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html

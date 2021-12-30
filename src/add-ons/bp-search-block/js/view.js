@@ -57,7 +57,9 @@ class BPSearchForm {
 }
 
 domReady( () => {
-	const bpSearchForm = new BPSearchForm();
+	if ( ! document.querySelector( 'body' ).classList.contains( 'wp-admin' ) ) {
+		const bpSearchForm = new BPSearchForm();
 
-	bpSearchForm.start();
+		bpSearchForm.start();
+	}
 } );
