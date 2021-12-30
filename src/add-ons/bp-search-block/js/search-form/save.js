@@ -65,12 +65,14 @@ const saveSearchFormBlock = ( { attributes } ) => {
 						placeholder={ placeholder }
 					/>
 
-					{ useIcon && (
+					{ !! useIcon && (
 						<button
 							type="submit"
 							className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
 						>
-							<div class="bp-search-block-icon" />
+							<div className="bp-search-block-icon">
+								<span className="bp-screen-reader-text">{ __( 'Search', 'bp-search-block' ) }</span>
+							</div>
 						</button>
 					) }
 
