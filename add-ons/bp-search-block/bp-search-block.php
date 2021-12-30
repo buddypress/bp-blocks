@@ -1,6 +1,6 @@
 <?php
 /**
- * A BuddyPress Block to search for activities, members, groups, sites, posts from any post, page or widget of your community site!
+ * A BuddyPress Block to search for activities, members, groups, sites, content from any post, page or widget of your community site!
  *
  * @package   bp-search-block
  * @author    The BuddyPress Community

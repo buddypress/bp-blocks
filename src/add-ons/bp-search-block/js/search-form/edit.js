@@ -148,12 +148,14 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 							placeholder={ placeholder }
 						/>
 
-						{ useIcon && (
+						{ !! useIcon && (
 							<button
 								type="button"
 								className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
 							>
-								<div class="bp-search-block-icon" />
+								<div className="bp-search-block-icon">
+									<span className="screen-reader-text">{ __( 'Search', 'bp-search-block' ) }</span>
+								</div>
 							</button>
 						) }
 
