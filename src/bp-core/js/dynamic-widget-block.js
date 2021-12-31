@@ -28,23 +28,25 @@ bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
 		this.path = path;
 		this.root = root;
 		this.nonce = nonce,
-		this.blocks = blocks;
+		this.blocks = blocks || [];
 
-		this.blocks.forEach( ( block, i ) => {
-			const { type } = block.query_args || 'active';
-			const { body } = block.preloaded || [];
+		if ( ! document.querySelector( 'body' ).classList.contains( 'wp-admin' ) && this.blocks.length ) {
+			this.blocks.forEach( ( block, i ) => {
+				const { type } = block.query_args || 'active';
+				const { body } = block.preloaded || [];
 
-			this.blocks[ i ].items = {
-				'active': [],
-				'newest': [],
-				'popular': [],
-				'alphabetical': [],
-			}
+				this.blocks[ i ].items = {
+					'active': [],
+					'newest': [],
+					'popular': [],
+					'alphabetical': [],
+				}
 
-			if ( ! this.blocks[ i ].items[ type ].length && body && body.length ) {
-				this.blocks[ i ].items[ type ] = body;
-			}
-		} );
+				if ( ! this.blocks[ i ].items[ type ].length && body && body.length ) {
+					this.blocks[ i ].items[ type ] = body;
+				}
+			} );
+		}
 	}
 
 	useTemplate( tmpl ) {
