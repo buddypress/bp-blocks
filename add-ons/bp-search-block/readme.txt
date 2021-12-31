@@ -60,9 +60,9 @@ If you would like to provide monetary support to the BP Search Block or BuddyPre
 == Upgrade Notice ==
 
 = 1.0.0 =
-See: https://github.com/buddypress/bp-blocks/releases/bp-search-block-1-0-0/
+Initial version of the Search Block.
 
 == Changelog ==
 
 = 1.0.0 =
-See: https://github.com/buddypress/bp-blocks/releases/bp-search-block-1-0-0/
+Initial version of the Search Block.
