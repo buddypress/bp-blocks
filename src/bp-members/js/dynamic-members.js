@@ -60,10 +60,6 @@ class bpMembersWidgetBlock extends dynamicWidgetBlock {
 	}
 
 	start() {
-		if ( document.querySelector( 'body' ).classList.contains( 'wp-admin' ) ) {
-			return;
-		}
-
 		this.blocks.forEach( ( block, i ) => {
 			const { selector } = block;
 			const { type } = block.query_args;
