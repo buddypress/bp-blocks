@@ -26,13 +26,14 @@ Growing the BuddyPress community means better software for everyone!
 = Requirements =
 
 * WordPress 5.8.
-* BuddyPress 9.0
+* BuddyPress 9.2.0
 
 = Automatic installation =
 
-From your Block Editor's inserter, use the search form and look for the "BP Search Block" Block. You should see its Block Card into the "Available to install" panel, click on it to install it and start using it right away.
+Using the automatic installation let WordPress handles everything itself. To do an automatic install of "BP Search Block", log in to your WordPress dashboard, navigate to the Plugins menu. Click on the Add New link, then, according to your BuddyPress version:
 
-Automatic installation is another option to let WordPress handles everything itself. To do an automatic install of "BP Search Block", log in to your WordPress dashboard, navigate to the Plugins menu, click Add New and activate the "BuddyPress Add-ons" tab.
+- if it is >= 10.0.0: activate the "BuddyPress Add-ons" tab to quickly find the "BP Search Block" plugin's card.
+- if it is < 10.0.0: type "BP Search Block" into the search field to find the plugin's card.
 
 Once you've found the BP Search card, you can view details about the latest release, such as community reviews, ratings, and description. Install the BP Search Block by simply pressing "Install Now".
 
@@ -54,13 +55,14 @@ If you would like to provide monetary support to the BP Search Block or BuddyPre
 
 == Screenshots ==
 
-1. **Editing the BP Search form**
-2. **Display of the BP Search form**
+1. **Inserting the BP Search form into the Block Editor**
+2. **Editing the BP Search form**
+3. **Display of the BP Search form**
 
 == Upgrade Notice ==
 
 = 1.0.0 =
-Initial version of the Search Block.
+Initial version of the Search Block, no upgrade needed.
 
 == Changelog ==
 
