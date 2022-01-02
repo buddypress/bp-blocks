@@ -1,11 +1,4 @@
 /**
- * External dependencies.
- */
-const {
-	uniqueId,
-} = lodash;
-
-/**
  * WordPress dependencies
  */
 const {
@@ -20,7 +13,8 @@ const {
  */
 class BPSearchForm {
 	constructor() {
-		this.controls = document.querySelectorAll( '.wp-block-bp-search-form' );
+		this.controls  = document.querySelectorAll( '.wp-block-bp-search-form' );
+		this.increment = 0;
 	}
 
 	setForHtml() {
@@ -28,7 +22,8 @@ class BPSearchForm {
 			const hasLabel = element.querySelector( '.bp-search-label' );
 
 			if ( !! hasLabel ) {
-				const uniqId = uniqueId( 'bp-search-terms-' );
+				this.increment +=1;
+				const uniqId = 'bp-search-terms-' + this.increment;
 
 				element.querySelector( '[name="search-terms"]' ).setAttribute( 'id', uniqId );
 				element.querySelector( '.bp-search-label' ).setAttribute( 'for', uniqId );
