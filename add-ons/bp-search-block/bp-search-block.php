@@ -36,6 +36,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 function bp_search_block_init() {
 	register_block_type( __DIR__ );
 
+	// Makes sure the image URL does not end up being a 404 in WordPress 5.8 or up.
+	wp_add_inline_style(
+		'bp-search-form-style',
+		sprintf(
+			'.bp-search-block-icon { background: url( "%s" ); width: 20px; height: 20px; }',
+			plugins_url( 'assets/search.svg', __FILE__ )
+		)
+	);
+
 	// Define the search form action.
 	wp_add_inline_script(
 		'bp-search-form-editor-script',

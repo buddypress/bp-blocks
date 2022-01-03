@@ -68,7 +68,7 @@ const saveSearchFormBlock = ( { attributes } ) => {
 					{ !! useIcon && (
 						<button
 							type="submit"
-							className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
+							className="wp-block-search__button button bp-search-button bp-block-search__icon-button has-icon"
 						>
 							<div className="bp-search-block-icon">
 								<span className="bp-screen-reader-text">{ __( 'Search', 'bp-search-block' ) }</span>
@@ -77,7 +77,7 @@ const saveSearchFormBlock = ( { attributes } ) => {
 					) }
 
 					{ ! useIcon && (
-						<RichText.Content tagName="button" type="submit" value={ buttonText } className="wp-block-search__button bp-search-button" />
+						<RichText.Content tagName="button" type="submit" value={ buttonText } className="wp-block-search__button button bp-search-button" />
 					) }
 				</div>
 				<div className="bp-block-search-for__wrapper">

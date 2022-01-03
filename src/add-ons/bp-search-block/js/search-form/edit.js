@@ -151,7 +151,7 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 						{ !! useIcon && (
 							<button
 								type="button"
-								className="wp-block-search__button bp-search-button bp-block-search__icon-button has-icon"
+								className="wp-block-search__button button bp-search-button bp-block-search__icon-button has-icon"
 							>
 								<div className="bp-search-block-icon">
 									<span className="screen-reader-text">{ __( 'Search', 'bp-search-block' ) }</span>
@@ -162,7 +162,7 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 						{ ! useIcon && (
 							<RichText
 								tagname="button"
-								className="wp-block-search__button bp-search-button"
+								className="wp-block-search__button button bp-search-button"
 								aria-label={ __( 'Button text', 'bp-search-block' ) }
 								placeholder={ __( 'Add text…', 'bp-search-block' ) }
 								withoutInteractiveFormatting
