@@ -41,7 +41,7 @@ function bp_search_block_init() {
 		'bp-search-form-style',
 		sprintf(
 			'.bp-search-block-icon { background: url( "%s" ); width: 20px; height: 20px; }',
-			plugins_url( 'assets/search.svg', __FILE__ )
+			esc_url( plugins_url( 'assets/search.svg', __FILE__ ) )
 		)
 	);
 
