@@ -81,3 +81,19 @@ function bp_blocks() {
 	return BP_Blocks::start();
 }
 add_action( 'bp_include', __NAMESPACE__ . '\bp_blocks', 9 );
+
+/**
+ * Removes the hook to register a BP Block category.
+ *
+ * @since 10.5.0
+ */
+function bp_admin() {
+	if ( has_action( 'bp_init', 'bp_block_init_category_filter' ) ) {
+		// Stop using a "BuddyPress" block category for BP Blocks.
+		remove_action( 'bp_init', 'bp_block_init_category_filter' );
+	}
+}
+
+if ( is_admin() ) {
+	add_action( 'bp_loaded', __NAMESPACE__ . '\bp_admin', 11 );
+}

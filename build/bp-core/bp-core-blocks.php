@@ -20,6 +20,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_register_block_components() {
 	wp_register_script(
+		'bp-blocks-collection',
+		plugins_url( 'js/blocks-collection.js', __FILE__ ),
+		array(
+			'wp-blocks',
+		),
+		defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( dirname( __FILE__ ) . '/js/blocks-collection.js' ) : bp_get_version(),
+		false
+	);
+
+	wp_register_script(
 		'bp-block-components',
 		plugins_url( 'js/block-components.js', __FILE__ ),
 		array(
@@ -66,6 +76,18 @@ function bp_register_block_components() {
 	);
 }
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );
+
+/**
+ * Enqueue additional BP Assets for the Block Editor.
+ *
+ * @since 10.5.0
+ */
+function bp_enqueue_block_editor_assets() {
+	wp_enqueue_script( 'bp-blocks-collection' );
+
+	do_action( 'bp_enqueue_block_editor_assets' );
+}
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\bp_enqueue_block_editor_assets', 9 );
 
 /**
  * Registers a new script to manage dynamic Widget Blocks.
