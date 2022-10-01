@@ -24,7 +24,7 @@ registerBlockType( 'bp/dynamic-members', {
 		foreground: '#d84800',
 		src: 'groups',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		title: {
 			type: 'string',

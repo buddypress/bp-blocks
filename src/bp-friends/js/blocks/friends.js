@@ -24,7 +24,7 @@ registerBlockType( 'bp/friends', {
 		foreground: '#d84800',
 		src: 'buddicons-friends',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		maxFriends: {
 			type: 'number',

@@ -24,7 +24,7 @@ registerBlockType( 'bp/share-activity', {
 		foreground: '#d84800',
 		src: 'buddicons-activity',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		text: {
 			type: 'string',

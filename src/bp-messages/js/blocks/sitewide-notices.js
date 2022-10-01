@@ -24,7 +24,7 @@ registerBlockType( 'bp/sitewide-notices', {
 		foreground: '#d84800',
 		src: 'megaphone',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		title: {
 			type: 'string',

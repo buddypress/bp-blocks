@@ -2,7 +2,7 @@
 	"apiVersion": "2",
 	"name": "bp/search-form",
 	"title": "Community Search",
-	"category": "buddypress",
+	"category": "widgets",
 	"icon": "search",
 	"description": "A Block to search for posts, sites, activities, members or groups from any post, page or widget of your BuddyPress powered community site!",
 	"keywords": [ "BuddyPress", "search", "community" ],

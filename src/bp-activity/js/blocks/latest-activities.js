@@ -24,7 +24,7 @@ registerBlockType( 'bp/latest-activities', {
 		foreground: '#d84800',
 		src: 'buddicons-activity',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		title: {
 			type: 'string',

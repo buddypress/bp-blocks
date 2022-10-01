@@ -24,7 +24,7 @@ registerBlockType( 'bp/primary-nav', {
 		foreground: '#d84800',
 		src: 'buddicons-community',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		displayTitle: {
 			type: 'boolean',

@@ -24,7 +24,7 @@ registerBlockType( 'bp/login-form', {
 		foreground: '#d84800',
 		src: 'admin-users',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		title: {
 			type: 'string',

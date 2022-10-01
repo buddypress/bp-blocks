@@ -24,7 +24,7 @@ registerBlockType( 'bp/recent-posts', {
 		foreground: '#d84800',
 		src: 'wordpress',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		title: {
 			type: 'string',

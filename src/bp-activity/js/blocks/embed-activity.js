@@ -24,7 +24,7 @@ registerBlockType( 'bp/embed-activity', {
 		foreground: '#d84800',
 		src: 'buddicons-activity',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		url: {
 			type: 'string',

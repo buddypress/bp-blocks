@@ -23,7 +23,7 @@ registerBlockType( 'bp/members', {
 		foreground: '#d84800',
 		src: 'groups',
 	},
-	category: 'buddypress',
+	category: 'widgets',
 	attributes: {
 		itemIDs: {
 			type: 'array',
