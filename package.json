@@ -1,6 +1,6 @@
 {
 	"name": "bp-blocks",
-	"version": "10.0.0-alpha",
+	"version": "10.5.0",
 	"description": "BuddyPress Blocks development plugin.",
 	"engines": {
 		"node": ">=14.15.0",
