@@ -80,7 +80,7 @@ add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1
 /**
  * Enqueue additional BP Assets for the Block Editor.
  *
- * @since 10.5.0
+ * @since 11.0.0
  */
 function bp_enqueue_block_editor_assets() {
 	wp_enqueue_script( 'bp-blocks-collection' );
@@ -88,7 +88,7 @@ function bp_enqueue_block_editor_assets() {
 	/**
 	 * Fires when it's time to enqueue BP Block assets.
 	 *
-	 * @since 10.5.0
+	 * @since 11.0.0
 	 */
 	do_action( 'bp_enqueue_block_editor_assets' );
 }

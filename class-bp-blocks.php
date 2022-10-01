@@ -11,7 +11,7 @@
  * Plugin Name:       BP Blocks
  * Plugin URI:        https://github.com/buddypress/bp-blocks
  * Description:       BuddyPress Blocks development plugin.
- * Version:           10.5.0
+ * Version:           11.0.0-alpha
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
  * License:           GPL-2.0+
@@ -85,7 +85,7 @@ add_action( 'bp_include', __NAMESPACE__ . '\bp_blocks', 9 );
 /**
  * Removes the hook to register a BP Block category.
  *
- * @since 10.5.0
+ * @since 11.0.0
  */
 function bp_admin() {
 	if ( has_action( 'bp_init', 'bp_block_init_category_filter' ) ) {
