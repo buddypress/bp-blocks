@@ -19,6 +19,9 @@
  * Domain Path:       /languages/
  * Text Domain:       buddypress
  * GitHub Plugin URI: https://github.com/buddypress/bp-blocks
+ * Requires at least: 5.7
+ * Requires PHP:      5.6
+ * Requires Plugins:  buddypress
  */
 
 namespace BP\Blocks;
