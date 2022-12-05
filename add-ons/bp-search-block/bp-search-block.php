@@ -16,6 +16,7 @@
  * Author URI:        https://buddypress.org
  * Requires at least: 5.8
  * Requires PHP:      5.6
+ * Requires Plugins:  buddypress
  * Text Domain:       bp-search-block
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
