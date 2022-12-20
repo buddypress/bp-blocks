@@ -31,10 +31,6 @@ function inc() {
 		}
 
 		require $build_dir . '/bp-' . $component . '/bp-' . $component . '-blocks.php';
-
-		if ( 'activity' === $component ) {
-			require $build_dir . '/bp-' . $component . '/bp-' . $component . '-filters.php';
-		}
 	}
 
 	// BuddyPress add-ons blocks.
