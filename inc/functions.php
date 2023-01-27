@@ -14,6 +14,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Foces mimes to php one.
+ *
+ * @since 11.0.0
+ */
+function filter_mimes() {
+	return array(
+		'php' => 'text/x-php',
+	);
+}
+
+/**
  * Only includes Active components' blocks PHP script.
  *
  * @since 6.0.0
@@ -35,7 +46,10 @@ function inc() {
 
 	// BuddyPress add-ons blocks.
 	$addons_dir = trailingslashit( bp_blocks()->dir ) . 'add-ons';
-	$blocks     = wp_filter_object_list( bp_attachments_list_directory_files_recursively( $addons_dir ), array( 'mime_type' => 'text/x-php' ) );
+
+	add_filter( 'mime_types',  __NAMESPACE__ . '\filter_mimes' );
+	$blocks = bp_attachments_list_directory_files_recursively( $addons_dir );
+	remove_filter( 'mime_types',  __NAMESPACE__ . '\filter_mimes' );
 
 	foreach ( $blocks as $block ) {
 		if ( wp_basename( $block->parent_dir_path ) !== wp_basename( $block->name, '.php' ) ) {

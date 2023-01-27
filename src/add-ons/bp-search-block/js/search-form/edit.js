@@ -70,7 +70,7 @@ const editSearchFormBlock = ( { attributes, setAttributes } ) => {
 		setAttributes( { activeOptions: newOptions } );
 	};
 
-	const searchSettings = SEARCH_OPTIONS.filter( ( option ) => 'posts' === option.value || isActive( option.value ) ).map( ( option, key ) => {
+	const searchSettings = SEARCH_OPTIONS.filter( ( option ) => 'posts' === option.value || isActive( option.value, option.requiredFeature ) ).map( ( option, key ) => {
 		return (
 			<SearchOptionCheckbox
 				key={ 'option__' + key }

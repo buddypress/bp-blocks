@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.8
 Requires PHP: 5.6
 Tested up to: 6.1
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 
 The BP Search Block is a BuddyPress Block to search for activities, members, groups, sites or posts from any post, page or widget of your community site!
 
@@ -26,14 +26,11 @@ Growing the BuddyPress community means better software for everyone!
 = Requirements =
 
 * WordPress 5.8.
-* BuddyPress 9.2.0
+* BuddyPress 11.0.0
 
 = Automatic installation =
 
-Using the automatic installation let WordPress handles everything itself. To do an automatic install of "BP Search Block", log in to your WordPress dashboard, navigate to the Plugins menu. Click on the Add New link, then, according to your BuddyPress version:
-
-- if it is >= 10.0.0: activate the "BuddyPress Add-ons" tab to quickly find the "BP Search Block" plugin's card.
-- if it is < 10.0.0: type "BP Search Block" into the search field to find the plugin's card.
+Using the automatic installation let WordPress handles everything itself. To do an automatic install of "BP Search Block", log in to your WordPress dashboard, navigate to the Plugins menu. Click on the Add New link, then, activate the "BuddyPress Add-ons" tab to quickly find the "BP Search Block" plugin's card.
 
 Once you've found the BP Search card, you can view details about the latest release, such as community reviews, ratings, and description. Install the BP Search Block by simply pressing "Install Now".
 
@@ -61,10 +58,17 @@ If you would like to provide monetary support to the BP Search Block or BuddyPre
 
 == Upgrade Notice ==
 
+= 1.1.0 =
+- Requires BuddyPress 11.0.0.
+
 = 1.0.0 =
 Initial version of the Search Block, no upgrade needed.
 
 == Changelog ==
+
+= 1.1.0 =
+- Requires BuddyPress 11.0.0.
+- Makes sure the Blogs search is only available on Multisite configs.
 
 = 1.0.0 =
 Initial version of the Search Block.

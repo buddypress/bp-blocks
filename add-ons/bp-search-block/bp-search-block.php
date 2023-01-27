@@ -11,7 +11,7 @@
  * Plugin Name:       BP Search Block
  * Plugin URI:        https://github.com/buddypress/bp-blocks
  * Description:       Help the visitors or members of your BuddyPress powered community site to find the posts, the sites, the activities, the members or the groups they are looking for.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
  * Requires at least: 5.8
