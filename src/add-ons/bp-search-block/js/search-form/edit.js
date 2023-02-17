@@ -1,31 +1,22 @@
 /**
  * External dependencies.
  */
-const {
-	find,
-} = lodash;
+import { find } from 'lodash';
 
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-		RichText,
-		useBlockProps,
-	},
-	components: {
-		PanelBody,
-		ToggleControl,
-	},
-	element: {
-		createElement,
-		Fragment,
-	},
-	i18n: {
-		__,
-	},
-} = wp;
+import {
+    InspectorControls,
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	PanelBody,
+	ToggleControl,
+} from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * BuddyPress dependencies.

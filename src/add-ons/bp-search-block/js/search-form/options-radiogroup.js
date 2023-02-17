@@ -1,15 +1,8 @@
 /**
  * WordPress dependencies.
  */
-const {
-	components: {
-		RadioControl,
-	},
-	element: {
-		createElement,
-		useState,
-	},
-} = wp;
+import { RadioControl } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 const SearchOptionsRadioGroup = ( { selected, options, onSelected } ) => {
 	const [ option, setOption ] = useState( selected );

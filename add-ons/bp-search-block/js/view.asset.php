@@ -1,8 +1,1 @@
-<?php
-return array(
-	'dependencies' => array(
-		'wp-dom-ready',
-		'lodash',
-	),
-	'version'      => '1.0.0',
-);
+<?php return array('dependencies' => array('wp-dom-ready'), 'version' => '43e5b59c875857271585');

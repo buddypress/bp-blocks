@@ -45,6 +45,13 @@ final class BP_Blocks {
 	protected static $instance = null;
 
 	/**
+	 * Used to store dynamic properties.
+	 *
+	 * @var array
+	 */
+	private $data = array();
+
+	/**
 	 * Initialize the plugin.
 	 *
 	 * @since 6.0.0
@@ -55,6 +62,60 @@ final class BP_Blocks {
 
 		require $inc_path . 'globals.php';
 		require $inc_path . 'functions.php';
+	}
+
+	/**
+	 * Magic method for checking the existence of a plugin global variable.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $key Key to check the set status for.
+	 * @return bool
+	 */
+	public function __isset( $key ) {
+		return isset( $this->data[ $key ] );
+	}
+
+	/**
+	 * Magic method for getting a plugin global variable.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $key Key to return the value for.
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		$retval = null;
+		if ( isset( $this->data[ $key ] ) ) {
+			$retval = $this->data[ $key ];
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Magic method for setting a plugin global variable.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $key   Key to set a value for.
+	 * @param mixed  $value Value to set.
+	 */
+	public function __set( $key, $value ) {
+		$this->data[ $key ] = $value;
+	}
+
+	/**
+	 * Magic method for unsetting a plugin global variable.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $key Key to unset a value for.
+	 */
+	public function __unset( $key ) {
+		if ( isset( $this->data[ $key ] ) ) {
+			unset( $this->data[ $key ] );
+		}
 	}
 
 	/**

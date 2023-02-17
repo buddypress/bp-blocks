@@ -1,18 +1,11 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		RichText,
-		useBlockProps,
-	},
-	element: {
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-} = wp;
+import {
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies.

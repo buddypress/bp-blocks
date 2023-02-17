@@ -28,7 +28,8 @@
 		"pot:addon": "wp i18n make-pot add-ons/${npm_config_slug} add-ons/${npm_config_slug}/languages/${npm_config_slug}.pot --domain=${npm_config_slug} --exclude=\"assets,css,languages\" --headers='{\"Report-Msgid-Bugs-To\": \"https://github.com/buddypress/bp-blocks/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\"}'",
 		"po2json": "wp i18n make-json languages",
 		"po2json:addon": "wp i18n make-json add-ons/${npm_config_slug}/languages",
-		"package:addon": "./bin/build-block-zip.sh ${npm_config_slug}"
+		"package:addon": "./bin/build-block-zip.sh ${npm_config_slug}",
+		"build:add-ons": "wp-scripts build ./src/add-ons/bp-search-block/js/index.js ./src/add-ons/bp-search-block/js/view.js --webpack-src-dir=./src/add-ons/bp-search-block/js --output-path=./add-ons/bp-search-block/js"
 	},
 	"repository": {
 		"type": "git",
@@ -46,10 +47,11 @@
 	"homepage": "https://github.com/buddypress/bp-blocks#readme",
 	"devDependencies": {
 		"@babel/core": "~7.15.5",
-		"@wordpress/babel-preset-default": "^7.1.1",
+		"@wordpress/babel-preset-default": "^7.11.0",
+		"@wordpress/browserslist-config": "^5.10.0",
+		"@wordpress/scripts": "^25.4.0",
 		"parcel-bundler": "~1.12.5",
-		"sass": "^1.41.0",
-		"@wordpress/browserslist-config": "^5.5.0"
+		"sass": "^1.41.0"
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"

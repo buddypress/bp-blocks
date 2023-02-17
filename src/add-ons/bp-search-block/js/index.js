@@ -1,17 +1,8 @@
 /**
  * WordPress dependencies.
  */
- const {
-	blocks: {
-		registerBlockType,
-	},
-	element: {
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-} = wp;
+import { registerBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies.

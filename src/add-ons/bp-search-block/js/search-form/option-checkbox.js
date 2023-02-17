@@ -1,16 +1,11 @@
 /**
  * WordPress dependencies.
  */
-const {
-	components: {
-		CheckboxControl,
-		Disabled,
-	},
-	element: {
-		createElement,
-		useState,
-	},
-} = wp;
+import {
+	CheckboxControl,
+	Disabled,
+} from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 const SearchOptionCheckbox = ( { label, option, checked, onChecked, defaultOption } ) => {
 	const [ isChecked, setChecked ] = useState();

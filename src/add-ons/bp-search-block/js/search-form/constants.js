@@ -1,12 +1,7 @@
 /**
  * WordPress dependencies.
  */
-const {
-	i18n: {
-		_x,
-		__,
-	},
-} = wp;
+import { _x, __ } from '@wordpress/i18n';
 
 /**
  * BP Search Form options.

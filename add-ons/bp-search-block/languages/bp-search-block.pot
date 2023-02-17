@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-02T18:44:04+00:00\n"
+"POT-Creation-Date: 2023-02-17T19:57:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: bp-search-block\n"
@@ -34,118 +34,113 @@ msgstr ""
 msgid "https://buddypress.org"
 msgstr ""
 
-#: js/index.js:20
+#: js/index.js:1
 msgctxt "search form"
 msgid "Activities"
 msgstr ""
 
-#: js/index.js:23
+#: js/index.js:1
 msgid "Search activities"
 msgstr ""
 
-#: js/index.js:26
+#: js/index.js:1
 msgctxt "search form"
 msgid "Members"
 msgstr ""
 
-#: js/index.js:29
+#: js/index.js:1
 msgid "Search members"
 msgstr ""
 
-#: js/index.js:32
+#: js/index.js:1
 msgctxt "search form"
 msgid "Groups"
 msgstr ""
 
-#: js/index.js:35
+#: js/index.js:1
 msgid "Search groups"
 msgstr ""
 
-#: js/index.js:38
+#: js/index.js:1
 msgctxt "search form"
 msgid "Blogs"
 msgstr ""
 
-#: js/index.js:41
+#: js/index.js:1
 msgid "Search blogs"
 msgstr ""
 
-#: js/index.js:44
+#: js/index.js:1
 msgctxt "search form"
 msgid "Posts"
 msgstr ""
 
-#: js/index.js:46
-#: js/index.js:463
+#: js/index.js:1
 msgid "Search posts"
 msgstr ""
 
-#: js/index.js:222
-msgid "Search options"
-msgstr ""
-
-#: js/index.js:225
-msgid "Display options"
-msgstr ""
-
-#: js/index.js:227
-msgid "Show the search label"
-msgstr ""
-
-#: js/index.js:234
-msgid "Display a label over the search field."
-msgstr ""
-
-#: js/index.js:235
-msgid "Toggle to display a label over the search field."
-msgstr ""
-
-#: js/index.js:239
-msgid "Use a Search Icon"
-msgstr ""
-
-#: js/index.js:246
-msgid "Use a search icon instead of the search button text."
-msgstr ""
-
-#: js/index.js:247
-msgid "Toggle to use a search icon instead of the search button text."
-msgstr ""
-
-#: js/index.js:258
-msgid "Label text"
-msgstr ""
-
-#: js/index.js:259
-msgid "Add label…"
-msgstr ""
-
-#: js/index.js:279
-#: js/index.js:387
-#: js/index.js:445
-#: js/index.js:455
-msgid "Search"
-msgstr ""
-
-#: js/index.js:288
-msgid "Button text"
-msgstr ""
-
-#: js/index.js:289
-msgid "Add text…"
-msgstr ""
-
-#: js/index.js:297
-#: js/index.js:397
-msgid "Search for:"
-msgstr ""
-
-#: js/index.js:433
+#: js/index.js:1
 msgid "Community Search"
 msgstr ""
 
-#: js/index.js:434
+#: js/index.js:1
 msgid "A Block to search for posts, sites, activities, members or groups from any post, page or widget of your BuddyPress powered community site!"
+msgstr ""
+
+#: js/index.js:1
+msgid "Search"
+msgstr ""
+
+#: js/index.js:1
+msgid "Search options"
+msgstr ""
+
+#: js/index.js:1
+msgid "Display options"
+msgstr ""
+
+#: js/index.js:1
+msgid "Show the search label"
+msgstr ""
+
+#: js/index.js:1
+msgid "Display a label over the search field."
+msgstr ""
+
+#: js/index.js:1
+msgid "Toggle to display a label over the search field."
+msgstr ""
+
+#: js/index.js:1
+msgid "Use a Search Icon"
+msgstr ""
+
+#: js/index.js:1
+msgid "Use a search icon instead of the search button text."
+msgstr ""
+
+#: js/index.js:1
+msgid "Toggle to use a search icon instead of the search button text."
+msgstr ""
+
+#: js/index.js:1
+msgid "Label text"
+msgstr ""
+
+#: js/index.js:1
+msgid "Add label…"
+msgstr ""
+
+#: js/index.js:1
+msgid "Button text"
+msgstr ""
+
+#: js/index.js:1
+msgid "Add text…"
+msgstr ""
+
+#: js/index.js:1
+msgid "Search for:"
 msgstr ""
 
 #: block.json

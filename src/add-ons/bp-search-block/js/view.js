@@ -1,9 +1,7 @@
 /**
  * WordPress dependencies
  */
-const {
-	domReady,
-} = wp;
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Sets the Search label for attribute and updates the search input's
