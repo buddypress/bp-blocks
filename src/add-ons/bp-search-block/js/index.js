@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies.
  */
+import '../css/index.scss';
 import editSearchFormBlock from './search-form/edit';
 import saveSearchFormBlock from './search-form/save';
 import metadata from '../block.json';

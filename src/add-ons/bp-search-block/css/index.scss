@@ -1,15 +1,10 @@
+
 /* Styles for the Block editor. */
+
 /* It's mainly a copy of the `wp-block-search` styles. */
 
-.wp-block[data-align="center"] {
-	.wp-block-bp-search-form {
-		.bp-block-search__inside-wrapper {
-			margin: auto;
-		}
-	}
-}
-
 .wp-block-bp-search-form {
+
 	.bp-search-button {
 		height: auto;
 		border-radius: initial;
@@ -19,5 +14,15 @@
 
 	&__components-button-group {
 		margin-top: 10px;
+	}
+}
+
+.wp-block[data-align="center"] {
+
+	.wp-block-bp-search-form {
+
+		.bp-block-search__inside-wrapper {
+			margin: auto;
+		}
 	}
 }

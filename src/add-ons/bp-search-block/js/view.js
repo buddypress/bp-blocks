@@ -4,6 +4,11 @@
 import domReady from '@wordpress/dom-ready';
 
 /**
+ * Internal dependency.
+ */
+import '../css/style.scss';
+
+/**
  * Sets the Search label for attribute and updates the search input's
  * placeholder according to the checked radio control.
  *
