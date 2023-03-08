@@ -74,6 +74,34 @@ function bp_register_block_components() {
 		),
 		'after'
 	);
+
+	/*
+	// Using the library built by webpack it does not work.
+	$dist_dir                  = trailingslashit( bp_blocks()->dir ) . 'dist/bp-core/js';
+	$bp_components_path        = trailingslashit( $dist_dir ) . 'block-components.js';
+	$bp_components_assets_path = trailingslashit( $dist_dir ) . 'block-components.asset.php';;
+	$bp_components_assets      = file_exists( $bp_components_assets_path ) ? require( $bp_components_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_components_path ) );
+
+	wp_register_script(
+		'bp-block-components',
+		trailingslashit( bp_blocks()->url ) . 'dist/bp-core/js/block-components.js',
+		$bp_components_assets['dependencies'],
+		$bp_components_assets['version'],
+		false
+	);
+
+	$bp_block_data_path        = trailingslashit( $dist_dir ) . 'block-data.js';
+	$bp_block_data_assets_path = trailingslashit( $dist_dir ) . 'block-data.asset.php';;
+	$bp_block_data_assets      = file_exists( $bp_block_data_assets_path ) ? require( $bp_block_data_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_block_data_path ) );
+
+	wp_register_script(
+		'bp-block-data',
+		trailingslashit( bp_blocks()->url ) . 'dist/bp-core/js/block-data.js',
+		$bp_block_data_assets['dependencies'],
+		$bp_block_data_assets['version'],
+		false
+	);
+	*/
 }
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );
 

@@ -35,7 +35,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function bp_search_block_init() {
-	register_block_type( __DIR__ );
+	$dir = trailingslashit( dirname( __FILE__, 3 ) ) . 'dist/add-ons/bp-search-block';
+	register_block_type( $dir );
 
 	// Makes sure the image URL does not end up being a 404 in WordPress 5.8 or up.
 	wp_add_inline_style(

@@ -50,6 +50,6 @@
 	},
 	"editorScript": "file:js/index.js",
 	"script": "file:js/view.js",
-	"editorStyle": "file:css/index.css",
-	"style": "file:css/style.css"
+	"editorStyle": "file:js/index.css",
+	"style": "file:js/style-view.css"
 }

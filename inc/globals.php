@@ -27,7 +27,7 @@ function globals() {
 	$bpb->dir = plugin_dir_path( dirname( __FILE__ ) );
 
 	// URL.
-	$bpb->url = plugins_url( dirname( __FILE__ ) );
+	$bpb->url = plugins_url( '', dirname( __FILE__ ) );
 
 	// Activity update recorded time.
 	$bpb->activity_recorded_time = '';

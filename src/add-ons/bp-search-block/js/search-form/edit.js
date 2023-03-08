@@ -21,11 +21,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		isActive,
-	}
-} = bp;
+import { isActive } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
