@@ -75,10 +75,10 @@ function bp_register_block_components() {
 		'after'
 	);*/
 
-	/*
+
 	// Using the library built by webpack it does not work.
 	$dist_dir                  = trailingslashit( bp_blocks()->dir ) . 'dist/bp-core/js';
-	$bp_components_path        = trailingslashit( $dist_dir ) . 'block-components.js';
+	/*$bp_components_path        = trailingslashit( $dist_dir ) . 'block-components.js';
 	$bp_components_assets_path = trailingslashit( $dist_dir ) . 'block-components.asset.php';;
 	$bp_components_assets      = file_exists( $bp_components_assets_path ) ? require( $bp_components_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_components_path ) );
 
