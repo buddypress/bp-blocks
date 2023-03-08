@@ -31,7 +31,6 @@
 		"package:addon": "./bin/build-block-zip.sh ${npm_config_slug}",
 		"build:add-ons": "wp-scripts build ./src/add-ons/bp-search-block/js/index.js ./src/add-ons/bp-search-block/js/view.js --webpack-src-dir=./src/add-ons/bp-search-block/js --output-path=./add-ons/bp-search-block/js",
 		"webpack:build": "wp-scripts build",
-		"webpack:build-lib": "wp-scripts build --config ./webpack.config.libs.js",
 		"lint:css:src": "wp-scripts lint-style './src/add-ons/bp-search-block/css/*.scss'",
 		"packages-update": "wp-scripts packages-update"
 	},

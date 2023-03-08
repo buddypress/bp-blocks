@@ -51,7 +51,7 @@ function bp_register_block_components() {
 		'after'
 	);
 
-	wp_register_script(
+	/*wp_register_script(
 		'bp-block-data',
 		plugins_url( 'js/block-data.js', __FILE__ ),
 		array(
@@ -73,7 +73,7 @@ function bp_register_block_components() {
 			esc_url_raw( includes_url( 'js/wp-embed.min.js' ) )
 		),
 		'after'
-	);
+	);*/
 
 	/*
 	// Using the library built by webpack it does not work.
@@ -88,7 +88,7 @@ function bp_register_block_components() {
 		$bp_components_assets['dependencies'],
 		$bp_components_assets['version'],
 		false
-	);
+	);*/
 
 	$bp_block_data_path        = trailingslashit( $dist_dir ) . 'block-data.js';
 	$bp_block_data_assets_path = trailingslashit( $dist_dir ) . 'block-data.asset.php';;
@@ -101,7 +101,7 @@ function bp_register_block_components() {
 		$bp_block_data_assets['version'],
 		false
 	);
-	*/
+
 }
 add_action( 'bp_blocks_init', __NAMESPACE__ . '\bp_register_block_components', 1 );
 
