@@ -29,74 +29,26 @@ function bp_register_block_components() {
 		false
 	);
 
-	wp_register_script(
-		'bp-block-components',
-		plugins_url( 'js/block-components.js', __FILE__ ),
-		array(
-			'wp-element',
-			'wp-components',
-			'wp-i18n',
-			'wp-api-fetch',
-			'wp-url',
-		),
-		defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( dirname( __FILE__ ) . '/js/block-components.js' ) : bp_get_version(),
-		false
-	);
-
-	wp_add_inline_script(
-		'bp-block-components',
-		'window.bp = window.bp || {};
-		bp.blockComponents = bpBlock.blockComponents;
-		delete bpBlock;',
-		'after'
-	);
-
-	/*wp_register_script(
-		'bp-block-data',
-		plugins_url( 'js/block-data.js', __FILE__ ),
-		array(
-			'wp-data',
-			'wp-api-fetch',
-			'lodash',
-		),
-		defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( dirname( __FILE__ ) . '/js/block-data.js' ) : bp_get_version(),
-		false
-	);
-
-	wp_add_inline_script(
-		'bp-block-data',
-		sprintf(
-			'window.bp = window.bp || {};
-			bp.blockData = bpBlock.blockData;
-			bp.blockData.embedScriptURL = \'%s\';
-			delete bpBlock;',
-			esc_url_raw( includes_url( 'js/wp-embed.min.js' ) )
-		),
-		'after'
-	);*/
-
-
-	// Using the library built by webpack it does not work.
-	$dist_dir                  = trailingslashit( bp_blocks()->dir ) . 'dist/bp-core/blocks/block-data';
-	/*$bp_components_path        = trailingslashit( $dist_dir ) . 'block-components.js';
-	$bp_components_assets_path = trailingslashit( $dist_dir ) . 'block-components.asset.php';;
+	$blocks_dir                = trailingslashit( bp_blocks()->dir ) . 'build/bp-core/blocks';
+	$bp_components_path        = trailingslashit( $blocks_dir ) . 'block-components/index.js';
+	$bp_components_assets_path = trailingslashit( $blocks_dir ) . 'block-components/index.asset.php';;
 	$bp_components_assets      = file_exists( $bp_components_assets_path ) ? require( $bp_components_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_components_path ) );
 
 	wp_register_script(
 		'bp-block-components',
-		trailingslashit( bp_blocks()->url ) . 'dist/bp-core/js/block-components.js',
+		plugins_url( 'blocks/block-components/index.js', __FILE__ ),
 		$bp_components_assets['dependencies'],
 		$bp_components_assets['version'],
 		false
-	);*/
+	);
 
-	$bp_block_data_path        = trailingslashit( $dist_dir ) . 'index.js';
-	$bp_block_data_assets_path = trailingslashit( $dist_dir ) . 'index.asset.php';;
+	$bp_block_data_path        = trailingslashit( $blocks_dir ) . 'block-data/index.js';
+	$bp_block_data_assets_path = trailingslashit( $blocks_dir ) . 'block-data/index.asset.php';;
 	$bp_block_data_assets      = file_exists( $bp_block_data_assets_path ) ? require( $bp_block_data_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_block_data_path ) );
 
 	wp_register_script(
 		'bp-block-data',
-		trailingslashit( bp_blocks()->url ) . 'dist/bp-core/blocks/block-data/index.js',
+		plugins_url( 'blocks/block-data/index.js', __FILE__ ),
 		$bp_block_data_assets['dependencies'],
 		$bp_block_data_assets['version'],
 		false
