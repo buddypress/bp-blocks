@@ -260,7 +260,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					'assets/widgets/friends.php',
 					'php',
 					array(
-						'data.link'              => bbp_members_get_user_url( $user->ID, $user->user_nicename, $user->user_login ),
+						'data.link'              => bp_members_get_user_url( $user->ID, $user->user_nicename, $user->user_login ),
 						'data.name'              => $user->display_name,
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(
