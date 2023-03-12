@@ -446,7 +446,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 		$output .= sprintf( '<div class="%s">', $member_item_classes );
 
 		// Get Member link.
-		$member_link = bp_members_get_user_urln( $member->ID );
+		$member_link = bbp_members_get_user_url( $member->ID );
 
 		// Set the Avatar output.
 		if ( $bp->avatar && $bp->avatar->show_avatars && 'none' !== $block_args['avatarSize'] ) {
@@ -699,7 +699,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 					'assets/widgets/dynamic-members.php',
 					'php',
 					array(
-						'data.link'              => bp_members_get_user_urln( $user->ID, $user->user_nicename, $user->user_login ),
+						'data.link'              => bbp_members_get_user_url( $user->ID, $user->user_nicename, $user->user_login ),
 						'data.name'              => $user->display_name,
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(
@@ -852,7 +852,7 @@ function bp_members_render_members_avatars_block( $block_args = array() ) {
 						<img loading="lazy" src="%3$s" class="avatar user-%4$s-avatar avatar-50 photo" width="50" height="50" alt="%5$s">
 					</a>
 				</div>',
-				esc_url( bp_members_get_user_urln( $member->ID, $member->user_nicename, $member->user_login ) ),
+				esc_url( bbp_members_get_user_url( $member->ID, $member->user_nicename, $member->user_login ) ),
 				esc_html( $member->display_name ),
 				bp_core_fetch_avatar(
 					array(
