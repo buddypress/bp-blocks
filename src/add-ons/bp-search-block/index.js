@@ -7,10 +7,10 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies.
  */
-import '../css/index.scss';
-import editSearchFormBlock from './search-form/edit';
-import saveSearchFormBlock from './search-form/save';
-import metadata from '../block.json';
+import './editor-style.scss';
+import editSearchFormBlock from './imports/edit';
+import saveSearchFormBlock from './imports/save';
+import metadata from './block.json';
 
 registerBlockType( metadata, {
 	title: __( 'Community Search', 'bp-search-block' ),

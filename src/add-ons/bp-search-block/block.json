@@ -1,5 +1,5 @@
 {
-	"apiVersion": "2",
+	"apiVersion": 2,
 	"name": "bp/search-form",
 	"title": "Community Search",
 	"category": "widgets",
@@ -48,8 +48,8 @@
 	"supports": {
 		"align": true
 	},
-	"editorScript": "file:js/index.js",
-	"script": "file:js/view.js",
-	"editorStyle": "file:js/index.css",
-	"style": "file:js/style-view.css"
+	"editorScript": "file:index.js",
+	"script": "file:view.js",
+	"editorStyle": "file:index.css",
+	"style": "file:view.css"
 }

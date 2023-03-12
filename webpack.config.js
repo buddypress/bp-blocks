@@ -10,22 +10,22 @@ module.exports = {
     ...defaultConfig,
     ...{
         entry: {
-            "bp-core/js/block-data": {
+            "bp-core/blocks/block-data/index": {
 				import: './src/bp-core/js/block-assets/block-data.js',
 				library: {
 					name: [ 'bp', 'blockData' ],
 					type: 'window',
 				},
 			},
-			"bp-core/js/block-components": {
+			"bp-core/blocks/block-components/index": {
 				import: './src/bp-core/js/block-components/block-components.js',
 				library: {
 					name: [ 'bp', 'blockComponents' ],
 					type: 'window',
 				},
 			},
-			"add-ons/bp-search-block/js/index": './src/add-ons/bp-search-block/js/index.js',
-			"add-ons/bp-search-block/js/view": './src/add-ons/bp-search-block/js/view.js',
+			"add-ons/bp-search-block/index": './src/add-ons/bp-search-block/index.js',
+			"add-ons/bp-search-block/view": './src/add-ons/bp-search-block/view.js',
         },
 		output: {
 			filename: '[name].js',

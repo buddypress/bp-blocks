@@ -6,7 +6,7 @@ import domReady from '@wordpress/dom-ready';
 /**
  * Internal dependency.
  */
-import '../css/style.scss';
+import './view-style.scss';
 
 /**
  * Sets the Search label for attribute and updates the search input's
