@@ -1,34 +1,23 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		Notice,
-		PanelBody,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	Notice,
+	PanelBody,
+	ToggleControl,
+} from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		getCurrentWidgetsSidebar,
-	}
-} = bp;
+import { getCurrentWidgetsSidebar } from '@buddypress/block-data';
 
 const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
 	const { displayTitle } = attributes;

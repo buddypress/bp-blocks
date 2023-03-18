@@ -15,16 +15,6 @@
 			li {
 				list-style: none;
 				margin: 0;
-			}
-
-			li.last {
-
-				select {
-					max-width: 185px;
-				}
-			}
-
-			li {
 
 				a,
 				span {
@@ -46,6 +36,20 @@
 					padding: 3px 6px;
 					text-align: center;
 					vertical-align: middle;
+				}
+
+				a {
+
+					.count:empty {
+						display: none;
+					}
+				}
+			}
+
+			li.last {
+
+				select {
+					max-width: 185px;
 				}
 			}
 
@@ -87,16 +91,6 @@
 					}
 				}
 			}
-
-			li {
-
-				a {
-
-					.count:empty {
-						display: none;
-					}
-				}
-			}
 		}
 	}
 
@@ -107,6 +101,13 @@
 	.bp-navs.group-create-links {
 
 		ul {
+
+			li.current {
+
+				a {
+					text-align: center;
+				}
+			}
 
 			li:not(.current) {
 				color: #767676;
@@ -127,13 +128,6 @@
 					&:hover {
 						color: #767676;
 					}
-				}
-			}
-
-			li.current {
-
-				a {
-					text-align: center;
 				}
 			}
 		}

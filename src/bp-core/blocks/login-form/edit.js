@@ -1,25 +1,18 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		PanelBody,
-		TextControl,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	PanelBody,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 const editLoginForm = ( { attributes, setAttributes } ) => {
 	const { title, forgotPwdLink } = attributes;

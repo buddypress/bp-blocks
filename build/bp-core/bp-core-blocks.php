@@ -106,61 +106,21 @@ function register_core_blocks() {
 	$blocks = array();
 
 	if ( 'nouveau' === bp_get_theme_compat_id() ) {
+		remove_filter( 'bp_core_register_blocks', 'bp_nouveau_register_primary_nav_widget_block', 20, 1 );
 		/**
-		 * NB: This block should is registered from the BP Nouveau Template Pack
+		 * NB: This block should be registered from the BP Nouveau Template Pack
 		 *
 		 * @see bp_nouveau_register_primary_nav_widget_block()
 		 */
 		$blocks['bp/primary-nav'] = array(
-			'name'               => 'bp/primary-nav',
-			'editor_script'      => 'bp-primary-nav-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/primary-nav.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-				'bp-block-data',
-			),
-			'editor_style'       => 'bp-primary-nav-block',
-			'editor_style_url'   => plugins_url( 'css/blocks/primary-nav.css', __FILE__ ),
-			'attributes'         => array(
-				'displayTitle' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_nouveau_render_primary_nav_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/primary-nav',
+			'render_callback' => __NAMESPACE__ . '\bp_nouveau_render_primary_nav_block',
 		);
 	}
 
 	$blocks['bp/login-form'] = array(
-		'name'               => 'bp/login-form',
-		'editor_script'      => 'bp-login-form-block',
-		'editor_script_url'  => plugins_url( 'js/blocks/login-form.js', __FILE__ ),
-		'editor_script_deps' => array(
-			'wp-blocks',
-			'wp-element',
-			'wp-components',
-			'wp-i18n',
-			'wp-block-editor',
-			'wp-server-side-render',
-		),
-		'style'              => 'bp-login-form-block',
-		'style_url'          => plugins_url( 'css/blocks/login-form.css', __FILE__ ),
-		'attributes'         => array(
-			'title'         => array(
-				'type'    => 'string',
-				'default' => '',
-			),
-			'forgotPwdLink' => array(
-				'type'    => 'boolean',
-				'default' => false,
-			),
-		),
-		'render_callback'    => __NAMESPACE__ . '\bp_block_render_login_form_block',
+		'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/login-form',
+		'render_callback' => __NAMESPACE__ . '\bp_block_render_login_form_block',
 	);
 
 	return $blocks;
