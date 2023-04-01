@@ -1,14 +1,8 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blocks: {
-		registerBlockCollection,
-	},
-	i18n: {
-		__,
-	},
-} = wp;
+import { registerBlockCollection } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
 registerBlockCollection( 'bp', {
 	title: __( 'BuddyPress', 'buddypress' ),

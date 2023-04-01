@@ -19,17 +19,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function bp_register_block_components() {
+	$blocks_dir                = trailingslashit( bp_blocks()->dir ) . 'build/bp-core/blocks';
+	$bp_collection_path        = trailingslashit( $blocks_dir ) . 'block-collection/index.js';
+	$bp_collection_assets_path = trailingslashit( $blocks_dir ) . 'block-collection/index.asset.php';;
+	$bp_collection_assets      = file_exists( $bp_collection_assets_path ) ? require( $bp_collection_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_collection_path ) );
+
 	wp_register_script(
 		'bp-blocks-collection',
-		plugins_url( 'js/blocks-collection.js', __FILE__ ),
-		array(
-			'wp-blocks',
-		),
-		defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( dirname( __FILE__ ) . '/js/blocks-collection.js' ) : bp_get_version(),
+		plugins_url( 'blocks/block-collection/index.js', __FILE__ ),
+		$bp_collection_assets['dependencies'],
+		$bp_collection_assets['version'],
 		false
 	);
 
-	$blocks_dir                = trailingslashit( bp_blocks()->dir ) . 'build/bp-core/blocks';
+
 	$bp_components_path        = trailingslashit( $blocks_dir ) . 'block-components/index.js';
 	$bp_components_assets_path = trailingslashit( $blocks_dir ) . 'block-components/index.asset.php';;
 	$bp_components_assets      = file_exists( $bp_components_assets_path ) ? require( $bp_components_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_components_path ) );

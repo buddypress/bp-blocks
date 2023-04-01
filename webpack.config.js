@@ -24,6 +24,7 @@ module.exports = {
 					type: 'window',
 				},
 			},
+			"bp-core/blocks/block-collection/index": './src/bp-core/blocks/block-collection/block-collection.js',
 			"bp-core/blocks/login-form/index": './src/bp-core/blocks/login-form/login-form.js',
 			"bp-core/blocks/primary-nav/index": './src/bp-core/blocks/primary-nav/primary-nav.js',
 			"add-ons/bp-search-block/index": './src/add-ons/bp-search-block/index.js',
