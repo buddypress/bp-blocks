@@ -3,6 +3,7 @@
  */
 import {
     InspectorControls,
+	useBlockProps,
 } from '@wordpress/block-editor';
 import {
 	Disabled,
@@ -10,15 +11,15 @@ import {
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 
 const editLoginForm = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const { title, forgotPwdLink } = attributes;
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
@@ -40,7 +41,7 @@ const editLoginForm = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/login-form" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

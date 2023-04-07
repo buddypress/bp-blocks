@@ -162,7 +162,7 @@ function bp_groups_register_widget_block_scripts( $scripts = array() ) {
 	$scripts['bp-dynamic-groups-script'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-groups.js', __FILE__ ) ),
 		'dependencies' => array(
-			'bp-dynamic-widget-block-script',
+			'bp-dynamic-widget-block',
 			'wp-i18n',
 		),
 		'footer'       => true,

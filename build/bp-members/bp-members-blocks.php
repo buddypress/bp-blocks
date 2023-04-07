@@ -219,7 +219,7 @@ function bp_members_register_scripts( $scripts = array() ) {
 	$scripts['bp-dynamic-members-script'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-members.js', __FILE__ ) ),
 		'dependencies' => array(
-			'bp-dynamic-widget-block-script',
+			'bp-dynamic-widget-block',
 			'wp-i18n',
 		),
 		'footer'       => true,

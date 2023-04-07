@@ -27,7 +27,15 @@ module.exports = {
 			"bp-core/blocks/block-collection/index": './src/bp-core/blocks/block-collection/block-collection.js',
 			"bp-core/blocks/login-form/index": './src/bp-core/blocks/login-form/login-form.js',
 			"bp-core/blocks/primary-nav/index": './src/bp-core/blocks/primary-nav/primary-nav.js',
-			"bp-core/js/dynamic-widget-block": './src/bp-core/js/dynamic-widget-block.js',
+			"bp-core/js/dynamic-widget-block": {
+				import: './src/bp-core/js/dynamic-widget-block.js',
+				library: {
+					name: [ 'bp', 'dynamicWidgetBlock' ],
+					type: 'window',
+				},
+			},
+			"bp-friends/blocks/dynamic-widget/index": './src/bp-friends/blocks/dynamic-widget/friends.js',
+			"bp-friends/js/dynamic-widget-block": './src/bp-friends/js/friends.js',
 			"add-ons/bp-search-block/index": './src/add-ons/bp-search-block/index.js',
 			"add-ons/bp-search-block/view": './src/add-ons/bp-search-block/view.js',
         },
@@ -47,6 +55,8 @@ module.exports = {
 					return [ 'bp', 'blockComponents' ];
 				} else if ( request === '@buddypress/block-data' ) {
 					return [ 'bp', 'blockData' ];
+				} else if ( request === '@buddypress/dynamic-widget-block' ) {
+					return [ 'bp', 'dynamicWidgetBlock' ];
 				}
 			},
 			requestToHandle( request ) {
@@ -54,6 +64,8 @@ module.exports = {
 					return 'bp-block-components';
 				} else if ( request === '@buddypress/block-data' ) {
 					return 'bp-block-data';
+				} else if ( request === '@buddypress/dynamic-widget-block' ) {
+					return 'bp-dynamic-widget-block';
 				}
 			}
 		} )

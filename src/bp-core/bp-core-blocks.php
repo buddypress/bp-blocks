@@ -3,7 +3,7 @@
  * BP Groups Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-core\bp-core-blocks
+ * @subpackage \src\bp-core\bp-core-blocks
  */
 
 namespace BP\Blocks;
@@ -90,7 +90,7 @@ function bp_core_register_scripts( $scripts = array() ) {
 	$assets_path = trailingslashit( $js_dir ) . 'dynamic-widget-block.asset.php';
 	$assets      = file_exists( $assets_path ) ? require( $assets_path ) : array( 'dependencies' => array(), 'version' => '' );
 
-	$scripts['bp-dynamic-widget-block-script'] = array(
+	$scripts['bp-dynamic-widget-block'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
 		'dependencies' => $assets['dependencies'],
 		'footer'       => true,

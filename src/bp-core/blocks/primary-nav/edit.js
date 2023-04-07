@@ -3,6 +3,7 @@
  */
 import {
     InspectorControls,
+	useBlockProps,
 } from '@wordpress/block-editor';
 import {
 	Disabled,
@@ -10,7 +11,6 @@ import {
 	PanelBody,
 	ToggleControl,
 } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -20,6 +20,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { getCurrentWidgetsSidebar } from '@buddypress/block-data';
 
 const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
+	const blockProps = useBlockProps();
 	const { displayTitle } = attributes;
 	const currentSidebar = getCurrentWidgetsSidebar( clientId );
 	const disabledSidebars = ['sidebar-buddypress-members', 'sidebar-buddypress-groups'];
@@ -35,7 +36,7 @@ const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
@@ -50,7 +51,7 @@ const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/primary-nav" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

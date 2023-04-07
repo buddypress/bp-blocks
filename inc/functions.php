@@ -37,6 +37,10 @@ function inc() {
 	require str_replace( 'build', 'dist', $build_dir ) . '/bp-core/bp-core-blocks.php';
 
 	foreach ( array_keys( buddypress()->active_components ) as $component ) {
+		if ( in_array( $component, array( 'friends' ), true ) ) {
+			$build_dir = str_replace( 'build', 'dist', $build_dir );
+		}
+
 		if ( ! is_dir( $build_dir . '/bp-' . $component ) ) {
 			continue;
 		}

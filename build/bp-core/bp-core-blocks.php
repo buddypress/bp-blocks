@@ -86,7 +86,7 @@ add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\bp_enqueue_block_ed
  * @return array Data about the scripts to register.
  */
 function bp_core_register_scripts( $scripts = array() ) {
-	$scripts['bp-dynamic-widget-block-script'] = array(
+	$scripts['bp-dynamic-widget-block'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
 		'dependencies' => array(
 			'lodash',

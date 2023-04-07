@@ -8,15 +8,12 @@ import { template } from 'lodash';
  */
 import { addQueryArgs } from '@wordpress/url';
 
-// Use the bp global.
-window.bp = window.bp || {};
-
 /**
  * Generic class to be used by Dynamic Widget Blocks.
  *
  * @since 9.0.0
  */
-bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
+export class dynamicWidgetBlock {
 	constructor( settings, blocks ) {
 		const { path, root, nonce } = settings;
 		this.path = path;
@@ -78,3 +75,5 @@ bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
 		}
 	}
 };
+
+export default dynamicWidgetBlock;

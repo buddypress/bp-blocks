@@ -1,19 +1,15 @@
 /**
  * WordPress dependencies.
  */
-const {
-	i18n: {
-		__,
-		sprintf,
-	},
-} = wp;
+import {
+	__,
+	sprintf,
+} from '@wordpress/i18n';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	dynamicWidgetBlock,
-} = bp;
+import { dynamicWidgetBlock } from '@buddypress/dynamic-widget-block';
 
 /**
  * Front-end Friends block class.
