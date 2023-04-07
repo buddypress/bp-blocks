@@ -27,6 +27,7 @@ module.exports = {
 			"bp-core/blocks/block-collection/index": './src/bp-core/blocks/block-collection/block-collection.js',
 			"bp-core/blocks/login-form/index": './src/bp-core/blocks/login-form/login-form.js',
 			"bp-core/blocks/primary-nav/index": './src/bp-core/blocks/primary-nav/primary-nav.js',
+			"bp-core/js/dynamic-widget-block": './src/bp-core/js/dynamic-widget-block.js',
 			"add-ons/bp-search-block/index": './src/add-ons/bp-search-block/index.js',
 			"add-ons/bp-search-block/view": './src/add-ons/bp-search-block/view.js',
         },

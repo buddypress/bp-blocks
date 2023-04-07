@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 6.0.0
  */
 function bp_register_block_components() {
-	$blocks_dir                = trailingslashit( bp_blocks()->dir ) . 'build/bp-core/blocks';
+	$blocks_dir                = trailingslashit( dirname( __FILE__ ) ) . 'blocks';
 	$bp_collection_path        = trailingslashit( $blocks_dir ) . 'block-collection/index.js';
 	$bp_collection_assets_path = trailingslashit( $blocks_dir ) . 'block-collection/index.asset.php';;
 	$bp_collection_assets      = file_exists( $bp_collection_assets_path ) ? require( $bp_collection_assets_path ) : array( 'dependencies' => array(), 'version' => filemtime( $bp_collection_path ) );
@@ -86,12 +86,13 @@ add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\bp_enqueue_block_ed
  * @return array Data about the scripts to register.
  */
 function bp_core_register_scripts( $scripts = array() ) {
+	$js_dir      = trailingslashit( dirname( __FILE__ ) ) . 'js';
+	$assets_path = trailingslashit( $js_dir ) . 'dynamic-widget-block.asset.php';
+	$assets      = file_exists( $assets_path ) ? require( $assets_path ) : array( 'dependencies' => array(), 'version' => '' );
+
 	$scripts['bp-dynamic-widget-block-script'] = array(
 		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
-		'dependencies' => array(
-			'lodash',
-			'wp-url',
-		),
+		'dependencies' => $assets['dependencies'],
 		'footer'       => true,
 	);
 

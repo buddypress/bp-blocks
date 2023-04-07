@@ -1,18 +1,12 @@
 /**
- * WordPress dependencies.
- */
-const {
-	url: {
-		addQueryArgs,
-	},
-} = wp;
-
-/**
  * External dependencies.
  */
-const {
-	template,
-} = lodash;
+import { template } from 'lodash';
+
+/**
+ * WordPress dependencies.
+ */
+import { addQueryArgs } from '@wordpress/url';
 
 // Use the bp global.
 window.bp = window.bp || {};

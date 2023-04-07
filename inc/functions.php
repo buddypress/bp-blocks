@@ -34,7 +34,7 @@ function inc() {
 	$build_dir = trailingslashit( bp_blocks()->dir ) . 'build';
 
 	// Include Block components.
-	require $build_dir . '/bp-core/bp-core-blocks.php';
+	require str_replace( 'build', 'dist', $build_dir ) . '/bp-core/bp-core-blocks.php';
 
 	foreach ( array_keys( buddypress()->active_components ) as $component ) {
 		if ( ! is_dir( $build_dir . '/bp-' . $component ) ) {
