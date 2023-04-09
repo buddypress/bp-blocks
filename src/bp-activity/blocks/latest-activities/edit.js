@@ -2,7 +2,7 @@
  * WordPress dependencies.
  */
 import {
-    InspectorControls,
+	InspectorControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
 import {
