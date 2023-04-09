@@ -1,12 +1,7 @@
 /**
  * WordPress dependencies.
  */
-const {
-	i18n: {
-		__,
-	},
-} = wp;
-
+import { __ } from '@wordpress/i18n';
 /**
  * Avatar sizes.
  *
@@ -37,3 +32,27 @@ export const GROUP_STATI = {
 	private: __( 'Private', 'buddypress' ),
 	hidden: __( 'Hidden', 'buddypress' ),
 };
+
+/**
+ * Group Extra data.
+ *
+ * @type {Array}
+ */
+export const EXTRA_INFO = [
+	{
+		label: __( 'None', 'buddypress' ),
+		value: 'none',
+	},
+	{
+		label: __( 'Group\'s description', 'buddypress' ),
+		value: 'description',
+	},
+	{
+		label: __( 'Last time the group was active', 'buddypress' ),
+		value: 'active',
+	},
+	{
+		label: __( 'Amount of group members', 'buddypress' ),
+		value: 'popular',
+	},
+];
