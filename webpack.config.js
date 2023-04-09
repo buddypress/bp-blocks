@@ -10,6 +10,8 @@ module.exports = {
     ...defaultConfig,
     ...{
         entry: {
+			"bp-activity/blocks/embed-activity/index": './src/bp-activity/blocks/embed-activity/embed-activity.js',
+			"bp-activity/blocks/latest-activities/index": './src/bp-activity/blocks/latest-activities/latest-activities.js',
             "bp-core/blocks/block-data/index": {
 				import: './src/bp-core/blocks/block-assets/block-data.js',
 				library: {

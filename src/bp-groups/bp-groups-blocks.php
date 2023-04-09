@@ -3,7 +3,7 @@
  * BP Groups Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-groups\bp-groups-blocks
+ * @subpackage \src\bp-groups\bp-groups-blocks
  */
 
 namespace BP\Blocks;
