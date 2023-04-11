@@ -1,5 +1,4 @@
 {
-	"ignore": ["./bp-*/js/view.js"],
 	"presets": ["@wordpress/default"],
 	"plugins": [
 		[

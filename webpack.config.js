@@ -12,6 +12,7 @@ module.exports = {
         entry: {
 			"bp-activity/blocks/embed-activity/index": './src/bp-activity/blocks/embed-activity/embed-activity.js',
 			"bp-activity/blocks/latest-activities/index": './src/bp-activity/blocks/latest-activities/latest-activities.js',
+			"bp-blogs/blocks/recent-posts/index": './src/bp-blogs/blocks/recent-posts/recent-posts.js',
             "bp-core/blocks/block-data/index": {
 				import: './src/bp-core/blocks/block-assets/block-data.js',
 				library: {
