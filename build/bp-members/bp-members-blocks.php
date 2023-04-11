@@ -3,7 +3,7 @@
  * BP Members Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-members\bp-members-blocks
+ * @subpackage \src\bp-members\bp-members-blocks
  */
 
 namespace BP\Blocks;
@@ -23,185 +23,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_member_blocks() {
 	return array(
 		'bp/member'          => array(
-			'name'               => 'bp/member',
-			'editor_script'      => 'bp-member-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/member.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-				'bp-block-components',
-				'bp-block-data',
-			),
-			'style'              => 'bp-member-block',
-			'style_url'          => plugins_url( 'css/blocks/member.css', __FILE__ ),
-			'attributes'         => array(
-				'itemID'              => array(
-					'type'    => 'integer',
-					'default' => 0,
-				),
-				'avatarSize'          => array(
-					'type'    => 'string',
-					'default' => 'full',
-				),
-				'displayMentionSlug'  => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayActionButton' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayCoverImage'   => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_members_render_member_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/member',
+			'render_callback' => __NAMESPACE__ . '\bp_members_render_member_block',
 		),
 		'bp/members'         => array(
-			'name'               => 'bp/members',
-			'editor_script'      => 'bp-members-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/members.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-api-fetch',
-				'wp-url',
-				'wp-block-editor',
-				'bp-block-components',
-				'bp-block-data',
-				'lodash',
-			),
-			'style'              => 'bp-members-block',
-			'style_url'          => plugins_url( 'css/blocks/members.css', __FILE__ ),
-			'attributes'         => array(
-				'itemIDs'            => array(
-					'type'  => 'array',
-					'items' => array(
-						'type' => 'integer',
-					),
-				),
-				'avatarSize'         => array(
-					'type'    => 'string',
-					'default' => 'full',
-				),
-				'displayMentionSlug' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayUserName'    => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'extraData'          => array(
-					'type'    => 'string',
-					'default' => 'none',
-					'enum'    => array( 'last_activity', 'latest_update', 'none' ),
-				),
-				'layoutPreference'   => array(
-					'type'    => 'string',
-					'default' => 'list',
-					'enum'    => array( 'list', 'grid' ),
-				),
-				'columns'            => array(
-					'type'    => 'number',
-					'default' => 2,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_members_render_members_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/members',
+			'render_callback' => __NAMESPACE__ . '\bp_members_render_members_block',
 		),
 		'bp/dynamic-members' => array(
-			'name'               => 'bp/dynamic-members',
-			'editor_script'      => 'bp-dynamic-members-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/dynamic-members.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-				'bp-block-data',
-			),
-			'style'              => 'bp-dynamic-members-block',
-			'style_url'          => plugins_url( 'css/blocks/dynamic-members.css', __FILE__ ),
-			'attributes'         => array(
-				'title'         => array(
-					'type'    => 'string',
-					'default' => __( 'Members', 'buddypress' ),
-				),
-				'maxMembers'    => array(
-					'type'    => 'number',
-					'default' => 5,
-				),
-				'memberDefault' => array(
-					'type'    => 'string',
-					'default' => 'active',
-				),
-				'linkTitle'     => array(
-					'type'    => 'boolean',
-					'default' => false,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_members_render_dynamic_members_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget',
+			'render_callback' => __NAMESPACE__ . '\bp_members_render_dynamic_members_block',
 		),
 		'bp/online-members'  => array(
-			'name'               => 'bp/online-members',
-			'editor_script'      => 'bp-online-members-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/online-members.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-			),
-			'editor_style'       => 'bp-online-members-block',
-			'editor_style_url'   => plugins_url( 'css/blocks/online-members.css', __FILE__ ),
-			'attributes'         => array(
-				'title'      => array(
-					'type'    => 'string',
-					'default' => __( 'Who\'s Online', 'buddypress' ),
-				),
-				'maxMembers' => array(
-					'type'    => 'number',
-					'default' => 15,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_members_render_online_members_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/online-members',
+			'render_callback' =>  __NAMESPACE__ . '\bp_members_render_online_members_block',
 		),
 		'bp/active-members'  => array(
-			'name'               => 'bp/active-members',
-			'editor_script'      => 'bp-active-members-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/active-members.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-			),
-			'editor_style'       => 'bp-active-members-block',
-			'editor_style_url'   => plugins_url( 'css/blocks/active-members.css', __FILE__ ),
-			'attributes'         => array(
-				'title'      => array(
-					'type'    => 'string',
-					'default' => __( 'Recently Active Members', 'buddypress' ),
-				),
-				'maxMembers' => array(
-					'type'    => 'number',
-					'default' => 15,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_members_render_active_members_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/active-members',
+			'render_callback' => __NAMESPACE__ . '\bp_members_render_active_members_block',
 		),
 	);
 }
@@ -216,12 +55,13 @@ add_filter( 'bp_members_register_blocks', __NAMESPACE__ . '\register_member_bloc
  * @return array Data about the scripts to register.
  */
 function bp_members_register_scripts( $scripts = array() ) {
+	$js_dir      = trailingslashit( dirname( __FILE__ ) ) . 'js';
+	$assets_path = trailingslashit( $js_dir ) . 'dynamic-widget-block.asset.php';
+	$assets      = file_exists( $assets_path ) ? require( $assets_path ) : array( 'dependencies' => array(), 'version' => '' );
+
 	$scripts['bp-dynamic-members-script'] = array(
-		'file'         => esc_url( plugins_url( 'js/dynamic-members.js', __FILE__ ) ),
-		'dependencies' => array(
-			'bp-dynamic-widget-block',
-			'wp-i18n',
-		),
+		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
+		'dependencies' => $assets['dependencies'],
 		'footer'       => true,
 	);
 
@@ -699,7 +539,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 					'assets/widgets/dynamic-members.php',
 					'php',
 					array(
-						'data.link'              => bp_members_get_user_url( $user->ID, $user->user_nicename, $user->user_login ),
+						'data.link'              => bp_members_get_user_url( $user->ID ),
 						'data.name'              => $user->display_name,
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(
@@ -852,7 +692,7 @@ function bp_members_render_members_avatars_block( $block_args = array() ) {
 						<img loading="lazy" src="%3$s" class="avatar user-%4$s-avatar avatar-50 photo" width="50" height="50" alt="%5$s">
 					</a>
 				</div>',
-				esc_url( bp_members_get_user_url( $member->ID, $member->user_nicename, $member->user_login ) ),
+				esc_url( bp_members_get_user_url( $member->ID ) ),
 				esc_html( $member->display_name ),
 				bp_core_fetch_avatar(
 					array(

@@ -4,7 +4,7 @@
 set -e
 
 # Change to the expected directory
-cd ./dist/add-ons/$1
+cd ./build/add-ons/$1
 
 # Enable nicer messaging for build status
 YELLOW_BOLD='\033[1;33m';

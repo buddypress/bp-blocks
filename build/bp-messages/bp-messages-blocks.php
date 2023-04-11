@@ -3,7 +3,7 @@
  * BP Messages Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-messages\bp-messages-blocks
+ * @subpackage \src\bp-messages\bp-messages-blocks
  */
 
 namespace BP\Blocks;
@@ -21,27 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_messages_blocks() {
 	return array(
 		'bp/sitewide-notices' => array(
-			'name'               => 'bp/sitewide-notices',
-			'editor_script'      => 'bp-sitewide-notices-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/sitewide-notices.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-				'bp-block-data',
-			),
-			'style'              => 'bp-sitewide-notices-block',
-			'style_url'          => plugins_url( 'css/blocks/sitewide-notices.css', __FILE__ ),
-			'attributes'         => array(
-				'title' => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_messages_render_sitewide_notices_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/sitewide-notices',
+			'render_callback' => __NAMESPACE__ . '\bp_messages_render_sitewide_notices_block',
 		),
 	);
 }

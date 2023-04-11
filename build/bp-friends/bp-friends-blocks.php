@@ -3,7 +3,7 @@
  * BP Friends Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-friends\bp-friends-blocks
+ * @subpackage \src\bp-friends\bp-friends-blocks
  */
 
 namespace BP\Blocks;
@@ -21,39 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_friends_blocks() {
 	return array(
 		'bp/friends' => array(
-			'name'               => 'bp/friends',
-			'editor_script'      => 'bp-friends-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/friends.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'bp-block-data',
-				'wp-server-side-render',
-			),
-			'style'              => 'bp-friends-block',
-			'style_url'          => plugins_url( 'css/blocks/friends.css', __FILE__ ),
-			'attributes'         => array(
-				'maxFriends'    => array(
-					'type'    => 'number',
-					'default' => 5,
-				),
-				'friendDefault' => array(
-					'type'    => 'string',
-					'default' => 'active',
-				),
-				'linkTitle'     => array(
-					'type'    => 'boolean',
-					'default' => false,
-				),
-				'postId'        => array(
-					'type'    => 'number',
-					'default' => 0,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_friends_render_friends_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget',
+			'render_callback' => __NAMESPACE__ . '\bp_friends_render_friends_block',
 		),
 	);
 }
@@ -68,12 +37,13 @@ add_filter( 'bp_friends_register_blocks', __NAMESPACE__ . '\register_friends_blo
  * @return array Data about the scripts to register.
  */
 function bp_friends_register_scripts( $scripts = array() ) {
+	$js_dir      = trailingslashit( dirname( __FILE__ ) ) . 'js';
+	$assets_path = trailingslashit( $js_dir ) . 'dynamic-widget-block.asset.php';
+	$assets      = file_exists( $assets_path ) ? require( $assets_path ) : array( 'dependencies' => array(), 'version' => '' );
+
 	$scripts['bp-friends-script'] = array(
-		'file'         => esc_url( plugins_url( 'js/friends.js', __FILE__ ) ),
-		'dependencies' => array(
-			'bp-dynamic-widget-block',
-			'wp-i18n',
-		),
+		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
+		'dependencies' => $assets['dependencies'],
 		'footer'       => true,
 	);
 
@@ -181,7 +151,12 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 	// Make sure the widget ID is unique.
 	$widget_id = uniqid( 'friends-list-' );
 
-	$link = trailingslashit( bp_members_get_user_url( $user_id ) . bp_get_friends_slug() );
+	$link = bp_members_get_user_url(
+		$user_id,
+		array(
+			'single_item_component' => bp_get_friends_slug(),
+		)
+	);
 
 	/* translators: %s is the member's display name */
 	$title = sprintf( __( '%s\'s Friends', 'buddypress' ), bp_core_get_user_displayname( $user_id ) );
@@ -260,7 +235,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					'assets/widgets/friends.php',
 					'php',
 					array(
-						'data.link'              => bp_members_get_user_url( $user->ID, $user->user_nicename, $user->user_login ),
+						'data.link'              => bp_members_get_user_url( $user->ID ),
 						'data.name'              => $user->display_name,
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(

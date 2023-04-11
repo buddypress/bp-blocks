@@ -3,7 +3,7 @@
  * BP Groups Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-groups\bp-groups-blocks
+ * @subpackage \src\bp-groups\bp-groups-blocks
  */
 
 namespace BP\Blocks;
@@ -23,128 +23,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 function register_group_blocks() {
 	return array(
 		'bp/group'          => array(
-			'name'               => 'bp/group',
-			'editor_script'      => 'bp-group-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/group.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-				'bp-block-components',
-				'bp-block-data',
-			),
-			'style'              => 'bp-group-block',
-			'style_url'          => plugins_url( 'css/blocks/group.css', __FILE__ ),
-			'attributes'         => array(
-				'itemID'              => array(
-					'type'    => 'integer',
-					'default' => 0,
-				),
-				'avatarSize'          => array(
-					'type'    => 'string',
-					'default' => 'full',
-				),
-				'displayDescription'  => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayActionButton' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'displayCoverImage'   => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_group_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/group',
+			'render_callback' => __NAMESPACE__ . '\bp_groups_render_group_block',
 		),
 		'bp/groups'         => array(
-			'name'               => 'bp/groups',
-			'editor_script'      => 'bp-groups-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/groups.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-api-fetch',
-				'wp-url',
-				'wp-block-editor',
-				'bp-block-components',
-				'bp-block-data',
-				'lodash',
-			),
-			'style'              => 'bp-groups-block',
-			'style_url'          => plugins_url( 'css/blocks/groups.css', __FILE__ ),
-			'attributes'         => array(
-				'itemIDs'          => array(
-					'type'  => 'array',
-					'items' => array(
-						'type' => 'integer',
-					),
-				),
-				'avatarSize'       => array(
-					'type'    => 'string',
-					'default' => 'full',
-				),
-				'displayGroupName' => array(
-					'type'    => 'boolean',
-					'default' => true,
-				),
-				'extraInfo'        => array(
-					'type'    => 'string',
-					'default' => 'none',
-					'enum'    => array( 'description', 'popular', 'active', 'none' ),
-				),
-				'layoutPreference' => array(
-					'type'    => 'string',
-					'default' => 'list',
-					'enum'    => array( 'list', 'grid' ),
-				),
-				'columns'          => array(
-					'type'    => 'number',
-					'default' => 2,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_groups_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/groups',
+			'render_callback' => __NAMESPACE__ . '\bp_groups_render_groups_block',
 		),
 		'bp/dynamic-groups' => array(
-			'name'               => 'bp/dynamic-groups',
-			'editor_script'      => 'bp-dynamic-groups-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/dynamic-groups.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-			),
-			'style'              => 'bp-dynamic-groups-block',
-			'style_url'          => plugins_url( 'css/blocks/dynamic-groups.css', __FILE__ ),
-			'attributes'         => array(
-				'title'        => array(
-					'type'    => 'string',
-					'default' => __( 'Groups', 'buddypress' ),
-				),
-				'maxGroups'    => array(
-					'type'    => 'number',
-					'default' => 5,
-				),
-				'groupDefault' => array(
-					'type'    => 'string',
-					'default' => 'active',
-				),
-				'linkTitle'    => array(
-					'type'    => 'boolean',
-					'default' => false,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_groups_render_dynamic_groups_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget',
+			'render_callback' => __NAMESPACE__ . '\bp_groups_render_dynamic_groups_block',
 		),
 	);
 }
@@ -159,12 +47,13 @@ add_filter( 'bp_groups_register_blocks', __NAMESPACE__ . '\register_group_blocks
  * @return array Data about the scripts to register.
  */
 function bp_groups_register_widget_block_scripts( $scripts = array() ) {
+	$js_dir      = trailingslashit( dirname( __FILE__ ) ) . 'js';
+	$assets_path = trailingslashit( $js_dir ) . 'dynamic-widget-block.asset.php';
+	$assets      = file_exists( $assets_path ) ? require( $assets_path ) : array( 'dependencies' => array(), 'version' => '' );
+
 	$scripts['bp-dynamic-groups-script'] = array(
-		'file'         => esc_url( plugins_url( 'js/dynamic-groups.js', __FILE__ ) ),
-		'dependencies' => array(
-			'bp-dynamic-widget-block',
-			'wp-i18n',
-		),
+		'file'         => esc_url( plugins_url( 'js/dynamic-widget-block.js', __FILE__ ) ),
+		'dependencies' => $assets['dependencies'],
 		'footer'       => true,
 	);
 
@@ -220,7 +109,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 
 	// Group name/link/description variables.
 	$group_name        = bp_get_group_name( $group );
-	$group_link        = bp_get_group_permalink( $group );
+	$group_link        = bp_get_group_url( $group );
 	$group_description = '';
 	$group_content     = '';
 
@@ -394,7 +283,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 		$output .= sprintf( '<div class="%s">', $group_item_classes );
 
 		// Get Member link.
-		$group_link = bp_get_group_permalink( $group );
+		$group_link = bp_get_group_url( $group );
 
 		// Set the Avatar output.
 		if ( $bp->avatar && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads() && 'none' !== $block_args['avatarSize'] ) {
@@ -405,8 +294,6 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $group_link ),
-				/* Translators: %s is the group's name. */
-				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(
@@ -416,7 +303,9 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 							'html'    => false,
 						)
 					)
-				)
+				),
+				/* Translators: %s is the group's name. */
+				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) )
 			);
 		}
 
@@ -543,7 +432,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 
 	// Make sure the widget ID is unique.
 	$widget_id             = uniqid( 'groups-list-' );
-	$groups_directory_link = bp_get_groups_directory_permalink();
+	$groups_directory_link = bp_get_groups_directory_url();
 
 	// Set the Block's title.
 	if ( true === $block_args['linkTitle'] ) {
@@ -624,7 +513,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 					'assets/widgets/dynamic-groups.php',
 					'php',
 					array(
-						'data.link'              => bp_get_group_permalink( $group ),
+						'data.link'              => bp_get_group_url( $group ),
 						'data.name'              => bp_get_group_name( $group ),
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(

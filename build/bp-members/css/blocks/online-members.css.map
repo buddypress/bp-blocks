@@ -1,1 +1,0 @@
-{"version":3,"sources":["bp-members/css/blocks/online-members.scss"],"names":[],"mappings":"AAGC,8CACC,YAAA,CACA,mBAEA,kDACC","file":"online-members.css","sourceRoot":"../src","sourcesContent":["// BP Who's online widget\n[data-type=\"bp/online-members\"] {\n\n\t.avatar-block {\n\t\tdisplay: flex;\n\t\tflex-flow: row wrap;\n\n\t\timg {\n\t\t\tmargin: 0.5em;\n\t\t}\n\t}\n}\n"]}

@@ -3,7 +3,7 @@
  * BP Groups Blocks Functions.
  *
  * @package   bp-blocks
- * @subpackage \build\bp-blogs\bp-blogs-blocks
+ * @subpackage \src\bp-blogs\bp-blogs-blocks
  */
 
 namespace BP\Blocks;
@@ -23,34 +23,8 @@ function register_blogs_blocks() {
 
 	if ( is_multisite() && bp_is_active( 'activity' ) ) {
 		$blocks['bp/recent-posts'] = array(
-			'name'               => 'bp/recent-posts',
-			'editor_script'      => 'bp-recent-posts-block',
-			'editor_script_url'  => plugins_url( 'js/blocks/recent-posts.js', __FILE__ ),
-			'editor_script_deps' => array(
-				'wp-blocks',
-				'wp-element',
-				'wp-components',
-				'wp-i18n',
-				'wp-block-editor',
-				'wp-server-side-render',
-			),
-			'style'              => 'bp-recent-posts-block',
-			'style_url'          => plugins_url( 'css/blocks/recent-posts.css', __FILE__ ),
-			'attributes'         => array(
-				'title'     => array(
-					'type'    => 'string',
-					'default' => __( 'Recent Networkwide Posts', 'buddypress' ),
-				),
-				'maxPosts'  => array(
-					'type'    => 'number',
-					'default' => 10,
-				),
-				'linkTitle' => array(
-					'type'    => 'boolean',
-					'default' => false,
-				),
-			),
-			'render_callback'    => __NAMESPACE__ . '\bp_blogs_render_recent_posts_block',
+			'metadata'        => trailingslashit( dirname( __FILE__ ) ) . 'blocks/recent-posts',
+			'render_callback' =>  __NAMESPACE__ . '\bp_blogs_render_recent_posts_block',
 		);
 	}
 
@@ -78,7 +52,7 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 
 	$classnames           = 'widget_bp_blogs_widget buddypress widget';
 	$wrapper_attributes   = get_block_wrapper_attributes( array( 'class' => $classnames ) );
-	$blogs_directory_link = bp_get_blogs_directory_permalink();
+	$blogs_directory_link = bp_get_blogs_directory_url();
 	$max_posts            = (int) $block_args['maxPosts'];
 	$no_posts             = __( 'Sorry, there were no posts found.', 'buddypress' );
 
