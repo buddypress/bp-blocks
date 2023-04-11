@@ -30,6 +30,7 @@
 		"po2json:addon": "wp i18n make-json add-ons/${npm_config_slug}/languages",
 		"package:addon": "./bin/build-block-zip.sh ${npm_config_slug}",
 		"build:add-ons": "wp-scripts build ./src/add-ons/bp-search-block/js/index.js ./src/add-ons/bp-search-block/js/view.js --webpack-src-dir=./src/add-ons/bp-search-block/js --output-path=./add-ons/bp-search-block/js",
+		"move-addon-assets": "./bin/move-addon-assets.sh ${npm_config_slug}",
 		"webpack:build": "wp-scripts build --webpack-copy-php",
 		"lint:css:src": "wp-scripts lint-style './src/bp-core/blocks/*/*.scss'",
 		"packages-update": "wp-scripts packages-update"
