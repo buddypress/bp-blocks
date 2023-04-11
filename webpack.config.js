@@ -49,6 +49,8 @@ module.exports = {
 			"bp-members/blocks/online-members/index": './src/bp-members/blocks/online-members/online-members.js',
 			"bp-members/blocks/dynamic-widget/index": './src/bp-members/blocks/dynamic-widget/dynamic-members.js',
 			"bp-members/js/dynamic-widget-block": './src/bp-members/js/dynamic-members.js',
+			"bp-messages/blocks/sitewide-notices/index": './src/bp-messages/blocks/sitewide-notices/sitewide-notices.js',
+			"bp-messages/js/sitewide-notices": './src/bp-messages/js/sitewide-notices.js',
 			"add-ons/bp-search-block/index": './src/add-ons/bp-search-block/index.js',
 			"add-ons/bp-search-block/view": './src/add-ons/bp-search-block/view.js',
         },
