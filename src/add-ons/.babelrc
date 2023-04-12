@@ -1,4 +1,12 @@
 {
 	"ignore": ["./bp-*/js/view.js"],
-	"presets": ["@wordpress/default"]
+	"presets": ["@wordpress/default"],
+	"plugins": [
+		[
+			"transform-react-jsx",
+			{
+				"pragma": "createElement"
+			}
+		]
+	]
 }

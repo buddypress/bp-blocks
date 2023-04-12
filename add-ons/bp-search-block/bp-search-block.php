@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function bp_search_block_init() {
-	register_block_type( __DIR__ );
+	register_block_type( dirname( __FILE__ ) . '/assets' );
 
 	// Makes sure the image URL does not end up being a 404 in WordPress 5.8 or up.
 	wp_add_inline_style(
