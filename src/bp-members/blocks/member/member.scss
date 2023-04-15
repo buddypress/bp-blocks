@@ -20,7 +20,7 @@
 		display: block;
 
 		a {
-			color: currentColor;
+			color: currentcolor;
 			text-decoration: none;
 			border: none;
 		}
@@ -96,6 +96,18 @@
 		}
 	}
 
+	&.avatar-thumb {
+
+		.member-content {
+			min-height: 50px;
+			align-items: center;
+		}
+
+		.item-header-avatar {
+			width: 70px;
+		}
+	}
+
 	&.avatar-full.has-cover {
 		min-height: 300px;
 
@@ -110,18 +122,6 @@
 		}
 	}
 
-	&.avatar-thumb {
-
-		.member-content {
-			min-height: 50px;
-			align-items: center;
-		}
-
-		.item-header-avatar {
-			width: 70px;
-		}
-	}
-
 	&.avatar-thumb.has-cover {
 
 		.item-header-avatar {
@@ -133,7 +133,7 @@
 .entry .entry-content .bp-block-member .user-nicename {
 
 	a {
-		color: currentColor;
+		color: currentcolor;
 		text-decoration: none;
 		border: none;
 	}

@@ -16,7 +16,7 @@
 		"package:addon": "./bin/build-block-zip.sh ${npm_config_slug}",
 		"move-addon-assets": "./bin/move-addon-assets.sh ${npm_config_slug}",
 		"webpack:build": "wp-scripts build --webpack-copy-php",
-		"lint:css:src": "wp-scripts lint-style './src/bp-core/blocks/*/*.scss'",
+		"lint:css:src": "wp-scripts lint-style './src/**/*.scss'",
 		"packages-update": "wp-scripts packages-update"
 	},
 	"repository": {
@@ -34,12 +34,10 @@
 	},
 	"homepage": "https://github.com/buddypress/bp-blocks#readme",
 	"devDependencies": {
-		"@babel/core": "~7.15.5",
 		"@wordpress/babel-preset-default": "^7.12.0",
 		"@wordpress/browserslist-config": "^5.11.0",
 		"@wordpress/scripts": "^26.1.0",
-		"postcss": "^8.4.21",
-		"sass": "^1.41.0"
+		"postcss": "^8.4.21"
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
