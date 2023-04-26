@@ -11,7 +11,7 @@
  * Plugin Name:       BP Search Block
  * Plugin URI:        https://github.com/buddypress/bp-blocks
  * Description:       Help the visitors or members of your BuddyPress powered community site to find the posts, the sites, the activities, the members or the groups they are looking for.
- * Version:           1.1.0
+ * Version:           1.2.0
  * Author:            The BuddyPress Community
  * Author URI:        https://buddypress.org
  * Requires at least: 5.8
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function bp_search_block_init() {
-	register_block_type( dirname( __FILE__ ) . '/assets' );
+	register_block_type( dirname( __FILE__ ) . '/block' );
 
 	// Makes sure the image URL does not end up being a 404 in WordPress 5.8 or up.
 	wp_add_inline_style(

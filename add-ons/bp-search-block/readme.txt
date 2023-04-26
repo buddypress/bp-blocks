@@ -7,7 +7,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.8
 Requires PHP: 5.6
 Tested up to: 6.2
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 
 The BP Search Block is a BuddyPress Block to search for activities, members, groups, sites or posts from any post, page or widget of your community site!
 
@@ -26,7 +26,7 @@ Growing the BuddyPress community means better software for everyone!
 = Requirements =
 
 * WordPress 5.8.
-* BuddyPress 11.0.0
+* BuddyPress 12.0.0
 
 = Automatic installation =
 
