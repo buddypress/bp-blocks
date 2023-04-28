@@ -4,7 +4,7 @@
 set -e
 
 # Change to the expected directory
-cd ./build/add-ons/$1
+cd ./dist/$1
 
 # Enable nicer messaging for build status
 YELLOW_BOLD='\033[1;33m';
@@ -16,10 +16,9 @@ status () {
 # Rename assets
 status "Moving $1 Add-on assets..."
 
-#mv -f ./dist/add-ons/$1/* ./add-ons/$1/assets
 for f in *
 	do echo "Processing $f"
-	mv $f ../../../add-ons/$1/assets
+	mv $f ../../add-ons/$1/block
 done
 
 status "Done."

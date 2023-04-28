@@ -1,1 +1,0 @@
-!function(){"use strict";var o=window.wp.blocks,s=window.wp.i18n;(0,o.registerBlockCollection)("bp",{title:(0,s.__)("BuddyPress","buddypress"),icon:"buddicons-buddypress-logo"})}();
